@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using BaseApi.V1.Controllers;
+using AccountApi.V1.Controllers;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
-using BaseApi.V1.Gateways;
-using BaseApi.V1.Infrastructure;
-using BaseApi.V1.UseCase;
-using BaseApi.V1.UseCase.Interfaces;
-using BaseApi.Versioning;
+using AccountApi.V1.Gateways;
+using AccountApi.V1.Infrastructure;
+using AccountApi.V1.UseCase;
+using AccountApi.V1.UseCase.Interfaces;
+using AccountApi.Versioning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +23,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace BaseApi
+namespace AccountApi
 {
     public class Startup
     {

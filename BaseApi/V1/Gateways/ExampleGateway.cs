@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using BaseApi.V1.Domain;
-using BaseApi.V1.Factories;
-using BaseApi.V1.Infrastructure;
+using AccountApi.V1.Domain;
+using AccountApi.V1.Factories;
+using AccountApi.V1.Infrastructure;
 
-namespace BaseApi.V1.Gateways
+namespace AccountApi.V1.Gateways
 {
     //TODO: Rename to match the data source that is being accessed in the gateway eg. MosaicGateway
     public class ExampleGateway : IExampleGateway
@@ -15,16 +15,16 @@ namespace BaseApi.V1.Gateways
             _databaseContext = databaseContext;
         }
 
-        public Entity GetEntityById(int id)
+        public Account GetEntityById(int id)
         {
             var result = _databaseContext.DatabaseEntities.Find(id);
 
             return result?.ToDomain();
         }
 
-        public List<Entity> GetAll()
+        public List<Account> GetAll()
         {
-            return new List<Entity>();
+            return new List<Account>();
         }
     }
 }

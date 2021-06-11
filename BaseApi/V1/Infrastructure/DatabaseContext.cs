@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace BaseApi.V1.Infrastructure
+namespace AccountApi.V1.Infrastructure
 {
 
     public class DatabaseContext : DbContext
@@ -11,6 +11,6 @@ namespace BaseApi.V1.Infrastructure
         {
         }
 
-        public DbSet<DatabaseEntity> DatabaseEntities { get; set; }
+        public DbSet<AccountDbEntity> DatabaseEntities { get; set; }
     }
 }

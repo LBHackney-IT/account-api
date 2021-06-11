@@ -1,9 +1,9 @@
-using BaseApi.V1.Boundary.Response;
-using BaseApi.V1.UseCase.Interfaces;
+using AccountApi.V1.Boundary.Response;
+using AccountApi.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BaseApi.V1.Controllers
+namespace AccountApi.V1.Controllers
 {
     [ApiController]
     //TODO: Rename to match the APIs endpoint
@@ -39,7 +39,7 @@ namespace BaseApi.V1.Controllers
         /// </summary>
         /// <response code="200">...</response>
         /// <response code="404">No ? found for the specified ID</response>
-        [ProducesResponseType(typeof(ResponseObject), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountResponseObject), StatusCodes.Status200OK)]
         [HttpGet]
         //TODO: rename to match the identifier that will be used
         [Route("{yourId}")]

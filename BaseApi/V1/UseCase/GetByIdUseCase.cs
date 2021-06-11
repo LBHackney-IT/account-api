@@ -1,9 +1,9 @@
-using BaseApi.V1.Boundary.Response;
-using BaseApi.V1.Factories;
-using BaseApi.V1.Gateways;
-using BaseApi.V1.UseCase.Interfaces;
+using AccountApi.V1.Boundary.Response;
+using AccountApi.V1.Factories;
+using AccountApi.V1.Gateways;
+using AccountApi.V1.UseCase.Interfaces;
 
-namespace BaseApi.V1.UseCase
+namespace AccountApi.V1.UseCase
 {
     //TODO: Rename class name and interface name to reflect the entity they are representing eg. GetClaimantByIdUseCase
     public class GetByIdUseCase : IGetByIdUseCase
@@ -15,7 +15,7 @@ namespace BaseApi.V1.UseCase
         }
 
         //TODO: rename id to the name of the identifier that will be used for this API, the type may also need to change
-        public ResponseObject Execute(int id)
+        public AccountResponseObject Execute(int id)
         {
             return _gateway.GetEntityById(id).ToResponse();
         }

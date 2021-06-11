@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 
-namespace BaseApi.Versioning
+namespace AccountApi.Versioning
 {
     public static class ApiVersionDescriptionExtensions
     {

@@ -1,9 +1,9 @@
-using AccountApi.V1.Domain;
 using System;
 
-namespace AccountApi.V1.Boundary.Response
+namespace AccountApi.V1.Domain
 {
-    public class AccountResponseObject
+    //TODO: rename this class to be the domain object which this API will getting. e.g. Residents or Claimants
+    public class Account
     {
         public Guid Id { get; set; }
         public Guid TargetId { get; set; }

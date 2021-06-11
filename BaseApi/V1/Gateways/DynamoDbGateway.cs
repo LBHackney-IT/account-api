@@ -1,10 +1,10 @@
 using Amazon.DynamoDBv2.DataModel;
-using BaseApi.V1.Domain;
-using BaseApi.V1.Factories;
-using BaseApi.V1.Infrastructure;
+using AccountApi.V1.Domain;
+using AccountApi.V1.Factories;
+using AccountApi.V1.Infrastructure;
 using System.Collections.Generic;
 
-namespace BaseApi.V1.Gateways
+namespace AccountApi.V1.Gateways
 {
     public class DynamoDbGateway : IExampleGateway
     {
@@ -15,14 +15,14 @@ namespace BaseApi.V1.Gateways
             _dynamoDbContext = dynamoDbContext;
         }
 
-        public List<Entity> GetAll()
+        public List<Account> GetAll()
         {
-            return new List<Entity>();
+            return new List<Account>();
         }
 
-        public Entity GetEntityById(int id)
+        public Account GetEntityById(int id)
         {
-            var result = _dynamoDbContext.LoadAsync<DatabaseEntity>(id).GetAwaiter().GetResult();
+            var result = _dynamoDbContext.LoadAsync<AccountDbEntity>(id).GetAwaiter().GetResult();
             return result?.ToDomain();
         }
     }

@@ -1,4 +1,4 @@
-namespace BaseApi.V1.Controllers
+namespace AccountApi.V1.Controllers
 {
     public static class Constants
     {

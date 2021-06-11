@@ -1,12 +1,12 @@
 using System.Collections.Generic;
-using BaseApi.V1.Domain;
+using AccountApi.V1.Domain;
 
-namespace BaseApi.V1.Gateways
+namespace AccountApi.V1.Gateways
 {
     public interface IExampleGateway
     {
-        Entity GetEntityById(int id);
+        Account GetEntityById(int id);
 
-        List<Entity> GetAll();
+        List<Account> GetAll();
     }
 }
