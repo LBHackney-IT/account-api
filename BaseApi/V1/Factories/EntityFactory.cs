@@ -7,24 +7,37 @@ namespace AccountApi.V1.Factories
     {
         public static Account ToDomain(this AccountDbEntity databaseEntity)
         {
-            //TODO: Map the rest of the fields in the domain object.
-            // More information on this can be found here https://github.com/LBHackney-IT/lbh-base-api/wiki/Factory-object-mappings
-
             return new Account
             {
                 Id = databaseEntity.Id,
-                CreatedAt = databaseEntity.CreatedAt
+                AccountBalance = databaseEntity.AccountBalance,
+                AccountStatus = databaseEntity.AccountStatus,
+                EndDate = databaseEntity.EndDate,
+                LastUpdated = databaseEntity.LastUpdated,
+                PaymentReference = databaseEntity.PaymentReference,
+                StartDate = databaseEntity.StartDate,
+                TargetId = databaseEntity.TargetId,
+                TargetType = databaseEntity.TargetType,
+                TotalCharged = databaseEntity.TotalCharged,
+                TotalPaid= databaseEntity.TotalPaid
             };
         }
 
         public static AccountDbEntity ToDatabase(this Account entity)
         {
-            //TODO: Map the rest of the fields in the database object.
-
             return new AccountDbEntity
             {
                 Id = entity.Id,
-                CreatedAt = entity.CreatedAt
+                AccountBalance =entity.AccountBalance,
+                TotalPaid = entity.TotalPaid,
+                TotalCharged = entity.TotalCharged,
+                TargetType = entity.TargetType,
+                TargetId = entity.TargetId,
+                StartDate = entity.StartDate,
+                PaymentReference = entity.PaymentReference,
+                LastUpdated = entity.LastUpdated,
+                EndDate = entity.EndDate,
+                AccountStatus = entity.AccountStatus
             };
         }
     }

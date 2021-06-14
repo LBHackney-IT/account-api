@@ -113,9 +113,9 @@ namespace AccountApi
 
             ConfigureLogging(services, Configuration);
 
-            ConfigureDbContext(services);
+            //ConfigureDbContext(services);
             //TODO: For DynamoDb, remove the line above and uncomment the line below.
-            // services.ConfigureDynamoDB();
+            services.ConfigureDynamoDB();
 
             RegisterGateways(services);
             RegisterUseCases(services);
@@ -125,7 +125,7 @@ namespace AccountApi
         {
             var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-            services.AddDbContext<DatabaseContext>(
+            services.AddDbContext<AccountContext>(
                 opt => opt.UseNpgsql(connectionString).AddXRayInterceptor(true));
         }
 
@@ -151,7 +151,7 @@ namespace AccountApi
 
         private static void RegisterGateways(IServiceCollection services)
         {
-            services.AddScoped<IExampleGateway, ExampleGateway>();
+            services.AddScoped<IAccountApiGateway, AccountApiGateway>();
 
             //TODO: For DynamoDb, remove the line above and uncomment the line below.
             //services.AddScoped<IExampleGateway, DynamoDbGateway>();
@@ -161,6 +161,9 @@ namespace AccountApi
         {
             services.AddScoped<IGetAllUseCase, GetAllUseCase>();
             services.AddScoped<IGetByIdUseCase, GetByIdUseCase>();
+            services.AddScoped<IAddUseCase, AddUseCase>();
+            services.AddScoped<IUpdateUseCase, UpdateUseCase>();
+            services.AddScoped<IRemoveUseCase, RemoveUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,17 +1,27 @@
-using System.Collections.Generic;
-using System.Linq;
 using AccountApi.V1.Boundary.Response;
 using AccountApi.V1.Domain;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace AccountApi.V1.Factories
 {
-    public static class ResponseFactory
+    public static class AccountResponseFactory
     {
-        //TODO: Map the fields in the domain object(s) to fields in the response object(s).
-        // More information on this can be found here https://github.com/LBHackney-IT/lbh-base-api/wiki/Factory-object-mappings
         public static AccountResponseObject ToResponse(this Account domain)
         {
-            return new AccountResponseObject();
+            return new AccountResponseObject() {
+                AccountBalance = domain.AccountBalance,
+                AccountStatus = domain.AccountStatus,
+                EndDate = domain.EndDate,
+                LastUpdated = domain.LastUpdated,
+                PaymentReference= domain.PaymentReference,
+                StartDate = domain.StartDate,
+                Id = domain.Id,
+                TargetId = domain.TargetId,
+                TargetType = domain.TargetType,
+                TotalCharged = domain.TotalCharged,
+                TotalPaid = domain.TotalPaid
+            };
         }
 
         public static List<AccountResponseObject> ToResponse(this IEnumerable<Account> domainList)
