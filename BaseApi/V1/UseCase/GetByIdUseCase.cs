@@ -3,6 +3,7 @@ using AccountApi.V1.Factories;
 using AccountApi.V1.Gateways;
 using AccountApi.V1.UseCase.Interfaces;
 using System;
+using System.Threading.Tasks;
 
 namespace AccountApi.V1.UseCase
 {
@@ -21,9 +22,10 @@ namespace AccountApi.V1.UseCase
             return _gateway.GetById(id).ToResponse();
         }
 
-        public AccountResponseObject ExecuteAsync(Guid id)
+        public async Task<AccountResponseObject> ExecuteAsync(Guid id)
         {
-            return _gateway.GetById(id).ToResponse();
+            var data = await _gateway.GetByIdAsync(id).ConfigureAwait(false);
+            return data.ToResponse();
         }
     }
 }
