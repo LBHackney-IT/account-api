@@ -55,7 +55,7 @@ namespace AccountApi.V1.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Guid targetid)
+        public async Task<IActionResult> GetAll([FromQuery] Guid targetid)
         {
             var accounts = await _getAllUseCase.ExecuteAsync(targetid).ConfigureAwait(false);
             if (accounts == null)
