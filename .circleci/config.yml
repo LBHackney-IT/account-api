@@ -85,7 +85,7 @@ commands:
       - run:
           name: Deploy lambda
           command: |
-            cd ./BaseApi/
+            cd ./AccountsApi/
             sls deploy --stage <<parameters.stage>> --account <<parameters.aws-account>> --conceal
 
 jobs:
