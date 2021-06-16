@@ -19,7 +19,7 @@ namespace AccountsApi.V1.Factories
                 TargetId = databaseEntity.TargetId,
                 TargetType = databaseEntity.TargetType,
                 TotalCharged = databaseEntity.TotalCharged,
-                TotalPaid= databaseEntity.TotalPaid
+                TotalPaid = databaseEntity.TotalPaid
             };
         }
 
@@ -28,7 +28,7 @@ namespace AccountsApi.V1.Factories
             return new AccountDbEntity
             {
                 Id = entity.Id,
-                AccountBalance =entity.AccountBalance,
+                AccountBalance = entity.AccountBalance,
                 TotalPaid = entity.TotalPaid,
                 TotalCharged = entity.TotalCharged,
                 TargetType = entity.TargetType,

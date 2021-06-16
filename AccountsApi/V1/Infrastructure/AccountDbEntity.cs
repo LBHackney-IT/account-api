@@ -10,17 +10,17 @@ namespace AccountsApi.V1.Infrastructure
     public class AccountDbEntity
     {
         [DynamoDBHashKey]
-        [DynamoDBProperty(AttributeName ="id")]
+        [DynamoDBProperty(AttributeName = "id")]
         public Guid Id { get; set; }
         [DynamoDBProperty(AttributeName = "target_id")]
         public Guid TargetId { get; set; }
-        [DynamoDBProperty(AttributeName ="target_type",Converter = typeof(DynamoDbEnumConverter<TargetType>))]
+        [DynamoDBProperty(AttributeName = "target_type", Converter = typeof(DynamoDbEnumConverter<TargetType>))]
         public TargetType TargetType { get; set; }
-        [DynamoDBProperty(AttributeName ="account_balance")]
+        [DynamoDBProperty(AttributeName = "account_balance")]
         public decimal AccountBalance { get; set; }
         [DynamoDBProperty(AttributeName = "payment_reference")]
         public string PaymentReference { get; set; }
-        [DynamoDBProperty(AttributeName = "last_updated",Converter =typeof(DynamoDbDateTimeConverter))]
+        [DynamoDBProperty(AttributeName = "last_updated", Converter = typeof(DynamoDbDateTimeConverter))]
         public DateTime LastUpdated { get; set; }
         [DynamoDBProperty(AttributeName = "start_date", Converter = typeof(DynamoDbDateTimeConverter))]
         public DateTime StartDate { get; set; }
@@ -28,7 +28,7 @@ namespace AccountsApi.V1.Infrastructure
         public DateTime EndDate { get; set; }
         [DynamoDBProperty(AttributeName = "account_status", Converter = typeof(DynamoDbEnumConverter<AccountStatus>))]
         public AccountStatus AccountStatus { get; set; }
-        [DynamoDBProperty(AttributeName ="total_charged")]
+        [DynamoDBProperty(AttributeName = "total_charged")]
         public decimal TotalCharged { get; set; }
         [DynamoDBProperty(AttributeName = "total_paid")]
         public decimal TotalPaid { get; set; }

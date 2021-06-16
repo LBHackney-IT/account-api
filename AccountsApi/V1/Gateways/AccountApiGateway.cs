@@ -63,7 +63,7 @@ namespace AccountsApi.V1.Gateways
         {
             if (id == null)
                 throw new ArgumentException("Invalid Id");
-            var result= await _accountDbContext.AccountEntities.FindAsync(id).ConfigureAwait(false);
+            var result = await _accountDbContext.AccountEntities.FindAsync(id).ConfigureAwait(false);
             return result?.ToDomain();
         }
 

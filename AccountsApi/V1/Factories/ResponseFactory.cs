@@ -9,12 +9,13 @@ namespace AccountsApi.V1.Factories
     {
         public static AccountResponseObject ToResponse(this Account domain)
         {
-            return new AccountResponseObject() {
+            return new AccountResponseObject()
+            {
                 AccountBalance = domain.AccountBalance,
                 AccountStatus = domain.AccountStatus,
                 EndDate = domain.EndDate,
                 LastUpdated = domain.LastUpdated,
-                PaymentReference= domain.PaymentReference,
+                PaymentReference = domain.PaymentReference,
                 StartDate = domain.StartDate,
                 Id = domain.Id,
                 TargetId = domain.TargetId,
