@@ -179,6 +179,8 @@ workflows:
 #              only: development
       - deploy-to-development:
           context: api-assume-role-housing-development-context
+          requires:
+            - assume-role-development
 #          requires:
 #            - terraform-init-and-apply-to-development
 #          filters:
