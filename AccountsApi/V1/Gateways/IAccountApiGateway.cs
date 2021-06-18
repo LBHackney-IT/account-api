@@ -8,7 +8,7 @@ namespace AccountsApi.V1.Gateways
     public interface IAccountApiGateway
     {
         public Task<Account> GetByIdAsync(Guid id);
-        public Task<List<Account>> GetAllAsync(Guid targetId,string accountType);
+        public Task<List<Account>> GetAllAsync(Guid targetId, string accountType);
 
         public void Add(Account account);
         public Task AddAsync(Account account);

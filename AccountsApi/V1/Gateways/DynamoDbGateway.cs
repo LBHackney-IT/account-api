@@ -45,7 +45,7 @@ namespace AccountsApi.V1.Gateways
             }
         }
 
-        public async Task<List<Account>> GetAllAsync(Guid targetId,string accountType)
+        public async Task<List<Account>> GetAllAsync(Guid targetId, string accountType)
         {
             ScanCondition scanCondition_targetid = new ScanCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
             List<ScanCondition> scanConditions = new List<ScanCondition>();

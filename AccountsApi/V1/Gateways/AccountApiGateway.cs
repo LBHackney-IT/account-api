@@ -58,13 +58,13 @@ namespace AccountsApi.V1.Gateways
                 throw new ArgumentException("Invalid Id");
             var result = await _accountDbContext.AccountEntities.FindAsync(id).ConfigureAwait(false);
             return result?.ToDomain();
-        } 
+        }
 
         public async Task RemoveAsync(Account account)
         {
             _accountDbContext.Remove(account);
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
-        } 
+        }
 
         public async Task RemoveRangeAsync(List<Account> accounts)
         {
