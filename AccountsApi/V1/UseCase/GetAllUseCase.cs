@@ -24,7 +24,7 @@ namespace AccountsApi.V1.UseCase
             AccountResponseObjectList accountResponseObjectList = new AccountResponseObjectList();
             List<Account> data = await _gateway.GetAllAsync(targetId).ConfigureAwait(false);
 
-            accountResponseObjectList.AccountResponseObjects = data.Select(p => p.ToResponse()).ToList();
+            accountResponseObjectList.AccountResponseObjects = data?.Select(p => p.ToResponse()).ToList();
             return accountResponseObjectList;
         }
     }

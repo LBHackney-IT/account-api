@@ -39,9 +39,9 @@ namespace AccountsApi.V1.Gateways
             await _accountDbContext.AddRangeAsync(accounts).ConfigureAwait(false);
         }
 
-        public async Task<List<Account>> GetAllAsync(Guid targetId)
+        public async Task<List<Account>> GetAllAsync(Guid targetId, string accountType)
         {
-            if (targetId == null)
+            if (targetId == null || string.IsNullOrEmpty(accountType))
                 throw new ArgumentException("Invalid targetId");
 
             IQueryable<AccountDbEntity> data = _accountDbContext
@@ -52,37 +52,19 @@ namespace AccountsApi.V1.Gateways
                 .ConfigureAwait(false);
         }
 
-        public Account GetById(Guid id)
-        {
-            if (id == null)
-                throw new ArgumentException("Invalid Id");
-            return _accountDbContext.AccountEntities.Find(id)?.ToDomain();
-        }
-
         public async Task<Account> GetByIdAsync(Guid id)
         {
             if (id == null)
                 throw new ArgumentException("Invalid Id");
             var result = await _accountDbContext.AccountEntities.FindAsync(id).ConfigureAwait(false);
             return result?.ToDomain();
-        }
-
-        public void Remove(Account account)
-        {
-            _accountDbContext.Remove(account);
-            _accountDbContext.SaveChanges();
-        }
+        } 
 
         public async Task RemoveAsync(Account account)
         {
             _accountDbContext.Remove(account);
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public void RemoveRange(List<Account> accounts)
-        {
-            _accountDbContext.RemoveRange(accounts);
-        }
+        } 
 
         public async Task RemoveRangeAsync(List<Account> accounts)
         {

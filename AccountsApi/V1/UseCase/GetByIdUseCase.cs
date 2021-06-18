@@ -16,16 +16,10 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        //TODO: rename id to the name of the identifier that will be used for this API, the type may also need to change
-        public AccountResponseObject Execute(Guid id)
-        {
-            return _gateway.GetById(id).ToResponse();
-        }
-
         public async Task<AccountResponseObject> ExecuteAsync(Guid id)
         {
             var data = await _gateway.GetByIdAsync(id).ConfigureAwait(false);
-            return data.ToResponse();
+            return data?.ToResponse();
         }
     }
 }

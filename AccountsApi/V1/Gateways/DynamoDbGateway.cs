@@ -45,7 +45,7 @@ namespace AccountsApi.V1.Gateways
             }
         }
 
-        public async Task<List<Account>> GetAllAsync(Guid targetId)
+        public async Task<List<Account>> GetAllAsync(Guid targetId,string accountType)
         {
             ScanCondition scanCondition_targetid = new ScanCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
             List<ScanCondition> scanConditions = new List<ScanCondition>();
@@ -59,35 +59,15 @@ namespace AccountsApi.V1.Gateways
             return data.Select(p => p.ToDomain()).ToList();
         }
 
-        public Account GetById(Guid Id)
-        {
-            var result = _dynamoDbContext.LoadAsync<AccountDbEntity>(Id).GetAwaiter().GetResult();
-            return result?.ToDomain();
-        }
-
         public async Task<Account> GetByIdAsync(Guid id)
         {
             var result = await _dynamoDbContext.LoadAsync<AccountDbEntity>(id).ConfigureAwait(false);
             return result?.ToDomain();
         }
-
-        public void Remove(Account account)
-        {
-            _dynamoDbContext.DeleteAsync<AccountDbEntity>(account);
-        }
-
         public async Task RemoveAsync(Account account)
         {
             await _dynamoDbContext.DeleteAsync<AccountDbEntity>(account.ToDatabase())
                 .ConfigureAwait(false);
-        }
-
-        public void RemoveRange(List<Account> accounts)
-        {
-            accounts.ForEach(p =>
-            {
-                Remove(p);
-            });
         }
 
         public async Task RemoveRangeAsync(List<Account> accounts)
