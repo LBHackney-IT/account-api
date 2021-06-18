@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Amazon.DynamoDBv2.DataModel;
 using AutoFixture;
 using AccountsApi.Tests.V1.Helper;
@@ -29,15 +30,14 @@ namespace AccountsApi.Tests.V1.Gateways
         }
 
         [Test]
-        public void GetEntityByIdReturnsNullIfEntityDoesntExist()
+        public async Task GetEntityByIdReturnsNullIfEntityDoesntExist()
         {
-            var response = _classUnderTest.GetById(Guid.NewGuid());
-
+            var response = await _classUnderTest.GetByIdAsync(Guid.NewGuid()).ConfigureAwait(false);
             response.Should().BeNull();
         }
 
         [Test]
-        public void GetEntityByIdReturnsTheEntityIfItExists()
+        public async Task GetEntityByIdReturnsTheEntityIfItExists()
         {
             var entity = _fixture.Create<AccountDbEntity>();
             var dbEntity = DatabaseEntityHelper.CreateDatabaseEntityFrom(entity);
@@ -45,7 +45,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(x => x.LoadAsync<AccountDbEntity>(entity.Id, default))
                      .ReturnsAsync(dbEntity);
 
-            var response = _classUnderTest.GetById(entity.Id);
+            var response = await _classUnderTest.GetByIdAsync(entity.Id).ConfigureAwait(false);
 
             _dynamoDb.Verify(x => x.LoadAsync<AccountDbEntity>(entity.Id, default), Times.Once);
 
