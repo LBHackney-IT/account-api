@@ -1,4 +1,4 @@
-resource "aws_dynamodb_table" "accountapi_dynamodb_table" {
+resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
     name                  = "Accounts"
     billing_mode          = "PROVISIONED"
     read_capacity         = 10
