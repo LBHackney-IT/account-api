@@ -51,10 +51,21 @@ namespace AccountsApi.V1.Gateways
             List<ScanCondition> scanConditions = new List<ScanCondition>();
             scanConditions.Add(scanCondition_targetid);
 
-            List<AccountDbEntity> data = await _dynamoDbContext
-                .ScanAsync<AccountDbEntity>(scanConditions)
+            Amazon.DynamoDBv2.DocumentModel.ScanOperationConfig scanOperationConfig
+                = new Amazon.DynamoDBv2.DocumentModel.ScanOperationConfig();
+            Amazon.DynamoDBv2.DocumentModel.ScanFilter scanFilter
+                = new Amazon.DynamoDBv2.DocumentModel.ScanFilter();
+            scanFilter.AddCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
+            scanOperationConfig.Filter = scanFilter;
+            scanOperationConfig.Limit = 1;
+            List<AccountDbEntity> data = await _dynamoDbContext.FromScanAsync<AccountDbEntity>(scanOperationConfig)
                 .GetRemainingAsync()
                 .ConfigureAwait(false);
+
+            /*List<AccountDbEntity> data = await _dynamoDbContext
+                .ScanAsync<AccountDbEntity>(scanConditions)
+                .GetRemainingAsync()
+                .ConfigureAwait(false);*/
 
             return data.Select(p => p.ToDomain()).ToList();
         }

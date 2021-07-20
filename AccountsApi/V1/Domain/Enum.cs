@@ -27,4 +27,14 @@ namespace AccountsApi.V1.Domain
         Ms,
         Dr
     }
+
+    public enum AccountType
+    {
+        Master,Recharge, Sundry
+    }
+
+    public enum RentGroupType
+    {
+        LeaseHolders,GenFundRents,Garages,HALeases,HRARents, MajorWorks,TempAcc,Travellers
+    }
 }
