@@ -19,29 +19,14 @@ namespace AccountsApi.V1.Gateways
             _accountDbContext = accountDbContext;
         }
 
-        public void Add(Account account)
-        {
-            _accountDbContext.Add(account);
-        }
-
         public async Task AddAsync(Account account)
         {
             await _accountDbContext.AddAsync(account).ConfigureAwait(false);
         }
 
-        public void AddRange(List<Account> accounts)
+        public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
-            _accountDbContext.AddRange(accounts);
-        }
-
-        public async Task AddRangeAsync(List<Account> accounts)
-        {
-            await _accountDbContext.AddRangeAsync(accounts).ConfigureAwait(false);
-        }
-
-        public async Task<List<Account>> GetAllAsync(Guid targetId, string accountType)
-        {
-            if (targetId == null || string.IsNullOrEmpty(accountType))
+            if (targetId == null)
                 throw new ArgumentException("Invalid targetId");
 
             IQueryable<AccountDbEntity> data = _accountDbContext
@@ -64,20 +49,6 @@ namespace AccountsApi.V1.Gateways
         {
             _accountDbContext.Remove(account);
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
-        }
-
-        public async Task RemoveRangeAsync(List<Account> accounts)
-        {
-            foreach (Account account in accounts)
-            {
-                await RemoveAsync(account).ConfigureAwait(false);
-            }
-        }
-
-        public void Update(Account account)
-        {
-            _accountDbContext.Entry<Account>(account).State = EntityState.Modified;
-            _accountDbContext.SaveChanges();
         }
 
         public async Task UpdateAsync(Account account)

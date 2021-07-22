@@ -1,3 +1,5 @@
+using System;
+using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Infrastructure;
 
@@ -14,12 +16,31 @@ namespace AccountsApi.V1.Factories
                 AccountStatus = databaseEntity.AccountStatus,
                 EndDate = databaseEntity.EndDate,
                 LastUpdated = databaseEntity.LastUpdated,
-                PaymentReference = databaseEntity.PaymentReference,
                 StartDate = databaseEntity.StartDate,
                 TargetId = databaseEntity.TargetId,
                 TargetType = databaseEntity.TargetType,
-                TotalCharged = databaseEntity.TotalCharged,
-                TotalPaid = databaseEntity.TotalPaid
+                AccountType = databaseEntity.AccountType,
+                AgreementType = databaseEntity.AgreementType,
+                RentGroupType = databaseEntity.RentGroupType,
+                ConsolidatedCharges = databaseEntity.ConsolidatedCharges ,
+                Tenure = databaseEntity.Tenure
+            };
+        }
+        public static Account ToDomain(this AccountRequestObject databaseEntity)
+        {
+            return new Account
+            {
+                Id = Guid.NewGuid(),
+                AccountBalance = databaseEntity.AccountBalance,
+                AccountStatus = databaseEntity.AccountStatus,
+                EndDate = databaseEntity.EndDate,
+                LastUpdated = databaseEntity.LastUpdated,
+                StartDate = databaseEntity.StartDate,
+                TargetId = databaseEntity.TargetId,
+                TargetType = databaseEntity.TargetType,
+                AccountType = databaseEntity.AccountType,
+                AgreementType = databaseEntity.AgreementType,
+                RentGroupType = databaseEntity.RentGroupType
             };
         }
 
@@ -29,15 +50,17 @@ namespace AccountsApi.V1.Factories
             {
                 Id = entity.Id,
                 AccountBalance = entity.AccountBalance,
-                TotalPaid = entity.TotalPaid,
-                TotalCharged = entity.TotalCharged,
                 TargetType = entity.TargetType,
                 TargetId = entity.TargetId,
                 StartDate = entity.StartDate,
-                PaymentReference = entity.PaymentReference,
                 LastUpdated = entity.LastUpdated,
                 EndDate = entity.EndDate,
-                AccountStatus = entity.AccountStatus
+                AccountStatus = entity.AccountStatus,
+                AccountType = entity.AccountType,
+                AgreementType = entity.AgreementType,
+                ConsolidatedCharges = entity.ConsolidatedCharges,
+                RentGroupType = entity.RentGroupType,
+                Tenure = entity.Tenure
             };
         }
     }

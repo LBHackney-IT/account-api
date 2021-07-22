@@ -9,7 +9,6 @@ namespace AccountsApi.V1.UseCase.Interfaces
 {
     public interface IUpdateUseCase
     {
-        public AccountResponseObject Execute(Account account);
         public Task<AccountResponseObject> ExecuteAsync(Account account);
     }
 }

@@ -15,12 +15,6 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task Execute(Guid id)
-        {
-            var data = await _gateway.GetByIdAsync(id).ConfigureAwait(false);
-            await _gateway.RemoveAsync(data).ConfigureAwait(false);
-        }
-
         public async Task ExecuteAsync(Guid id)
         {
             var data = await _gateway.GetByIdAsync(id).ConfigureAwait(false);

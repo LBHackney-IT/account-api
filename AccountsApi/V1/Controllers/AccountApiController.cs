@@ -1,18 +1,20 @@
 using AccountsApi.V1.Boundary.Response;
+using AccountsApi.V1.Domain;
 using AccountsApi.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Net;
 using System.Threading.Tasks;
+using AccountApi.V1.Infrastructure;
+using AccountsApi.V1.Boundary.Request;
 
 namespace AccountsApi.V1.Controllers
 {
-    [ApiController]
-    //TODO: Rename to match the APIs endpoint
-    [Route("api/v1/residents")]
+    [ApiController] 
+    [Route("api/v1/accounts")]
     [Produces("application/json")]
-    [ApiVersion("1.0")]
-    //TODO: rename class to match the API name
+    [ApiVersion("1.0")] 
     public class AccountApiController : BaseController
     {
         private readonly IGetAllUseCase _getAllUseCase;
@@ -36,9 +38,9 @@ namespace AccountsApi.V1.Controllers
         }
 
         [ProducesResponseType(typeof(AccountResponseObject), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status500InternalServerError)]
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
@@ -51,17 +53,40 @@ namespace AccountsApi.V1.Controllers
         }
 
         [ProducesResponseType(typeof(AccountResponseObjectList), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string targetid)
+        public async Task<IActionResult> Get([FromQuery] string targetId,[FromQuery] AccountType accountType)
         {
-            var accounts = await _getAllUseCase.ExecuteAsync(Guid.Parse(targetid)).ConfigureAwait(false);
+            var accounts = await _getAllUseCase.ExecuteAsync(Guid.Parse(targetId), accountType).ConfigureAwait(false);
             if (accounts == null)
                 return NotFound();
 
             return Ok(accounts);
+        }
+
+        [ProducesResponseType(typeof(AccountResponseObject), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+        [HttpPost]
+        public async Task<IActionResult> Add(AccountRequestObject account)
+        {
+            if (account == null)
+            {
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "Account model cannot be null!"));
+            }
+
+            if (ModelState.IsValid)
+            {
+                var accountResponse = await _addUseCase.ExecuteAsync(account).ConfigureAwait(false);
+
+                return CreatedAtAction($"Get",new { id = accountResponse.Id }, accountResponse);
+            }
+            else
+            {
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
+            }
         }
 
     }

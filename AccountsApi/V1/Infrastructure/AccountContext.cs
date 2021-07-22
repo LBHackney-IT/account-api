@@ -9,6 +9,7 @@ namespace AccountsApi.V1.Infrastructure
         //Guidance on the context class can be found here https://github.com/LBHackney-IT/lbh-accounts-api/wiki/DatabaseContext
         public AccountContext(DbContextOptions options) : base(options)
         {
+
         }
 
         public DbSet<AccountDbEntity> AccountEntities { get; set; }

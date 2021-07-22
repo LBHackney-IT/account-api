@@ -9,9 +9,9 @@ namespace AccountApi.V1.Domain
     public class Tenure
     {
         public string TenancyId { get; set; }
-        public int RentAccountNumber { get; set; }
-        public DateTime StartOfTenureDate { get; set; }
-        public DateTime EndOfTenureDate { get; set; }
+        //public int RentAccountNumber { get; set; }
+        //public DateTime StartOfTenureDate { get; set; }
+        //public DateTime EndOfTenureDate { get; set; }
         public TenancyType TenancyType { get; set; }
         public IEnumerable<PrimaryTenant> PrimaryTenants { get; set; }
     }

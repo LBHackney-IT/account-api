@@ -2,6 +2,7 @@ using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using System.Collections.Generic;
 using System.Linq;
+using AccountsApi.V1.Boundary.Request;
 
 namespace AccountsApi.V1.Factories
 {
@@ -15,13 +16,15 @@ namespace AccountsApi.V1.Factories
                 AccountStatus = domain.AccountStatus,
                 EndDate = domain.EndDate,
                 LastUpdated = domain.LastUpdated,
-                PaymentReference = domain.PaymentReference,
                 StartDate = domain.StartDate,
                 Id = domain.Id,
                 TargetId = domain.TargetId,
                 TargetType = domain.TargetType,
-                TotalCharged = domain.TotalCharged,
-                TotalPaid = domain.TotalPaid
+                AccountType = domain.AccountType,
+                AgreementType = domain.AgreementType,
+                Tenure = domain.Tenure,
+                ConsolidatedCharges = domain.ConsolidatedCharges,
+                RentGroupType = domain.RentGroupType
             };
         }
 

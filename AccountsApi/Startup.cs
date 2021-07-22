@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AccountApi.V1;
 using AccountsApi.V1.Controllers;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AccountsApi.V1.Gateways;
@@ -151,10 +152,8 @@ namespace AccountsApi
 
         private static void RegisterGateways(IServiceCollection services)
         {
-            services.AddScoped<IAccountApiGateway, AccountApiGateway>();
-
-            //TODO: For DynamoDb, remove the line above and uncomment the line below.
-            //services.AddScoped<IExampleGateway, DynamoDbGateway>();
+            //services.AddScoped<IAccountApiGateway, AccountApiGateway>(); 
+            services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
@@ -199,6 +198,7 @@ namespace AccountsApi
                         $"{ApiName}-api {apiVersionDescription.GetFormattedApiVersion()}");
                 }
             });
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseSwagger();
             app.UseRouting();
             app.UseEndpoints(endpoints =>

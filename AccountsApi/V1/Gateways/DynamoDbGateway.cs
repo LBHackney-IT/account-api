@@ -18,44 +18,26 @@ namespace AccountsApi.V1.Gateways
             _dynamoDbContext = dynamoDbContext;
         }
 
-        public void Add(Account account)
-        {
-            _dynamoDbContext.SaveAsync<AccountDbEntity>(account.ToDatabase());
-        }
-
         public async Task AddAsync(Account account)
         {
             await _dynamoDbContext.SaveAsync<AccountDbEntity>(account.ToDatabase())
                 .ConfigureAwait(false);
         }
 
-        public void AddRange(List<Account> accounts)
+        public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
-            accounts.ForEach(account =>
-            {
-                Add(account);
-            });
-        }
-
-        public async Task AddRangeAsync(List<Account> accounts)
-        {
-            foreach (Account account in accounts)
-            {
-                await AddAsync(account).ConfigureAwait(false);
-            }
-        }
-
-        public async Task<List<Account>> GetAllAsync(Guid targetId, string accountType)
-        {
-            ScanCondition scanCondition_targetid = new ScanCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
+            /*ScanCondition scanCondition_targetid = new ScanCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
+            ScanCondition scanCondition_accountType = new ScanCondition("AccountType", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, accountType);
             List<ScanCondition> scanConditions = new List<ScanCondition>();
             scanConditions.Add(scanCondition_targetid);
+            scanConditions.Add(scanCondition_accountType);*/
 
             Amazon.DynamoDBv2.DocumentModel.ScanOperationConfig scanOperationConfig
                 = new Amazon.DynamoDBv2.DocumentModel.ScanOperationConfig();
             Amazon.DynamoDBv2.DocumentModel.ScanFilter scanFilter
                 = new Amazon.DynamoDBv2.DocumentModel.ScanFilter();
             scanFilter.AddCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
+            scanFilter.AddCondition("AccountType", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, Enum.GetName(typeof(AccountType), accountType));
             scanOperationConfig.Filter = scanFilter;
             scanOperationConfig.Limit = 1;
             List<AccountDbEntity> data = await _dynamoDbContext.FromScanAsync<AccountDbEntity>(scanOperationConfig)
@@ -79,19 +61,6 @@ namespace AccountsApi.V1.Gateways
         {
             await _dynamoDbContext.DeleteAsync<AccountDbEntity>(account.ToDatabase())
                 .ConfigureAwait(false);
-        }
-
-        public async Task RemoveRangeAsync(List<Account> accounts)
-        {
-            foreach (Account account in accounts)
-            {
-                await RemoveAsync(account).ConfigureAwait(false);
-            }
-        }
-
-        public void Update(Account account)
-        {
-            _dynamoDbContext.SaveAsync<AccountDbEntity>(account.ToDatabase());
         }
 
         public async Task UpdateAsync(Account account)

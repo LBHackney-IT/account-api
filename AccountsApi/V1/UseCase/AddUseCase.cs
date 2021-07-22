@@ -3,10 +3,8 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using AccountsApi.V1.Boundary.Request;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -19,17 +17,28 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public AccountResponseObject Execute(Account account)
+        public async Task<AccountResponseObject> ExecuteAsync(AccountRequestObject account)
         {
-            _gateway.Add(account);
-            return account.ToResponse();
-
-        }
-
-        public async Task<AccountResponseObject> ExecuteAsync(Account account)
-        {
-            await _gateway.AddAsync(account).ConfigureAwait(false);
-            return account.ToResponse();
+            Account _account = account.ToDomain();
+            await _gateway.AddAsync(_account).ConfigureAwait(false);
+            return _account.ToResponse();
         }
     }
 }
+
+
+/*
+
+            if (charge == null)
+            {
+                throw new ArgumentNullException(nameof(charge));
+            }
+
+            var domainModel = charge.ToDomain();
+
+            domainModel.Id = Guid.NewGuid();
+
+            await _gateway.AddAsync(domainModel).ConfigureAwait(false);
+            return domainModel.ToResponse();
+ 
+ */
