@@ -17,7 +17,7 @@ namespace AccountsApi.V1.Infrastructure
         public TargetType TargetType { get; set; }
         [DynamoDBProperty(AttributeName = "target_id")]
         public Guid TargetId { get; set; }
-        [DynamoDBProperty(AttributeName = "account_type")]
+        [DynamoDBProperty(AttributeName = "account_type",Converter = typeof(DynamoDbEnumConverter<AccountType>))]
         public AccountType AccountType { get; set; }
         [DynamoDBProperty(AttributeName ="rent_group_type", Converter =typeof(DynamoDbEnumConverter<RentGroupType>))]
         public RentGroupType RentGroupType { get; set; }

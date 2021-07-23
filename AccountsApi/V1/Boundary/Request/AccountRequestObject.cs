@@ -29,7 +29,9 @@ namespace AccountsApi.V1.Boundary.Request
         ///     Master
         /// </example>
         /// </summary>
-        [AllowedValues(AccountType.Master,AccountType.Recharge,AccountType.Sundry)]
+        ///[AllowedValues(AccountType.Master,AccountType.Recharge,AccountType.Sundry)]
+        [Required]
+        [NotNull]
         public AccountType AccountType { get; set; }
         /// <summary>
         /// <example>

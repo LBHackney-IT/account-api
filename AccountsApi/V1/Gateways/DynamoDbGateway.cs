@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using System;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
 
 namespace AccountsApi.V1.Gateways
 {
@@ -26,11 +28,7 @@ namespace AccountsApi.V1.Gateways
 
         public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
-            /*ScanCondition scanCondition_targetid = new ScanCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
-            ScanCondition scanCondition_accountType = new ScanCondition("AccountType", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, accountType);
             List<ScanCondition> scanConditions = new List<ScanCondition>();
-            scanConditions.Add(scanCondition_targetid);
-            scanConditions.Add(scanCondition_accountType);*/
 
             Amazon.DynamoDBv2.DocumentModel.ScanOperationConfig scanOperationConfig
                 = new Amazon.DynamoDBv2.DocumentModel.ScanOperationConfig();
@@ -39,15 +37,28 @@ namespace AccountsApi.V1.Gateways
             scanFilter.AddCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
             scanFilter.AddCondition("AccountType", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, Enum.GetName(typeof(AccountType), accountType));
             scanOperationConfig.Filter = scanFilter;
-            scanOperationConfig.Limit = 1;
+            scanOperationConfig.Limit = 2;
             List<AccountDbEntity> data = await _dynamoDbContext.FromScanAsync<AccountDbEntity>(scanOperationConfig)
                 .GetRemainingAsync()
                 .ConfigureAwait(false);
 
-            /*List<AccountDbEntity> data = await _dynamoDbContext
+            /*ScanCondition scanConditionTargetId = new ScanCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
+            ScanCondition scanConditionAccountType = new ScanCondition("AccountType", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, accountType);
+            
+            scanConditions.Add(scanConditionTargetId);
+            scanConditions.Add(scanConditionAccountType);
+
+            List<AccountDbEntity> data = await _dynamoDbContext
                 .ScanAsync<AccountDbEntity>(scanConditions)
                 .GetRemainingAsync()
                 .ConfigureAwait(false);*/
+
+            /*AmazonDynamoDBClient client = new AmazonDynamoDBClient();
+            QueryRequest request = new QueryRequest()
+            {
+                TableName = "accounts",
+                IndexName =  "target_id"
+            };*/
 
             return data.Select(p => p.ToDomain()).ToList();
         }
