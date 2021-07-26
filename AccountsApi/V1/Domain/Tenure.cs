@@ -8,11 +8,18 @@ namespace AccountApi.V1.Domain
 {
     public class Tenure
     {
+        /// <summary>
+        /// <example>
+        ///     31245
+        /// </example>
+        /// </summary>
         public string TenancyId { get; set; }
-        //public int RentAccountNumber { get; set; }
-        //public DateTime StartOfTenureDate { get; set; }
-        //public DateTime EndOfTenureDate { get; set; }
-        public TenancyType TenancyType { get; set; }
+        /// <summary>
+        /// <example>
+        ///     Introductory
+        /// </example>
+        /// </summary>
+        public string TenancyType { get; set; }
         public IEnumerable<PrimaryTenant> PrimaryTenants { get; set; }
     }
 }

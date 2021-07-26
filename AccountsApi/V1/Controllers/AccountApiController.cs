@@ -1,5 +1,6 @@
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
+using AccountsApi.V1.Factories;
 using AccountsApi.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -70,7 +71,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<IActionResult> Add(AccountRequestObject account)
+        public async Task<IActionResult> Post(AccountRequestObject account)
         {
             if (account == null)
             {
@@ -87,6 +88,34 @@ namespace AccountsApi.V1.Controllers
             {
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
             }
+        }
+
+        [ProducesResponseType(typeof(AccountResponseObject), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+        [Route("{id}")]
+        [HttpPatch]
+        public async Task<IActionResult> Put([FromRoute]Guid id,[FromBody]AccountResponseObject account)
+        {
+            if (account == null)
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
+                    "Account model can't be null"));
+
+            if (id != account.Id)
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
+                    "Ids in route and model are different"));
+
+            AccountResponseObject accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
+
+            if (accountResponseObject == null)
+                return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound,
+                    "The Account not found"));
+
+            await _updateUseCase.ExecuteAsync(account.ToDomain()).ConfigureAwait(false);
+
+            return CreatedAtAction($"Get", new {id = id}, account);
+
         }
 
     }

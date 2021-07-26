@@ -13,7 +13,10 @@ namespace AccountsApi.V1.Domain
         public RentGroupType RentGroupType { get; set; }
         public string AgreementType { get; set; }
         public decimal AccountBalance { get; set; }
-        public DateTime LastUpdated { get; set; }
+        public string CreatedBy { get; set; }
+        public string LastUpdatedBy { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public AccountStatus AccountStatus { get; set; }

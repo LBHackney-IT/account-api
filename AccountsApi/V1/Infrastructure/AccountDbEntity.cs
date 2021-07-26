@@ -25,6 +25,12 @@ namespace AccountsApi.V1.Infrastructure
         public string AgreementType { get; set; }
         [DynamoDBProperty(AttributeName = "account_balance")]
         public decimal AccountBalance { get; set; }
+        [DynamoDBProperty(AttributeName = "created_by")]
+        public string CreatedBy { get; set; }
+        [DynamoDBProperty(AttributeName = "last_Updated_by")]
+        public string LastUpdatedBy { get; set; }
+        [DynamoDBProperty(AttributeName = "created_date", Converter = typeof(DynamoDbDateTimeConverter))]
+        public DateTime CreatedDate { get; set; }
         [DynamoDBProperty(AttributeName = "last_updated", Converter = typeof(DynamoDbDateTimeConverter))]
         public DateTime LastUpdated { get; set; }
         [DynamoDBProperty(AttributeName = "start_date", Converter = typeof(DynamoDbDateTimeConverter))]

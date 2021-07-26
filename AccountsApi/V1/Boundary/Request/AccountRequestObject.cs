@@ -55,7 +55,27 @@ namespace AccountsApi.V1.Boundary.Request
         /// </example>
         /// </summary>
         public decimal AccountBalance => 0;
-
+        /// <summary>
+        /// <example>
+        ///     021-03-29T15:10:37.471Z
+        /// </example>
+        /// </summary>
+        [RequiredDateTimeAttribute]
+        public string CreatedBy { get; set; }
+        /// <summary>
+        /// <example>
+        ///     021-03-29T15:10:37.471Z
+        /// </example>
+        /// </summary>
+        [RequiredDateTimeAttribute]
+        public string LastUpdatedBy { get; set; }
+        /// <summary>
+        /// <example>
+        ///     021-03-29T15:10:37.471Z
+        /// </example>
+        /// </summary>
+        [RequiredDateTimeAttribute]
+        public DateTime CreatedDate { get; set; }
         /// <summary>
         /// <example>
         ///     021-03-29T15:10:37.471Z
