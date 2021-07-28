@@ -7,8 +7,7 @@ using AccountsApi.V1.Gateways;
 using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase;
 using FluentAssertions;
-using Moq;
-using NUnit.Framework;
+using Moq; 
 
 namespace AccountsApi.Tests.V1.UseCase
 {
@@ -17,16 +16,15 @@ namespace AccountsApi.Tests.V1.UseCase
         private Mock<IAccountApiGateway> _mockGateway;
         private GetAllUseCase _classUnderTest;
         private Fixture _fixture;
-
-        [SetUp]
-        public void SetUp()
+ 
+        public   GetAllUseCaseTests()
         {
             _mockGateway = new Mock<IAccountApiGateway>();
             _classUnderTest = new GetAllUseCase(_mockGateway.Object);
             _fixture = new Fixture();
         }
 
-        // [Test]
+        // [Fact]
         // public void GetsAllFromTheGateway()
         // {
         //     var stubbedEntities = _fixture.CreateMany<AccountDbEntity>().ToList();

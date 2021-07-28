@@ -2,14 +2,13 @@ using System;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.Domain
 {
-    [TestFixture]
     public class AccountTests
     {
-        [Test]
+        [Fact]
         public void EntitiesHaveACreatedAt()
         {
             var entity = new AccountDbEntity();

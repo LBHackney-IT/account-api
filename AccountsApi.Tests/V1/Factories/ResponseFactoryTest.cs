@@ -1,8 +1,3 @@
-using AccountsApi.V1.Domain;
-using AccountsApi.V1.Factories;
-using AccountsApi.V1.Infrastructure;
-using NUnit.Framework;
-
 namespace AccountsApi.Tests.V1.Factories
 {
     public class ResponseFactoryTest

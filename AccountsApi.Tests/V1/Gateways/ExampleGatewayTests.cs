@@ -1,25 +1,18 @@
-using AutoFixture;
-using AccountsApi.Tests.V1.Helper;
-using AccountsApi.V1.Domain;
 using AccountsApi.V1.Gateways;
-using FluentAssertions;
-using NUnit.Framework;
 
 namespace AccountsApi.Tests.V1.Gateways
 {
     //TODO: Remove this file if Postgres gateway is not being used
     //TODO: Rename Tests to match gateway name
-    //For instruction on how to run tests please see the wiki: https://github.com/LBHackney-IT/lbh-accounts-api/wiki/Running-the-test-suite.
-    [TestFixture]
+    //For instruction on how to run tests please see the wiki: https://github.com/LBHackney-IT/lbh-accounts-api/wiki/Running-the-test-suite. 
     public class ExampleGatewayTests : DatabaseTests
     {
         // private readonly Fixture _fixture = new Fixture();
-        private AccountApiGateway _classUnderTest;
-
-        [SetUp]
-        public void Setup()
+        //private AccountApiGateway _classUnderTest;
+ 
+        public   ExampleGatewayTests()
         {
-            _classUnderTest = new AccountApiGateway(DatabaseContext);
+            //_classUnderTest = new AccountApiGateway(DatabaseContext);
         }
 
         // [Test]

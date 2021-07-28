@@ -27,14 +27,12 @@ namespace AccountsApi.V1.Controllers
             IGetAllUseCase getAllUseCase,
             IGetByIdUseCase getByIdUseCase,
             IAddUseCase addUseCase,
-            IUpdateUseCase updateUseCase,
-            IRemoveUseCase removeUseCase)
+            IUpdateUseCase updateUseCase)
         {
             _getAllUseCase = getAllUseCase;
             _getByIdUseCase = getByIdUseCase;
             _addUseCase = addUseCase;
-            _updateUseCase = updateUseCase;
-            _removeUseCase = removeUseCase;
+            _updateUseCase = updateUseCase; 
         }
 
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]

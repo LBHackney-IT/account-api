@@ -1,7 +1,6 @@
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase;
-using Moq;
-using NUnit.Framework;
+using Moq; 
 
 namespace AccountsApi.Tests.V1.UseCase
 {
@@ -10,8 +9,8 @@ namespace AccountsApi.Tests.V1.UseCase
         private Mock<IAccountApiGateway> _mockGateway;
         private GetByIdUseCase _classUnderTest;
 
-        [SetUp]
-        public void SetUp()
+ 
+        public   GetByIdUseCaseTests()
         {
             _mockGateway = new Mock<IAccountApiGateway>();
             _classUnderTest = new GetByIdUseCase(_mockGateway.Object);

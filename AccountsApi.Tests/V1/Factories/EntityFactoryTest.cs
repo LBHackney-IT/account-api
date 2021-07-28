@@ -3,18 +3,17 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.Factories
-{
-    [TestFixture]
+{ 
     public class EntityFactoryTest
     {
         private readonly Fixture _fixture = new Fixture();
 
         //TODO: add assertions for all the fields being mapped in `EntityFactory.ToDomain()`. Also be sure to add test cases for
         // any edge cases that might exist.
-        [Test]
+        [Fact]
         public void CanMapADatabaseEntityToADomainObject()
         {
             var databaseEntity = _fixture.Create<AccountDbEntity>();
