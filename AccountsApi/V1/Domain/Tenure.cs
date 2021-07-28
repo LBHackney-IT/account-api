@@ -8,18 +8,21 @@ namespace AccountApi.V1.Domain
 {
     public class Tenure
     {
-        /// <summary>
         /// <example>
         ///     31245
         /// </example>
-        /// </summary>
         public string TenancyId { get; set; }
-        /// <summary>
         /// <example>
         ///     Introductory
         /// </example>
-        /// </summary>
         public string TenancyType { get; set; }
-        public IEnumerable<PrimaryTenant> PrimaryTenants { get; set; }
+        /// <example>
+        ///     285 Avenue, 315 Amsterdam
+        /// </example>
+        public string FullAddress { get; set; }
+        /// <example>
+        ///     3fa85f64-5717-4562-b3fc-2c963f66a7af
+        /// </example>
+        public Guid AssetId { get; set; }
     }
 }

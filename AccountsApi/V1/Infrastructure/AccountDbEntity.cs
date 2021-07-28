@@ -2,6 +2,7 @@ using AccountApi.V1.Domain;
 using AccountsApi.V1.Domain;
 using Amazon.DynamoDBv2.DataModel;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AccountsApi.V1.Infrastructure
@@ -27,7 +28,7 @@ namespace AccountsApi.V1.Infrastructure
         public decimal AccountBalance { get; set; }
         [DynamoDBProperty(AttributeName = "created_by")]
         public string CreatedBy { get; set; }
-        [DynamoDBProperty(AttributeName = "last_Updated_by")]
+        [DynamoDBProperty(AttributeName = "last_updated_by")]
         public string LastUpdatedBy { get; set; }
         [DynamoDBProperty(AttributeName = "created_date", Converter = typeof(DynamoDbDateTimeConverter))]
         public DateTime CreatedDate { get; set; }
@@ -39,8 +40,10 @@ namespace AccountsApi.V1.Infrastructure
         public DateTime EndDate { get; set; }
         [DynamoDBProperty(AttributeName = "account_status",Converter = typeof(DynamoDbEnumConverter<AccountStatus>))]
         public AccountStatus AccountStatus { get; set; }
-        [DynamoDBProperty(AttributeName = "consolidated_charges",Converter = typeof(DynamoDbObjectConverter<ConsolidatedCharges>))]
-        public ConsolidatedCharges ConsolidatedCharges { get; set; }
+
+        [DynamoDBProperty(AttributeName = "consolidated_charges",Converter = typeof(DynamoDbObjectListConverter<ConsolidatedCharge>))]
+        public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
+
         [DynamoDBProperty(AttributeName = "tenure",Converter = typeof(DynamoDbObjectConverter<Tenure>))]
         public Tenure Tenure { get; set; }
     }

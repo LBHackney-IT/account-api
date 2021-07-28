@@ -96,7 +96,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
         [HttpPatch]
-        public async Task<IActionResult> Put([FromRoute]Guid id,[FromBody]AccountResponseObject account)
+        public async Task<IActionResult> Patch([FromRoute]Guid id,[FromBody]AccountResponseObject account)
         {
             if (account == null)
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
