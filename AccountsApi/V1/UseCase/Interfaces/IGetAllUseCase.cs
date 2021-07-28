@@ -7,6 +7,6 @@ namespace AccountsApi.V1.UseCase.Interfaces
 {
     public interface IGetAllUseCase
     {
-        public Task<AccountResponseObjectList> ExecuteAsync(Guid targetId, AccountType accountType);
+        public Task<AccountResponses> ExecuteAsync(Guid targetId, AccountType accountType);
     }
 }

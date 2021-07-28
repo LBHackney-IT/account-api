@@ -16,7 +16,7 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountResponseObject> ExecuteAsync(Guid id)
+        public async Task<AccountResponse> ExecuteAsync(Guid id)
         {
             var data = await _gateway.GetByIdAsync(id).ConfigureAwait(false);
             return data?.ToResponse();

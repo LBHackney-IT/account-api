@@ -8,8 +8,7 @@ using AccountsApi.V1.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccountsApi.V1.Gateways
-{
-    //TODO: Rename to match the data source that is being accessed in the gateway eg. MosaicGateway
+{ 
     public class AccountApiGateway : IAccountApiGateway
     {
         private readonly AccountContext _accountDbContext;

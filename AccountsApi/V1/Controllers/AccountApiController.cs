@@ -22,7 +22,6 @@ namespace AccountsApi.V1.Controllers
         private readonly IGetByIdUseCase _getByIdUseCase;
         private readonly IAddUseCase _addUseCase;
         private readonly IUpdateUseCase _updateUseCase;
-        private readonly IRemoveUseCase _removeUseCase;
 
         public AccountApiController(
             IGetAllUseCase getAllUseCase,
@@ -38,7 +37,7 @@ namespace AccountsApi.V1.Controllers
             _removeUseCase = removeUseCase;
         }
 
-        [ProducesResponseType(typeof(AccountResponseObject), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status500InternalServerError)]
@@ -53,7 +52,7 @@ namespace AccountsApi.V1.Controllers
             return Ok(accounts);
         }
 
-        [ProducesResponseType(typeof(AccountResponseObjectList), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountResponses), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -67,11 +66,11 @@ namespace AccountsApi.V1.Controllers
             return Ok(accounts);
         }
 
-        [ProducesResponseType(typeof(AccountResponseObject), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<IActionResult> Post(AccountRequestObject account)
+        public async Task<IActionResult> Post(AccountRequest account)
         {
             if (account == null)
             {
@@ -90,13 +89,13 @@ namespace AccountsApi.V1.Controllers
             }
         }
 
-        [ProducesResponseType(typeof(AccountResponseObject), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
         [HttpPatch]
-        public async Task<IActionResult> Patch([FromRoute]Guid id,[FromBody]AccountResponseObject account)
+        public async Task<IActionResult> Patch([FromRoute]Guid id,[FromBody]AccountResponse account)
         {
             if (account == null)
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
@@ -106,7 +105,7 @@ namespace AccountsApi.V1.Controllers
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
                     "Ids in route and model are different"));
 
-            AccountResponseObject accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
+            AccountResponse accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
             if (accountResponseObject == null)
                 return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound,

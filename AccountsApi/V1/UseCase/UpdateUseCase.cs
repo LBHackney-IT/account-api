@@ -19,7 +19,7 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountResponseObject> ExecuteAsync(Account account)
+        public async Task<AccountResponse> ExecuteAsync(Account account)
         {
             await _gateway.UpdateAsync(account).ConfigureAwait(false);
             return account.ToResponse();

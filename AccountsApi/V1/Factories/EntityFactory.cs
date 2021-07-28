@@ -37,7 +37,7 @@ namespace AccountsApi.V1.Factories
             };
         }
 
-        public static Account ToDomain(this AccountRequestObject databaseEntity)
+        public static Account ToDomain(this AccountRequest databaseEntity)
         {
             return new Account
             {
@@ -58,7 +58,7 @@ namespace AccountsApi.V1.Factories
             };
         }
 
-        public static Account ToDomain(this AccountResponseObject databaseEntity)
+        public static Account ToDomain(this AccountResponse databaseEntity)
         {
             Account account = new Account
             {

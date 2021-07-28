@@ -7,15 +7,8 @@ using NUnit.Framework;
 namespace AccountsApi.Tests.V1.Domain
 {
     [TestFixture]
-    public class EntityTests
+    public class AccountTests
     {
-        // [Test]
-        // public void EntitiesHaveAnId()
-        // {
-        //     var entity = new AccountDbEntity();
-        //     entity.Id.Should().NotBe(null);
-        // }
-
         [Test]
         public void EntitiesHaveACreatedAt()
         {
