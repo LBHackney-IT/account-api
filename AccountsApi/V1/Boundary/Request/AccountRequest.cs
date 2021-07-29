@@ -8,7 +8,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace AccountsApi.V1.Boundary.Request
 {
     public class AccountRequest
-    { 
+    {
         /// <example>
         ///     Estate
         /// </example>

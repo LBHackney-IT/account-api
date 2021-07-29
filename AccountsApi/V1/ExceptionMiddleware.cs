@@ -31,7 +31,7 @@ namespace AccountApi.V1
             {
                 await _next.Invoke(context).ConfigureAwait(false);
             }
-            catch(FormatException ex)
+            catch (FormatException ex)
             {
                 await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest).ConfigureAwait(false);
             }

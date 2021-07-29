@@ -26,11 +26,11 @@ namespace AccountsApi.V1.Gateways
 
         public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
-            List<ScanCondition> scanConditions = new List<ScanCondition>();  
+            List<ScanCondition> scanConditions = new List<ScanCondition>();
 
             ScanCondition scanConditionTargetId = new ScanCondition("TargetId", ScanOperator.Equal, targetId);
             ScanCondition scanConditionAccountType = new ScanCondition("AccountType", ScanOperator.Equal, accountType);
-            
+
             scanConditions.Add(scanConditionTargetId);
             scanConditions.Add(scanConditionAccountType);
 

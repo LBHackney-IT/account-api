@@ -4,8 +4,8 @@ namespace AccountsApi.Tests
     {
         //private IDbContextTransaction _transaction;
         //protected AccountContext DatabaseContext { get; private set; }
- 
-        //public void RunBeforeAnyTests()
+
+        //public void RunBeforeAnyTests()W
         //{
         //    var builder = new DbContextOptionsBuilder();
         //    builder.UseNpgsql(ConnectionString.TestDatabase());
@@ -14,7 +14,7 @@ namespace AccountsApi.Tests
         //    DatabaseContext.Database.EnsureCreated();
         //    _transaction = DatabaseContext.Database.BeginTransaction();
         //}
-
+        
         //public void Dispose()
         //{
         //    _transaction.Rollback();

@@ -13,10 +13,10 @@ using Microsoft.AspNetCore.JsonPatch;
 
 namespace AccountsApi.V1.Controllers
 {
-    [ApiController] 
+    [ApiController]
     [Route("api/v1/accounts")]
     [Produces("application/json")]
-    [ApiVersion("1.0")] 
+    [ApiVersion("1.0")]
     public class AccountApiController : BaseController
     {
         private readonly IGetAllUseCase _getAllUseCase;
@@ -33,7 +33,7 @@ namespace AccountsApi.V1.Controllers
             _getAllUseCase = getAllUseCase;
             _getByIdUseCase = getByIdUseCase;
             _addUseCase = addUseCase;
-            _updateUseCase = updateUseCase; 
+            _updateUseCase = updateUseCase;
         }
 
         /// <summary>
@@ -45,9 +45,9 @@ namespace AccountsApi.V1.Controllers
         /// <response code="404">Account with provided id cannot be found</response>
         /// <response code="500">Internal Server Error</response>
         [ProducesResponseType(typeof(AccountModel), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)

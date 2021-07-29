@@ -1,14 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AccountApi.V1.Domain;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Infrastructure;
-using Amazon.DynamoDBv2.Model;
-using Newtonsoft.Json;
 
 namespace AccountsApi.V1.Factories
 {
@@ -102,6 +95,6 @@ namespace AccountsApi.V1.Factories
                 RentGroupType = entity.RentGroupType,
                 Tenure = entity.Tenure
             };
-        }  
+        }
     }
 }
