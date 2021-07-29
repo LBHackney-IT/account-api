@@ -35,6 +35,7 @@ namespace AccountsApi.V1.Controllers
             _updateUseCase = updateUseCase; 
         }
 
+        // TODO summary
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
@@ -45,25 +46,32 @@ namespace AccountsApi.V1.Controllers
         {
             var accounts = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
             if (accounts == null)
+            {
                 return NotFound();
+            }
 
             return Ok(accounts);
         }
 
+        // TODO guid
+        // TODO summary
         [ProducesResponseType(typeof(AccountResponses), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string targetId,[FromQuery] AccountType accountType)
+        public async Task<IActionResult> Get([FromQuery] string targetId, [FromQuery] AccountType accountType)
         {
             var accounts = await _getAllUseCase.ExecuteAsync(Guid.Parse(targetId), accountType).ConfigureAwait(false);
             if (accounts == null)
+            {
                 return NotFound();
+            }
 
             return Ok(accounts);
         }
 
+        // TODO summary
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -79,7 +87,7 @@ namespace AccountsApi.V1.Controllers
             {
                 var accountResponse = await _addUseCase.ExecuteAsync(account).ConfigureAwait(false);
 
-                return CreatedAtAction($"Get",new { id = accountResponse.Id }, accountResponse);
+                return CreatedAtAction("Get", new { id = accountResponse.Id }, accountResponse);
             }
             else
             {
@@ -87,33 +95,40 @@ namespace AccountsApi.V1.Controllers
             }
         }
 
+        // TODO summary
+        // TODO patch!!
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
         [HttpPatch]
-        public async Task<IActionResult> Patch([FromRoute]Guid id,[FromBody]AccountResponse account)
+        public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] AccountResponse account)
         {
             if (account == null)
+            {
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
                     "Account model can't be null"));
+            }
 
             if (id != account.Id)
+            {
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
                     "Ids in route and model are different"));
+            }
 
             AccountResponse accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
             if (accountResponseObject == null)
+            {
                 return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound,
                     "The Account not found"));
+            }
 
             await _updateUseCase.ExecuteAsync(account.ToDomain()).ConfigureAwait(false);
 
-            return CreatedAtAction($"Get", new {id = id}, account);
-
+            // TODO check if only id is enough
+            return CreatedAtAction("Get", new { id }, account);
         }
-
     }
 }

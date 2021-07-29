@@ -41,7 +41,6 @@ namespace AccountsApi.V1.Factories
         {
             return new Account
             {
-                Id = Guid.NewGuid(),
                 AccountBalance = databaseEntity.AccountBalance,
                 AccountStatus = databaseEntity.AccountStatus,
                 EndDate = databaseEntity.EndDate,

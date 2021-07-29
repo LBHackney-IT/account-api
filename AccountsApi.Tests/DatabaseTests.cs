@@ -1,6 +1,5 @@
 namespace AccountsApi.Tests
 {
-
     public class DatabaseTests
     {
         //private IDbContextTransaction _transaction;
