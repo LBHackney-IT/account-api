@@ -10,6 +10,6 @@ namespace AccountsApi.V1.UseCase.Interfaces
 {
     public interface IAddUseCase
     {
-        public Task<AccountResponse> ExecuteAsync(AccountRequest account);
+        public Task<AccountModel> ExecuteAsync(AccountRequest account);
     }
 }

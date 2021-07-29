@@ -1,9 +1,9 @@
 using AccountsApi.V1.UseCase;
-using FluentAssertions; 
+using FluentAssertions;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
-{ 
+{
     public class ThrowOpsErrorUsecaseTests
     {
         [Fact]

@@ -8,7 +8,7 @@ using AccountsApi.V1.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccountsApi.V1.Gateways
-{ 
+{
     public class AccountApiGateway : IAccountApiGateway
     {
         private readonly AccountContext _accountDbContext;

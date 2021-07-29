@@ -30,6 +30,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
 
             // Assert
             httpContext.HttpContext.Request.Headers[Constants.CorrelationId].Should().BeEquivalentTo(headerValue);
+            httpContext.HttpContext.Response.Headers[Constants.CorrelationId].Should().BeEquivalentTo(headerValue);
         }
 
         [Fact]
@@ -43,6 +44,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
 
             // Assert
             httpContext.HttpContext.Request.Headers[Constants.CorrelationId].Should().HaveCountGreaterThan(0);
+            httpContext.HttpContext.Response.Headers[Constants.CorrelationId].Should().HaveCountGreaterThan(0);
         }
     }
 }

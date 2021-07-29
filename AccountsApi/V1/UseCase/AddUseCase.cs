@@ -5,6 +5,7 @@ using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase.Interfaces;
 using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
+using System;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -17,28 +18,15 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountResponse> ExecuteAsync(AccountRequest account)
+        public async Task<AccountModel> ExecuteAsync(AccountRequest account)
         {
-            Account _account = account.ToDomain();
-            await _gateway.AddAsync(_account).ConfigureAwait(false);
-            return _account.ToResponse();
+            Account domain = account.ToDomain();
+
+            domain.Id = Guid.NewGuid();
+
+            await _gateway.AddAsync(domain).ConfigureAwait(false);
+
+            return domain.ToResponse();
         }
     }
 }
-
-
-/*
-
-            if (charge == null)
-            {
-                throw new ArgumentNullException(nameof(charge));
-            }
-
-            var domainModel = charge.ToDomain();
-
-            domainModel.Id = Guid.NewGuid();
-
-            await _gateway.AddAsync(domainModel).ConfigureAwait(false);
-            return domainModel.ToResponse();
- 
- */

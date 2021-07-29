@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AccountsApi.V1.Boundary.Response
 {
-    public class AccountResponse
+    public class AccountModel
     {
         /// <example>
         ///     74c5fbc4-2fc8-40dc-896a-0cfa671fc832
@@ -76,7 +76,9 @@ namespace AccountsApi.V1.Boundary.Response
         ///     Active
         /// </example>
         public AccountStatus AccountStatus { get; set; }
+
         public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
+
         public Tenure Tenure { get; set; }
     }
 }

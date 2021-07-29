@@ -31,7 +31,7 @@ namespace AccountApi.V1.Infrastructure
         /// Stack Trace of Exception
         /// </summary>
         /// <example>
-        /// at ChargeApi.V1.UseCase.AddChargeUseCase.ExecuteAsync(AddChargeRequest charge)
+        /// at AccountsApi.V1.UseCase.AddAccoutUseCase.ExecuteAsync(AddChargeRequest charge)
         /// </example>
         public string Details { get; set; }
     }

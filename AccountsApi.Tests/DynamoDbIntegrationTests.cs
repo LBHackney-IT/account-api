@@ -8,7 +8,6 @@ namespace AccountsApi.Tests
 {
     public class DynamoDbIntegrationTests<TStartup> where TStartup : class,IDisposable
     {
-
         //protected HttpClient Client { get; private set; }
         //private DynamoDbMockWebApplicationFactory<TStartup> _factory;
         //protected IDynamoDBContext DynamoDbContext => _factory?.DynamoDbContext;

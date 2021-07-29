@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace AccountsApi.V1.UseCase
 {
-    //TODO: Rename class name and interface name to reflect the entity they are representing eg. GetClaimantByIdUseCase
     public class GetByIdUseCase : IGetByIdUseCase
     {
         private IAccountApiGateway _gateway;
@@ -16,9 +15,10 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountResponse> ExecuteAsync(Guid id)
+        public async Task<AccountModel> ExecuteAsync(Guid id)
         {
             var data = await _gateway.GetByIdAsync(id).ConfigureAwait(false);
+
             return data?.ToResponse();
         }
     }
