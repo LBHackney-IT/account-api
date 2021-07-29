@@ -18,10 +18,8 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountModel> ExecuteAsync(AccountModel account, JsonPatchDocument<AccountModel> patchDoc)
+        public async Task<AccountModel> ExecuteAsync(AccountModel account)
         {
-            patchDoc.ApplyTo(account);
-
             await _gateway.UpdateAsync(account.ToDomain()).ConfigureAwait(false);
 
             return account;

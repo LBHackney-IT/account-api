@@ -21,14 +21,16 @@ namespace AccountsApi.Tests.V1.Infrastructure
         {
             // Arrange
             var httpContext = new DefaultHttpContext();
+            var headerValue = "123";
+
+            httpContext.HttpContext.Request.Headers.Add(Constants.CorrelationId, headerValue);
 
             // Act
             await _sut.InvokeAsync(httpContext).ConfigureAwait(false);
 
             // Assert
-            httpContext.HttpContext.Request.Headers[Constants.CorrelationId].Should().NotBeNull();
-            httpContext.HttpContext.Response.Headers[Constants.CorrelationId].Should()
-                .BeEquivalentTo(httpContext.HttpContext.Request.Headers[Constants.CorrelationId]);
+            httpContext.HttpContext.Request.Headers[Constants.CorrelationId].Should().BeEquivalentTo(headerValue);
+            httpContext.HttpContext.Response.Headers[Constants.CorrelationId].Should().BeEquivalentTo(headerValue);
         }
 
         [Fact]

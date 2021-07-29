@@ -119,6 +119,11 @@ namespace AccountsApi
 
             RegisterGateways(services);
             RegisterUseCases(services);
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         private static void ConfigureDbContext(IServiceCollection services)

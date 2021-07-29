@@ -149,7 +149,14 @@ namespace AccountsApi.V1.Controllers
                     "The Account not found"));
             }
 
-            var result = await _updateUseCase.ExecuteAsync(accountResponseObject, patchDoc).ConfigureAwait(false);
+            patchDoc.ApplyTo(accountResponseObject, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelStateExtension.GetErrorMessages(ModelState)));
+            }
+
+            var result = await _updateUseCase.ExecuteAsync(accountResponseObject).ConfigureAwait(false);
 
             return CreatedAtAction("Get", id, result);
         }
