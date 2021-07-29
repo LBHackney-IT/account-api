@@ -37,14 +37,15 @@ namespace AccountsApi
 
         public IConfiguration Configuration { get; }
         private static List<ApiVersionDescription> _apiVersions { get; set; }
-        //TODO update the below to the name of your API
-        private const string ApiName = "Your API Name";
+
+        private const string ApiName = "AccountAPI";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddMvc()
+                .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddApiVersioning(o =>
             {
@@ -114,8 +115,6 @@ namespace AccountsApi
 
             ConfigureLogging(services, Configuration);
 
-            //ConfigureDbContext(services);
-            //TODO: For DynamoDb, remove the line above and uncomment the line below.
             services.ConfigureDynamoDB();
 
             RegisterGateways(services);
@@ -178,8 +177,6 @@ namespace AccountsApi
                 app.UseHsts();
             }
 
-            // TODO
-            // If you DON'T use the renaming script, PLEASE replace with your own API name manually
             app.UseXRay("accounts-api");
 
 

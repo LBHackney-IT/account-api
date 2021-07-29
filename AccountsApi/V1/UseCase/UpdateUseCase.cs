@@ -3,6 +3,8 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase.Interfaces;
+using Microsoft.AspNetCore.JsonPatch;
+using System;
 using System.Threading.Tasks;
 
 namespace AccountsApi.V1.UseCase
@@ -16,11 +18,13 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountResponse> ExecuteAsync(Account account)
+        public async Task<AccountModel> ExecuteAsync(AccountModel account, JsonPatchDocument<AccountModel> patchDoc)
         {
-            await _gateway.UpdateAsync(account).ConfigureAwait(false);
+            patchDoc.ApplyTo(account);
 
-            return account.ToResponse();
+            await _gateway.UpdateAsync(account.ToDomain()).ConfigureAwait(false);
+
+            return account;
         }
     }
 }

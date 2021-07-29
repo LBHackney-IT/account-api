@@ -4,6 +4,6 @@ namespace AccountsApi.V1.Boundary.Response
 {
     public class AccountResponses
     {
-        public List<AccountResponse> AccountResponseObjects { get; set; }
+        public List<AccountModel> AccountResponseObjects { get; set; }
     }
 }

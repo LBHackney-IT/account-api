@@ -9,6 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AccountApi.V1.Infrastructure;
 using AccountsApi.V1.Boundary.Request;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace AccountsApi.V1.Controllers
 {
@@ -35,8 +36,15 @@ namespace AccountsApi.V1.Controllers
             _updateUseCase = updateUseCase; 
         }
 
-        // TODO summary
-        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
+        /// <summary>
+        /// Get an Account model
+        /// </summary>
+        /// <param name="id">The value by which we are looking for accounts</param>
+        /// <response code="200">Success. Account model was received successfully</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Account with provided id cannot be found</response>
+        /// <response code="500">Internal Server Error</response>
+        [ProducesResponseType(typeof(AccountModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse),StatusCodes.Status500InternalServerError)]
@@ -44,25 +52,34 @@ namespace AccountsApi.V1.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Get([FromRoute] Guid id)
         {
-            var accounts = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
-            if (accounts == null)
+            var account = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
+
+            if (account == null)
             {
                 return NotFound();
             }
 
-            return Ok(accounts);
+            return Ok(account);
         }
 
-        // TODO guid
-        // TODO summary
+        /// <summary>
+        /// Get a list of Account models
+        /// </summary>
+        /// <param name="targetId">The target id by which we are looking for account</param>
+        /// <param name="accountType">The account type by which we are looking for accounts</param>
+        /// <response code="200">Success. Account models was received successfully</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Accounts with provided id cannot be found</response>
+        /// <response code="500">Internal Server Error</response>
         [ProducesResponseType(typeof(AccountResponses), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string targetId, [FromQuery] AccountType accountType)
+        public async Task<IActionResult> Get([FromQuery] Guid targetId, [FromQuery] AccountType accountType)
         {
-            var accounts = await _getAllUseCase.ExecuteAsync(Guid.Parse(targetId), accountType).ConfigureAwait(false);
+            var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);
+
             if (accounts == null)
             {
                 return NotFound();
@@ -71,8 +88,14 @@ namespace AccountsApi.V1.Controllers
             return Ok(accounts);
         }
 
-        // TODO summary
-        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status201Created)]
+        /// <summary>
+        /// Create an Account model
+        /// </summary>
+        /// <param name="account">Account model to create</param>
+        /// <response code="201">Success. Account model was created successfully</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="500">Internal Server Error</response>
+        [ProducesResponseType(typeof(AccountModel), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost]
@@ -95,29 +118,30 @@ namespace AccountsApi.V1.Controllers
             }
         }
 
-        // TODO summary
-        // TODO patch!!
-        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
+        /// <summary>
+        /// Update an account model
+        /// </summary>
+        /// <param name="id">The id by which we are looking for account</param>
+        /// <param name="patchDoc">Account model for update</param>
+        /// <response code="200">Success. Account model was updated successfully</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="404">Account with provided id cannot be found</response>
+        /// <response code="500">Internal Server Error</response>
+        [ProducesResponseType(typeof(AccountModel), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
         [HttpPatch]
-        public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] AccountResponse account)
+        public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<AccountModel> patchDoc)
         {
-            if (account == null)
+            if (patchDoc == null)
             {
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
                     "Account model can't be null"));
             }
 
-            if (id != account.Id)
-            {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
-                    "Ids in route and model are different"));
-            }
-
-            AccountResponse accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
+            var accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
             if (accountResponseObject == null)
             {
@@ -125,10 +149,9 @@ namespace AccountsApi.V1.Controllers
                     "The Account not found"));
             }
 
-            await _updateUseCase.ExecuteAsync(account.ToDomain()).ConfigureAwait(false);
+            var result = await _updateUseCase.ExecuteAsync(accountResponseObject, patchDoc).ConfigureAwait(false);
 
-            // TODO check if only id is enough
-            return CreatedAtAction("Get", new { id }, account);
+            return CreatedAtAction("Get", id, result);
         }
     }
 }

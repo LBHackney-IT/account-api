@@ -8,9 +8,9 @@ namespace AccountsApi.V1.Factories
 {
     public static class AccountResponseFactory
     {
-        public static AccountResponse ToResponse(this Account domain)
+        public static AccountModel ToResponse(this Account domain)
         {
-            return new AccountResponse()
+            return new AccountModel()
             {
                 AccountBalance = domain.AccountBalance,
                 AccountStatus = domain.AccountStatus,
@@ -28,7 +28,7 @@ namespace AccountsApi.V1.Factories
             };
         }
 
-        public static List<AccountResponse> ToResponse(this IEnumerable<Account> domainList)
+        public static List<AccountModel> ToResponse(this IEnumerable<Account> domainList)
         {
             return domainList.Select(domain => domain.ToResponse()).ToList();
         }
