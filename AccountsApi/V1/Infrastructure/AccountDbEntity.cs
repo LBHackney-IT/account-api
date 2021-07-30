@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AccountsApi.V1.Infrastructure
 {
-    [DynamoDBTable("accounts_table", LowerCamelCaseProperties = true)]
+    [DynamoDBTable("accounts", LowerCamelCaseProperties = true)]
     public class AccountDbEntity
     {
         [DynamoDBHashKey]

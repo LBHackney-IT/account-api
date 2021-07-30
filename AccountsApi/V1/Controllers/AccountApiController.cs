@@ -1,6 +1,5 @@
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
-using AccountsApi.V1.Factories;
 using AccountsApi.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
