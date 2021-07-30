@@ -8,7 +8,7 @@ using System.Net;
 using System.Threading.Tasks;
 using AccountApi.V1.Infrastructure;
 
-namespace AccountApi.V1
+namespace AccountsApi.V1
 {
     public class ExceptionMiddleware
     {
