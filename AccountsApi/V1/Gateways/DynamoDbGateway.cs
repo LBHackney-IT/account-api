@@ -24,6 +24,24 @@ namespace AccountsApi.V1.Gateways
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
+        public async Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
+        {
+            List<ScanCondition> scanConditions = new List<ScanCondition>();
+
+            ScanCondition scanConditionAccountType = new ScanCondition("AccountType", ScanOperator.Equal, accountType);
+            ScanCondition scanConditionAccountBalance = new ScanCondition("AccountBalance", ScanOperator.LessThan, 0.0M);
+
+            scanConditions.Add(scanConditionAccountType);
+            scanConditions.Add(scanConditionAccountBalance);
+
+            var data = await _dynamoDbContext
+                .ScanAsync<AccountDbEntity>(scanConditions)
+                .GetRemainingAsync()
+                .ConfigureAwait(false);
+
+            return data.Sort(sortBy, direction).Select(p => p.ToDomain()).ToList();
+        }
+
         public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
             List<ScanCondition> scanConditions = new List<ScanCondition>();

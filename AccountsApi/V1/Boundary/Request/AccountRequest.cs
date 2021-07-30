@@ -41,11 +41,10 @@ namespace AccountsApi.V1.Boundary.Request
         [Required]
         public string AgreementType { get; set; }
 
-        // TODO check this
         /// <example>
         ///     123.01
         /// </example>
-        public decimal AccountBalance => 0;
+        public decimal AccountBalance { get; set; }
 
         /// <example>
         ///     Admin

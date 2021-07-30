@@ -60,7 +60,7 @@ namespace AccountsApi.V1.Boundary.Response
         /// <example>
         ///     021-03-29T15:10:37.471Z
         /// </example>
-        public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdatedDate { get; set; }
 
         /// <example>
         ///     021-03-29T15:10:37.471Z

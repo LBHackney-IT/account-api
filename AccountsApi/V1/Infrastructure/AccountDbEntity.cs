@@ -40,8 +40,8 @@ namespace AccountsApi.V1.Infrastructure
         [DynamoDBProperty(AttributeName = "created_date", Converter = typeof(DynamoDbDateTimeConverter))]
         public DateTime CreatedDate { get; set; }
 
-        [DynamoDBProperty(AttributeName = "last_updated", Converter = typeof(DynamoDbDateTimeConverter))]
-        public DateTime LastUpdated { get; set; }
+        [DynamoDBProperty(AttributeName = "last_updated_date", Converter = typeof(DynamoDbDateTimeConverter))]
+        public DateTime LastUpdatedDate { get; set; }
 
         [DynamoDBProperty(AttributeName = "start_date", Converter = typeof(DynamoDbDateTimeConverter))]
         public DateTime StartDate { get; set; }

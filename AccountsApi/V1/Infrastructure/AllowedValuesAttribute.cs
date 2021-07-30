@@ -11,6 +11,7 @@ namespace AccountApi.V1.Infrastructure
         private readonly List<TargetType> _allowedTargetTypeEnumItems;
         private readonly List<AccountType> _allowedAccountTypeEnumItems;
         private readonly List<AccountStatus> _allowedAccountStatusEnumItems;
+        private readonly List<Direction> _allowedDirectionEnumItems;
 
         public AllowedValuesAttribute(params TargetType[] allowedEnumItems)
         {
@@ -26,6 +27,10 @@ namespace AccountApi.V1.Infrastructure
             _allowedAccountStatusEnumItems = allowedEnumItems.ToList();
         }
 
+        public AllowedValuesAttribute(params Direction[] allowedEnumItems)
+        {
+            _allowedDirectionEnumItems = allowedEnumItems.ToList();
+        }
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -59,7 +64,7 @@ namespace AccountApi.V1.Infrastructure
 
                 if (!valueType.IsEnum || !Enum.IsDefined(typeof(AccountType), value))
                 {
-                    return new ValidationResult($"{validationContext.MemberName} should be a type of TargetType enum.");
+                    return new ValidationResult($"{validationContext.MemberName} should be a type of AccountType enum.");
                 }
 
                 var isValid = _allowedAccountTypeEnumItems.Contains((AccountType) value);
@@ -78,7 +83,7 @@ namespace AccountApi.V1.Infrastructure
 
                 if (!valueType.IsEnum || !Enum.IsDefined(typeof(AccountStatus), value))
                 {
-                    return new ValidationResult($"{validationContext.MemberName} should be a type of TargetType enum.");
+                    return new ValidationResult($"{validationContext.MemberName} should be a type of AccountStatus enum.");
                 }
 
                 var isValid = _allowedAccountStatusEnumItems.Contains((AccountStatus) value);
@@ -92,8 +97,29 @@ namespace AccountApi.V1.Infrastructure
                     return new ValidationResult($"{validationContext.MemberName} should be in a range: [{string.Join(", ", _allowedAccountStatusEnumItems.Select(a => $"{(int) a}({a})"))}].");
                 }
             }
+            else if (value.GetType() == typeof(Direction))
+            {
+
+                if (!valueType.IsEnum || !Enum.IsDefined(typeof(Direction), value))
+                {
+                    return new ValidationResult($"{validationContext.MemberName} should be a type of Direction enum.");
+                }
+
+                var isValid = _allowedDirectionEnumItems.Contains((Direction) value);
+
+                if (isValid)
+                {
+                    return ValidationResult.Success;
+                }
+                else
+                {
+                    return new ValidationResult($"{validationContext.MemberName} should be in a range: [{string.Join(", ", _allowedDirectionEnumItems.Select(a => $"{(int) a}({a})"))}].");
+                }
+            }
             else
+            {
                 return ValidationResult.Success;
+            }
         }
     }
 }
