@@ -1,41 +1,30 @@
 using AccountsApi.V1.Domain;
+using ChargeApi.V1.Infrastructure;
 using System;
-using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
-namespace AccountsApi.V1.Domain
+namespace AccountsApi.Tests.V1.Boundary.Request
 {
-    public class Account
+    public class AccountRequestTests
     {
-        public Guid Id { get; set; }
+        public void AccountRequestHasPropertiesSet()
+        {
+
+        }
 
         public TargetType TargetType { get; set; }
-
         public Guid TargetId { get; set; }
-
         public AccountType AccountType { get; set; }
-
         public RentGroupType RentGroupType { get; set; }
-
         public string AgreementType { get; set; }
-
-        public decimal AccountBalance { get; set; }
-
+        public decimal AccountBalance => 0;
         public string CreatedBy { get; set; }
-
         public string LastUpdatedBy { get; set; }
-
         public DateTime CreatedDate { get; set; }
-
         public DateTime LastUpdatedDate { get; set; }
-
         public DateTime StartDate { get; set; }
-
         public DateTime EndDate { get; set; }
-
         public AccountStatus AccountStatus { get; set; }
-
-        public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
-
-        public Tenure Tenure { get; set; }
     }
 }

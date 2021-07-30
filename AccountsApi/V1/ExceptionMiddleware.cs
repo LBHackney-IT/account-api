@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using AccountApi.V1.Infrastructure;
+using AccountsApi.V1.Infrastructure;
 
 namespace AccountsApi.V1
 {

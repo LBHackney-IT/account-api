@@ -1,7 +1,6 @@
 
 using System;
 using System.Collections.Generic;
-using AccountApi.V1.Domain;
 using AccountsApi.V1.Domain;
 
 namespace AccountsApi.Tests.V1.Helper

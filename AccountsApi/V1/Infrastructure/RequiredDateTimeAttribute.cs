@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ChargeApi.V1.Infrastructure
+namespace AccountsApi.V1.Infrastructure
 {
     public class RequiredDateTimeAttribute : ValidationAttribute
     {

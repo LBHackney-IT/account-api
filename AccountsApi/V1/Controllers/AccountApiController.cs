@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using AccountApi.V1.Infrastructure;
+using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.Boundary.Request;
 using Microsoft.AspNetCore.JsonPatch;
 

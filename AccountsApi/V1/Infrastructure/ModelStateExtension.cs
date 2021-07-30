@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace AccountApi.V1.Infrastructure
+namespace AccountsApi.V1.Infrastructure
 {
     public static class ModelStateExtension
     {
