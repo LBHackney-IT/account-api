@@ -153,7 +153,7 @@ namespace AccountsApi.V1.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelStateExtension.GetErrorMessages(ModelState)));
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
             }
 
             var result = await _updateUseCase.ExecuteAsync(accountResponseObject).ConfigureAwait(false);
