@@ -1,4 +1,3 @@
-using AccountApi.V1.Domain;
 using AccountsApi.V1.Domain;
 using Amazon.DynamoDBv2.DataModel;
 using System;
