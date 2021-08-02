@@ -24,15 +24,13 @@ namespace AccountsApi.V1.Boundary.Request
         /// <example>
         ///     Master
         /// </example>
-        ///[AllowedValues(AccountType.Master,AccountType.Recharge,AccountType.Sundry)]
-        [Required]
+        [AllowedValues(typeof(AccountType))]
         public AccountType AccountType { get; set; }
 
         /// <example>
         ///     MajorWorks
         /// </example>
-        [Required]
-        [NotNull]
+        [AllowedValues(typeof(RentGroupType))]
         public RentGroupType RentGroupType { get; set; }
 
         /// <example>
@@ -86,7 +84,7 @@ namespace AccountsApi.V1.Boundary.Request
         ///     Active
         /// </example>
         [Required]
-        [AllowedValues(typeof(AccountType))]
+        [AllowedValues(typeof(AccountStatus))]
         public AccountStatus AccountStatus { get; set; }
     }
 }
