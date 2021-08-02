@@ -13,7 +13,7 @@ namespace AccountsApi.V1.Boundary.Request
         /// Master
         /// </example>
         [Required]
-        [AllowedValues(AccountType.Master, AccountType.Recharge, AccountType.Sundry)]
+        [AllowedValues(typeof(AccountType))]
         public AccountType Type { get; set; }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace AccountsApi.V1.Boundary.Request
         /// <example>
         /// Asc
         /// </example>
-        [AllowedValues(Direction.Asc, Direction.Desc)]
+        [AllowedValues(typeof(Direction))]
         public Direction Direction { get; set; }
     }
 }

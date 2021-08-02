@@ -12,7 +12,7 @@ namespace AccountsApi.V1.Boundary.Request
         /// <example>
         ///     Estate
         /// </example>
-        [AllowedValues(TargetType.Block, TargetType.Core, TargetType.Estate, TargetType.Flat)]
+        [AllowedValues(typeof(TargetType))]
         public TargetType TargetType { get; set; }
 
         /// <example>
@@ -86,7 +86,7 @@ namespace AccountsApi.V1.Boundary.Request
         ///     Active
         /// </example>
         [Required]
-        [AllowedValues(AccountStatus.Active, AccountStatus.Ended, AccountStatus.Suspended)]
+        [AllowedValues(typeof(AccountType))]
         public AccountStatus AccountStatus { get; set; }
     }
 }
