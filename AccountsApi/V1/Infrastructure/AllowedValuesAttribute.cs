@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace AccountApi.V1.Infrastructure
 {
@@ -18,7 +19,8 @@ namespace AccountApi.V1.Infrastructure
 
             if (!valueType.IsEnum || !Enum.IsDefined(_type, value))
             {
-                return new ValidationResult($"{validationContext.MemberName} should be a type of {_type} enum.");
+                var values = Enum.GetNames(_type);
+                return new ValidationResult($"{validationContext.MemberName} field should be a type of {_type.Name} enum. Values: {string.Join(", ", values.Select(a => a))}");
             }
 
             return ValidationResult.Success;
