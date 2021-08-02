@@ -84,6 +84,40 @@ namespace AccountsApi.Tests.V1.Controllers
                                 AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
                                 FullAddress = "Hamilton Street 123 Alley 4.12",TenancyId = "123"
                             }
+                        },
+                        new AccountModel
+                        {
+                            Id = Guid.Parse("72aa6932-e98d-41a1-a4d4-2b44135554f7"),
+                            TargetType = TargetType.Core,
+                            TargetId = Guid.Parse("64c5fbc4-2fc8-40dc-896a-0cfa671fc831"),
+                            AccountType = AccountType.Recharge,
+                            RentGroupType= RentGroupType.GenFundRents,
+                            AgreementType = "Agreement type 002",
+                            AccountBalance = 225.23M,
+                            CreatedBy = "002",
+                            LastUpdatedBy = "Staff-001",
+                            CreatedDate = new DateTime(2021,07,30),
+                            LastUpdated= new DateTime(2021,07,30),
+                            StartDate= new DateTime(2021,07,30),
+                            EndDate= new DateTime(2021,07,30),
+                            AccountStatus = AccountStatus.Active,
+                            ConsolidatedCharges = new List<ConsolidatedCharge>
+                            {
+                                new ConsolidatedCharge
+                                {
+                                    Amount = 125,Frequency = "Weekly",Type = "Water"
+                                },
+                                new ConsolidatedCharge
+                                {
+                                    Amount = 123,Frequency = "Weekly",Type = "Elevator"
+                                }
+                            },
+                            Tenure =new Tenure
+                            {
+                                TenancyType = "INT",
+                                AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
+                                FullAddress = "Hamilton Street 123 Alley 4.12",TenancyId = "123"
+                            }
                         }
                     }
                 });
@@ -96,6 +130,10 @@ namespace AccountsApi.Tests.V1.Controllers
             var okResult = result as OkObjectResult;
 
             okResult.Should().NotBeNull();
+
+            var accounts = okResult.Value as AccountResponses;
+
+            accounts.Should().NotBeNull();
 
         }
     }
