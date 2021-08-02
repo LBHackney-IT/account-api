@@ -26,6 +26,7 @@ namespace AccountsApi.V1.Boundary.Response
         /// <example>
         ///     Master
         /// </example>
+        
         public AccountType AccountType { get; set; }
 
         /// <example>
@@ -34,7 +35,7 @@ namespace AccountsApi.V1.Boundary.Response
         public RentGroupType RentGroupType { get; set; }
 
         /// <example>
-        ///     GHFHDHJGSDFG-FJHSGDJF-7634856-GJFJHDGJH
+        ///     Master Account
         /// </example>
         public string AgreementType { get; set; }
 

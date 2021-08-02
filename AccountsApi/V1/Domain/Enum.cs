@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace AccountsApi.V1.Domain
 {
@@ -23,7 +19,6 @@ namespace AccountsApi.V1.Domain
     {
         Mr,
         Mrs,
-
         Ms,
         Dr
     }

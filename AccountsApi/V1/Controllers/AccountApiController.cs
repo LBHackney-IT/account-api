@@ -51,12 +51,13 @@ namespace AccountsApi.V1.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
+            if(id==Guid.Empty)
+                throw new ArgumentNullException("id is empty or null");
+
             var account = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
-            if (account == null)
-            {
-                return NotFound();
-            }
+            if (account == null) 
+                return NotFound(id); 
 
             return Ok(account);
         }
@@ -80,9 +81,7 @@ namespace AccountsApi.V1.Controllers
             var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);
 
             if (accounts == null)
-            {
                 return NotFound();
-            }
 
             return Ok(accounts);
         }
