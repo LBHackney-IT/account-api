@@ -13,10 +13,12 @@ namespace AccountsApi.V1.Gateways
     public class DynamoDbGateway : IAccountApiGateway
     {
         private readonly IDynamoDBContext _dynamoDbContext;
+        private readonly DynamoDbContextWrapper _wrapper;
 
-        public DynamoDbGateway(IDynamoDBContext dynamoDbContext)
+        public DynamoDbGateway(IDynamoDBContext dynamoDbContext, DynamoDbContextWrapper wrapper)
         {
             _dynamoDbContext = dynamoDbContext;
+            _wrapper = wrapper;
         }
 
         public async Task AddAsync(Account account)
@@ -34,9 +36,8 @@ namespace AccountsApi.V1.Gateways
             scanConditions.Add(scanConditionAccountType);
             scanConditions.Add(scanConditionAccountBalance);
 
-            var data = await _dynamoDbContext
-                .ScanAsync<AccountDbEntity>(scanConditions)
-                .GetRemainingAsync()
+            var data = await _wrapper
+                .ScanAsync(_dynamoDbContext, scanConditions)
                 .ConfigureAwait(false);
 
             return data.Sort(sortBy, direction).Select(p => p.ToDomain()).ToList();
@@ -52,9 +53,8 @@ namespace AccountsApi.V1.Gateways
             scanConditions.Add(scanConditionTargetId);
             scanConditions.Add(scanConditionAccountType);
 
-            var data = await _dynamoDbContext
-                .ScanAsync<AccountDbEntity>(scanConditions)
-                .GetRemainingAsync()
+            var data = await _wrapper
+                .ScanAsync(_dynamoDbContext, scanConditions)
                 .ConfigureAwait(false);
 
             return data.Select(p => p.ToDomain()).ToList();
