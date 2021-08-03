@@ -5,3 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:AccountsApi.Tests.V1.Controllers.AccountsApiControllerTests.GetByIdAsyncArgumentNullExceptionReturnsArgumentNullException(System.Guid)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:AccountsApi.Tests.V1.Controllers.AccountsApiControllerTests.GetByIdAsyncFormatExceptionReturnsFormatException(System.Guid)~System.Threading.Tasks.Task")]
