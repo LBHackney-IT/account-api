@@ -18,7 +18,6 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             AccountRequest request = Constants.ConstructorAccountRequestFromConstants();
 
             request.AccountStatus.Should().Be(Constants.ACCOUNTSTATUS);
-            request.AccountBalance.Should().Be(Constants.ACCOUNTBALANCE);
             request.AccountType.Should().Be(Constants.ACCOUNTTYPE);
             request.AgreementType.Should().Be(Constants.AGREEMENTTYPE);
             request.CreatedBy.Should().Be(Constants.CREATEDBY);

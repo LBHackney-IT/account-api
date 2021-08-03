@@ -15,7 +15,7 @@ namespace AccountsApi.V1.Factories
                 AccountBalance = domain.AccountBalance,
                 AccountStatus = domain.AccountStatus,
                 EndDate = domain.EndDate,
-                LastUpdated = domain.LastUpdatedDate,
+                LastUpdatedDate = domain.LastUpdatedDate,
                 LastUpdatedBy = domain.LastUpdatedBy,
                 CreatedDate = domain.CreatedDate,
                 CreatedBy = domain.CreatedBy,

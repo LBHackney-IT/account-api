@@ -51,8 +51,9 @@ namespace AccountsApi.V1.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
-            if(id==Guid.Empty)
-                throw new ArgumentNullException("id is empty or null");
+            if (id == Guid.Empty)
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
+                    "the id can not be empty or null"));
 
             var account = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
