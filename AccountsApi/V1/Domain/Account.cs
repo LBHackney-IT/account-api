@@ -19,7 +19,7 @@ namespace AccountsApi.V1.Domain
 
         public string AgreementType { get; set; }
 
-        public decimal AccountBalance { get; set; }
+        public decimal AccountBalance { get; set; } = 0;
 
         public string CreatedBy { get; set; }
 

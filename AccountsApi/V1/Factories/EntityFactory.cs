@@ -34,7 +34,6 @@ namespace AccountsApi.V1.Factories
         {
             return new Account
             {
-                AccountBalance = request.AccountBalance,
                 AccountStatus = request.AccountStatus,
                 EndDate = request.EndDate,
                 CreatedBy = request.CreatedBy,

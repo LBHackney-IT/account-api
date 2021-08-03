@@ -182,7 +182,7 @@ namespace AccountsApi.V1.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelStateExtension.GetErrorMessages(ModelState)));
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
             }
 
             var accounts = await _getAllArrearsUseCase.ExecuteAsync(arrearRequest).ConfigureAwait(false);

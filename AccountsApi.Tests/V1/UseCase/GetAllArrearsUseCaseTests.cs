@@ -40,9 +40,9 @@ namespace AccountsApi.Tests.V1.UseCase
 
             result.Should().NotBeNull();
 
-            result.AccountResponseObjects.Should().NotBeNull();
+            result.AccountResponseList.Should().NotBeNull();
 
-            result.AccountResponseObjects.Should().HaveCount(0);
+            result.AccountResponseList.Should().HaveCount(0);
         }
 
         [Fact]
@@ -101,13 +101,13 @@ namespace AccountsApi.Tests.V1.UseCase
 
             result.Should().NotBeNull();
 
-            result.AccountResponseObjects.Should().NotBeNull();
+            result.AccountResponseList.Should().NotBeNull();
 
-            result.AccountResponseObjects.Should().HaveCount(2);
+            result.AccountResponseList.Should().HaveCount(2);
+                                  
+            result.AccountResponseList[0].Should().BeEquivalentTo(gatewayResponse[0]);
 
-            result.AccountResponseObjects[0].Should().BeEquivalentTo(gatewayResponse[0]);
-
-            result.AccountResponseObjects[1].Should().BeEquivalentTo(gatewayResponse[1]);
+            result.AccountResponseList[1].Should().BeEquivalentTo(gatewayResponse[1]);
         }
     }
 }

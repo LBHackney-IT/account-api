@@ -21,7 +21,7 @@ namespace AccountsApi.V1.UseCase
             var response = await _gateway.GetAllArrearsAsync(arrearRequest.Type, arrearRequest.SortBy, arrearRequest.Direction)
                 .ConfigureAwait(false);
 
-            return new AccountResponses() { AccountResponseObjects = response.ToResponse() };
+            return new AccountResponses() { AccountResponseList = response.ToResponse() };
         }
     }
 }
