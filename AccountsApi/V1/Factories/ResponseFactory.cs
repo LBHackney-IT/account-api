@@ -2,7 +2,6 @@ using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using System.Collections.Generic;
 using System.Linq;
-using AccountsApi.V1.Boundary.Request;
 
 namespace AccountsApi.V1.Factories
 {

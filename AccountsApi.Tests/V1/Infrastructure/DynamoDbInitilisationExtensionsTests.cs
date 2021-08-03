@@ -1,6 +1,6 @@
+using AccountsApi.V1.Infrastructure;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
-using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using System;

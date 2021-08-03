@@ -1,5 +1,3 @@
-using AccountsApi.V1.Gateways;
-
 namespace AccountsApi.Tests.V1.Gateways
 {
     //TODO: Remove this file if Postgres gateway is not being used

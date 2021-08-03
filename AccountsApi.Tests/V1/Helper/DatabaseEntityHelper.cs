@@ -1,6 +1,5 @@
-using AutoFixture;
-using AccountsApi.V1.Domain;
 using AccountsApi.V1.Infrastructure;
+using AutoFixture;
 
 namespace AccountsApi.Tests.V1.Helper
 {

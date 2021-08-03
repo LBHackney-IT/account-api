@@ -1,7 +1,7 @@
+using AccountsApi.V1.Domain;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AccountsApi.V1.Domain;
 
 namespace AccountsApi.V1.Gateways
 {

@@ -5,4 +5,5 @@
 
 using System.Diagnostics.CodeAnalysis;
 
+[assembly: SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable", Justification = "<Pending>", Scope = "type", Target = "~T:AccountsApi.Tests.V1.Controllers.AccountApiControllerTests")]
 [assembly: SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "<Pending>", Scope = "member", Target = "~M:AccountsApi.Tests.V1.Controllers.AccountsApiControllerTests.GetAllArrears_UseCaseThrowException_Returns500~System.Threading.Tasks.Task")]

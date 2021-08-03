@@ -1,12 +1,6 @@
-using System.Linq;
-using AutoFixture;
-using AccountsApi.V1.Boundary.Response;
-using AccountsApi.V1.Domain;
-using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways;
-using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase;
-using FluentAssertions;
+using AutoFixture;
 using Moq;
 
 namespace AccountsApi.Tests.V1.UseCase

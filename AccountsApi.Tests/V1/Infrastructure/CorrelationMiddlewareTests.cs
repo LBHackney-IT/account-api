@@ -1,12 +1,11 @@
-using System.Threading.Tasks;
 using AccountsApi.V1.Controllers;
-using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
-using Microsoft.AspNetCore.Http; 
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Infrastructure
-{ 
+{
     public class CorrelationMiddlewareTest
     {
         private CorrelationMiddleware _sut;

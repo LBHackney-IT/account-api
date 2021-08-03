@@ -1,7 +1,6 @@
-using AutoFixture;
-using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
+using AutoFixture;
 using FluentAssertions;
 using Xunit;
 

@@ -1,7 +1,7 @@
 namespace AccountsApi.Tests.V1.Infrastructure
 {
     //TODO: Remove this file if Postgres is not being used
- 
+
     public class DatabaseContextTest : DatabaseTests
     {
         // [Test]

@@ -1,13 +1,13 @@
-using System.Collections.Generic;
 using AccountsApi.V1.Controllers;
 using AccountsApi.V1.UseCase;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Controllers
 {
-     
+
     public class HealthCheckControllerTests
     {
         private HealthCheckController _classUnderTest;

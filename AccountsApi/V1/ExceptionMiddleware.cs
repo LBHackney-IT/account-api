@@ -1,3 +1,4 @@
+using AccountsApi.V1.Infrastructure;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -6,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using AccountsApi.V1.Infrastructure;
 
 namespace AccountsApi.V1
 {
