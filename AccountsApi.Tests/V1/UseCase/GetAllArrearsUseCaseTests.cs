@@ -104,9 +104,7 @@ namespace AccountsApi.Tests.V1.UseCase
             result.AccountResponseList.Should().NotBeNull();
 
             result.AccountResponseList.Should().HaveCount(2);
-
             result.AccountResponseList[0].Should().BeEquivalentTo(gatewayResponse[0]);
-
             result.AccountResponseList[1].Should().BeEquivalentTo(gatewayResponse[1]);
         }
     }

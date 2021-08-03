@@ -19,7 +19,6 @@ namespace AccountsApi.V1.Domain
     {
         Mr,
         Mrs,
-
         Ms,
         Dr
     }

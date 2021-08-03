@@ -54,12 +54,14 @@ namespace AccountsApi.V1.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
+            if (id == Guid.Empty)
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
+                    "the id can not be empty or null"));
+
             var account = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
-            if (account == null)
-            {
-                return NotFound();
-            }
+            if (account == null) 
+                return NotFound(id); 
 
             return Ok(account);
         }
@@ -83,9 +85,7 @@ namespace AccountsApi.V1.Controllers
             var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);
 
             if (accounts == null)
-            {
                 return NotFound();
-            }
 
             return Ok(accounts);
         }
@@ -182,7 +182,7 @@ namespace AccountsApi.V1.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelStateExtension.GetErrorMessages(ModelState)));
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
             }
 
             var accounts = await _getAllArrearsUseCase.ExecuteAsync(arrearRequest).ConfigureAwait(false);

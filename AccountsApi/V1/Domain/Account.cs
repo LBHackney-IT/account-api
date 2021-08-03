@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace AccountsApi.V1.Domain
 {
@@ -10,14 +11,14 @@ namespace AccountsApi.V1.Domain
         public TargetType TargetType { get; set; }
 
         public Guid TargetId { get; set; }
-
+ 
         public AccountType AccountType { get; set; }
-
+ 
         public RentGroupType RentGroupType { get; set; }
 
         public string AgreementType { get; set; }
 
-        public decimal AccountBalance { get; set; }
+        public decimal AccountBalance { get; set; } = 0;
 
         public string CreatedBy { get; set; }
 
@@ -30,7 +31,7 @@ namespace AccountsApi.V1.Domain
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
+ 
         public AccountStatus AccountStatus { get; set; }
 
         public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
