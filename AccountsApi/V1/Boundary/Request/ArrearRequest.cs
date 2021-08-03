@@ -1,5 +1,5 @@
-using AccountApi.V1.Infrastructure;
 using AccountsApi.V1.Domain;
+using AccountsApi.V1.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 
 namespace AccountsApi.V1.Boundary.Request
