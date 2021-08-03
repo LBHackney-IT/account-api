@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountsApi.Tests.V1.Helper;
+using AccountsApi.V1.Boundary;
+using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Controllers;
 using AccountsApi.V1.Domain;
@@ -33,7 +37,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
         private readonly Fixture _fixture = new Fixture();
 
-        #region GetAll
+        #region GetAllAsync
         public AccountsApiControllerTests()
         {
             _getAllUseCase = new Mock<IGetAllUseCase>();
@@ -70,7 +74,7 @@ namespace AccountsApi.Tests.V1.Controllers
                             CreatedBy = "Admin",
                             LastUpdatedBy = "Staff-001",
                             CreatedDate = new DateTime(2021,07,30),
-                            LastUpdated= new DateTime(2021,07,30),
+                            LastUpdatedDate= new DateTime(2021,07,30),
                             StartDate= new DateTime(2021,07,30),
                             EndDate= new DateTime(2021,07,30),
                             AccountStatus = AccountStatus.Active,
@@ -105,7 +109,7 @@ namespace AccountsApi.Tests.V1.Controllers
                             CreatedBy = "002",
                             LastUpdatedBy = "Staff-001",
                             CreatedDate = new DateTime(2021,07,30),
-                            LastUpdated= new DateTime(2021,07,30),
+                            LastUpdatedDate= new DateTime(2021,07,30),
                             StartDate= new DateTime(2021,07,30),
                             EndDate= new DateTime(2021,07,30),
                             AccountStatus = AccountStatus.Active,
@@ -155,7 +159,7 @@ namespace AccountsApi.Tests.V1.Controllers
             accounts.AccountResponseList[0].CreatedBy.Should().Be("Admin");
             accounts.AccountResponseList[0].LastUpdatedBy.Should().Be("Staff-001");
             accounts.AccountResponseList[0].CreatedDate.Should().Be(new DateTime(2021, 07, 30));
-            accounts.AccountResponseList[0].LastUpdated.Should().Be(new DateTime(2021, 07, 30));
+            accounts.AccountResponseList[0].LastUpdatedDate.Should().Be(new DateTime(2021, 07, 30));
             accounts.AccountResponseList[0].StartDate.Should().Be(new DateTime(2021, 07, 30));
             accounts.AccountResponseList[0].EndDate.Should().Be(new DateTime(2021, 07, 30));
             accounts.AccountResponseList[0].AccountStatus.Should().Be(AccountStatus.Active);
@@ -211,8 +215,11 @@ namespace AccountsApi.Tests.V1.Controllers
                 async () => await _sut.GetAllAsync(Guid.Parse(s), Enum.Parse<AccountType>(accountType)).ConfigureAwait(false);
 
             getAllFunc.Should().Throw<ArgumentNullException>();
-        } 
+        }
         #endregion
+
+        #region GetByIdAsync
+
         [Fact]
         public async Task GetByIdAsyncFoundReturnsResponse()
         {
@@ -232,7 +239,7 @@ namespace AccountsApi.Tests.V1.Controllers
         {
             Guid id = Guid.NewGuid();
 
-            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>())).ReturnsAsync((AccountModel)null);
+            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>())).ReturnsAsync((AccountModel) null);
 
             var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
 
@@ -251,49 +258,93 @@ namespace AccountsApi.Tests.V1.Controllers
             func.Should().Throw<Exception>();
         }
 
-        [Theory]
-        [MemberData(nameof(MockParametersForNull.GetTestData),MemberType = typeof(MockParametersForNull))]
-        public async Task GetByIdAsyncArgumentNullExceptionReturnsArgumentNullException(Guid id)
+        [Fact]
+        public async Task GetByIdAsyncEmptyIdReturnsBadRequest()
         {
-            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>())).Throws(new Exception());
+            // Arrange
+            Guid id = Guid.Empty;
+            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(() => new AccountModel());
 
-            try
+            // Act
+            var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+        } 
+        #endregion
+
+        [Fact]
+        public async Task PostSuccessfullReturnsAccountModel()
+        {
+            // Arrange
+            AccountRequest request = new AccountRequest
             {
-                var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
-            }
-            catch (Exception ex)
+                TargetType = TargetType.Block,
+                TargetId = Guid.NewGuid(),
+                AccountType = AccountType.Recharge,
+                RentGroupType = RentGroupType.Garages,
+                AgreementType = "Agreement",
+                CreatedBy = "Admin",
+                LastUpdatedBy = "Admin",
+                CreatedDate = new DateTime(2021, 8, 3),
+                LastUpdatedDate = new DateTime(2021, 8, 3),
+                StartDate = new DateTime(2021, 9, 1),
+                EndDate = new DateTime(2022, 9, 1),
+                AccountStatus = AccountStatus.Active
+            };
+            Guid id = Guid.NewGuid();
+            AccountModel response = new AccountModel
             {
-                ex.Should().BeOfType<ArgumentNullException>();
-            }
+                Id = id,
+                TargetType = TargetType.Block,
+                TargetId = Guid.NewGuid(),
+                AccountType = AccountType.Recharge,
+                RentGroupType = RentGroupType.Garages,
+                AgreementType = "Agreement",
+                CreatedBy = "Admin",
+                LastUpdatedBy = "Admin",
+                CreatedDate = new DateTime(2021, 8, 3),
+                LastUpdatedDate = new DateTime(2021, 8, 3),
+                StartDate = new DateTime(2021, 9, 1),
+                EndDate = new DateTime(2022, 9, 1),
+                AccountStatus = AccountStatus.Active,
+                Tenure = null,
+                ConsolidatedCharges = null,
+                AccountBalance = 0
+            };
+
+            _addUseCase.Setup(x => x.ExecuteAsync(It.IsAny<AccountRequest>()))
+                .ReturnsAsync(response);
+
+            // Act
+            var result = await _sut.Post(request).ConfigureAwait(false);
+
+            // Assert
+            result.Should().NotBeNull();
+
+            AccountModel model = ((CreatedAtActionResult) result).Value as AccountModel;
+
+            model.Should().NotBeNull();
+
+            model.Id.Should().NotBeEmpty();
+            model.ConsolidatedCharges.Should().BeNull();
+            model.Tenure.Should().BeNull();
+            model.TargetType.Should().Be(TargetType.Block);
+            model.TargetId.Should().NotBeEmpty();
+            model.AccountType.Should().Be(AccountType.Recharge);
+            model.RentGroupType.Should().Be(RentGroupType.Garages);
+            model.AgreementType.Should().Be("Agreement");
+            model.CreatedBy.Should().Be("Admin");
+            model.LastUpdatedBy.Should().Be(model.CreatedBy);
+            model.CreatedDate.Should().Be(new DateTime(2021, 8, 3));
+            model.LastUpdatedDate.Should().Be(new DateTime(2021, 8, 3));
+            model.StartDate.Should().Be(new DateTime(2021, 9, 1));
+            model.EndDate.Should().Be(new DateTime(2022, 9, 1));
+            model.AccountStatus.Should().Be(AccountStatus.Active);
+            model.AccountBalance.Should().Be(0);
+
         }
 
-        [Theory]
-        [MemberData(nameof(MockParameterForFormatException.GetTestData),MemberType = typeof(MockParameterForFormatException))]
-        public async Task GetByIdAsyncFormatExceptionReturnsFormatException(Guid id)
-        {
-            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>()));//.Throws(new Exception("Exception Occured"));
-
-            try
-            {
-                var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
-            }
-            catch (NullReferenceException ex)
-            {
-                ex.Should().BeOfType<NullReferenceException>();
-            }
-            catch (ArgumentNullException ex)
-            {
-                ex.Should().BeOfType<ArgumentNullException>();
-            }
-            catch (FormatException ex)
-            {
-                ex.Should().BeOfType<FormatException>();
-            }
-            catch (Exception ex)
-            {
-                ex.Should().BeOfType<Exception>();
-                Assert.True(ex.Message.Equals("Exception Occured"));
-            }
-        }
     }
 }

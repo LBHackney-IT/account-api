@@ -34,7 +34,6 @@ namespace AccountsApi.V1.Factories
         {
             return new Account
             {
-                AccountBalance = databaseEntity.AccountBalance,
                 AccountStatus = databaseEntity.AccountStatus,
                 EndDate = databaseEntity.EndDate,
                 CreatedBy = databaseEntity.CreatedBy,
@@ -61,7 +60,7 @@ namespace AccountsApi.V1.Factories
                 CreatedBy = databaseEntity.CreatedBy,
                 CreatedDate = databaseEntity.CreatedDate,
                 LastUpdatedBy = databaseEntity.LastUpdatedBy,
-                LastUpdatedDate = databaseEntity.LastUpdated,
+                LastUpdatedDate = databaseEntity.LastUpdatedDate,
                 StartDate = databaseEntity.StartDate,
                 TargetId = databaseEntity.TargetId,
                 TargetType = databaseEntity.TargetType,
