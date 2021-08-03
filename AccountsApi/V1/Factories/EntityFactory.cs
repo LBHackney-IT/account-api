@@ -18,7 +18,7 @@ namespace AccountsApi.V1.Factories
                 CreatedBy = databaseEntity.CreatedBy,
                 CreatedDate = databaseEntity.CreatedDate,
                 LastUpdatedBy = databaseEntity.LastUpdatedBy,
-                LastUpdatedDate = databaseEntity.LastUpdated,
+                LastUpdatedDate = databaseEntity.LastUpdatedDate,
                 StartDate = databaseEntity.StartDate,
                 TargetId = databaseEntity.TargetId,
                 TargetType = databaseEntity.TargetType,
@@ -30,69 +30,69 @@ namespace AccountsApi.V1.Factories
             };
         }
 
-        public static Account ToDomain(this AccountRequest databaseEntity)
+        public static Account ToDomain(this AccountRequest request)
         {
             return new Account
             {
-                AccountStatus = databaseEntity.AccountStatus,
-                EndDate = databaseEntity.EndDate,
-                CreatedBy = databaseEntity.CreatedBy,
-                CreatedDate = databaseEntity.CreatedDate,
-                LastUpdatedBy = databaseEntity.LastUpdatedBy,
-                LastUpdatedDate = databaseEntity.LastUpdatedDate,
-                StartDate = databaseEntity.StartDate,
-                TargetId = databaseEntity.TargetId,
-                TargetType = databaseEntity.TargetType,
-                AccountType = databaseEntity.AccountType,
-                AgreementType = databaseEntity.AgreementType,
-                RentGroupType = databaseEntity.RentGroupType
+                AccountBalance = request.AccountBalance,
+                AccountStatus = request.AccountStatus,
+                EndDate = request.EndDate,
+                CreatedBy = request.CreatedBy,
+                CreatedDate = request.CreatedDate,
+                LastUpdatedBy = request.LastUpdatedBy,
+                LastUpdatedDate = request.LastUpdatedDate,
+                StartDate = request.StartDate,
+                TargetId = request.TargetId,
+                TargetType = request.TargetType,
+                AccountType = request.AccountType,
+                AgreementType = request.AgreementType,
+                RentGroupType = request.RentGroupType
             };
         }
 
-        public static Account ToDomain(this AccountModel databaseEntity)
+        public static Account ToDomain(this AccountModel model)
         {
-            Account account = new Account
+            return new Account
             {
-                Id = databaseEntity.Id,
-                AccountBalance = databaseEntity.AccountBalance,
-                AccountStatus = databaseEntity.AccountStatus,
-                EndDate = databaseEntity.EndDate,
-                CreatedBy = databaseEntity.CreatedBy,
-                CreatedDate = databaseEntity.CreatedDate,
-                LastUpdatedBy = databaseEntity.LastUpdatedBy,
-                LastUpdatedDate = databaseEntity.LastUpdatedDate,
-                StartDate = databaseEntity.StartDate,
-                TargetId = databaseEntity.TargetId,
-                TargetType = databaseEntity.TargetType,
-                AccountType = databaseEntity.AccountType,
-                AgreementType = databaseEntity.AgreementType,
-                RentGroupType = databaseEntity.RentGroupType,
-                Tenure = databaseEntity.Tenure,
-                ConsolidatedCharges = databaseEntity.ConsolidatedCharges
+                Id = model.Id,
+                AccountBalance = model.AccountBalance,
+                AccountStatus = model.AccountStatus,
+                EndDate = model.EndDate,
+                CreatedBy = model.CreatedBy,
+                CreatedDate = model.CreatedDate,
+                LastUpdatedBy = model.LastUpdatedBy,
+                LastUpdatedDate = model.LastUpdatedDate,
+                StartDate = model.StartDate,
+                TargetId = model.TargetId,
+                TargetType = model.TargetType,
+                AccountType = model.AccountType,
+                AgreementType = model.AgreementType,
+                RentGroupType = model.RentGroupType,
+                ConsolidatedCharges = model.ConsolidatedCharges,
+                Tenure = model.Tenure
             };
-            return account;
         }
 
-        public static AccountDbEntity ToDatabase(this Account entity)
+        public static AccountDbEntity ToDatabase(this Account account)
         {
             return new AccountDbEntity
             {
-                Id = entity.Id,
-                AccountBalance = entity.AccountBalance,
-                TargetType = entity.TargetType,
-                TargetId = entity.TargetId,
-                StartDate = entity.StartDate,
-                CreatedBy = entity.CreatedBy,
-                CreatedDate = entity.CreatedDate,
-                LastUpdatedBy = entity.LastUpdatedBy,
-                LastUpdated = entity.LastUpdatedDate,
-                EndDate = entity.EndDate,
-                AccountStatus = entity.AccountStatus,
-                AccountType = entity.AccountType,
-                AgreementType = entity.AgreementType,
-                ConsolidatedCharges = entity.ConsolidatedCharges,
-                RentGroupType = entity.RentGroupType,
-                Tenure = entity.Tenure
+                Id = account.Id,
+                AccountBalance = account.AccountBalance,
+                AccountStatus = account.AccountStatus,
+                EndDate = account.EndDate,
+                CreatedBy = account.CreatedBy,
+                CreatedDate = account.CreatedDate,
+                LastUpdatedBy = account.LastUpdatedBy,
+                LastUpdatedDate = account.LastUpdatedDate,
+                StartDate = account.StartDate,
+                TargetId = account.TargetId,
+                TargetType = account.TargetType,
+                AccountType = account.AccountType,
+                AgreementType = account.AgreementType,
+                RentGroupType = account.RentGroupType,
+                ConsolidatedCharges = account.ConsolidatedCharges,
+                Tenure = account.Tenure
             };
         }
     }

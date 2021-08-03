@@ -34,4 +34,11 @@ namespace AccountsApi.V1.Domain
     {
         LeaseHolders, GenFundRents, Garages, HaLeases, HraRents, MajorWorks, TempAcc, Travellers
     }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum Direction
+    {
+        Asc,
+        Desc
+    }
 }

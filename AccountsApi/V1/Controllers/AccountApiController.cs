@@ -22,17 +22,20 @@ namespace AccountsApi.V1.Controllers
         private readonly IGetByIdUseCase _getByIdUseCase;
         private readonly IAddUseCase _addUseCase;
         private readonly IUpdateUseCase _updateUseCase;
+        private readonly IGetAllArrearsUseCase _getAllArrearsUseCase;
 
         public AccountApiController(
             IGetAllUseCase getAllUseCase,
             IGetByIdUseCase getByIdUseCase,
             IAddUseCase addUseCase,
-            IUpdateUseCase updateUseCase)
+            IUpdateUseCase updateUseCase,
+            IGetAllArrearsUseCase getAllArrearsUseCase)
         {
             _getAllUseCase = getAllUseCase;
             _getByIdUseCase = getByIdUseCase;
             _addUseCase = addUseCase;
             _updateUseCase = updateUseCase;
+            _getAllArrearsUseCase = getAllArrearsUseCase;
         }
 
         /// <summary>
@@ -136,16 +139,14 @@ namespace AccountsApi.V1.Controllers
         {
             if (patchDoc == null)
             {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
-                    "Account model can't be null"));
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "Account model can't be null"));
             }
 
             var accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
             if (accountResponseObject == null)
             {
-                return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound,
-                    "The Account not found"));
+                return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound, "The Account not found"));
             }
 
             patchDoc.ApplyTo(accountResponseObject, ModelState);
@@ -158,6 +159,35 @@ namespace AccountsApi.V1.Controllers
             var result = await _updateUseCase.ExecuteAsync(accountResponseObject).ConfigureAwait(false);
 
             return CreatedAtAction("GetById", id, result);
+        }
+
+        /// <summary>
+        /// Get a list of Arrear Account models
+        /// </summary>
+        /// <param name="arrearRequest">Model for search and sort</param>
+        /// <response code="200">Success. Account models were received successfully</response>
+        /// <response code="400">Bad Request</response>
+        /// <response code="500">Internal Server Error</response>
+        [ProducesResponseType(typeof(AccountResponses), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+        [Route("arrears")]
+        [HttpGet]
+        public async Task<IActionResult> GetArrears([FromQuery] ArrearRequest arrearRequest)
+        {
+            if (arrearRequest == null)
+            {
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "ArrearRequest can't be null"));
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelStateExtension.GetErrorMessages(ModelState)));
+            }
+
+            var accounts = await _getAllArrearsUseCase.ExecuteAsync(arrearRequest).ConfigureAwait(false);
+
+            return Ok(accounts);
         }
     }
 }
