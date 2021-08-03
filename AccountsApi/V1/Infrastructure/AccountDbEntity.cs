@@ -1,4 +1,3 @@
-using AccountApi.V1.Domain;
 using AccountsApi.V1.Domain;
 using Amazon.DynamoDBv2.DataModel;
 using System;
@@ -6,7 +5,7 @@ using System.Collections.Generic;
 
 namespace AccountsApi.V1.Infrastructure
 {
-    [DynamoDBTable("accounts_table", LowerCamelCaseProperties = true)]
+    [DynamoDBTable("accounts", LowerCamelCaseProperties = true)]
     public class AccountDbEntity
     {
         [DynamoDBHashKey]

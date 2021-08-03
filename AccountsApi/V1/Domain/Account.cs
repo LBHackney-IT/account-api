@@ -1,4 +1,4 @@
-using AccountApi.V1.Domain;
+using AccountsApi.V1.Domain;
 using System;
 using System.Collections.Generic;
 

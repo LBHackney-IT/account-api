@@ -1,7 +1,8 @@
-using AccountApi.V1.Domain;
 using AccountsApi.V1.Domain;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AccountsApi.V1.Boundary.Response
 {
@@ -76,7 +77,8 @@ namespace AccountsApi.V1.Boundary.Response
         ///     Active
         /// </example>
         public AccountStatus AccountStatus { get; set; }
-
+        [Required]
+        [NotNull]
         public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
 
         public Tenure Tenure { get; set; }

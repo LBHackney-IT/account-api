@@ -1,13 +1,12 @@
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
-using AccountsApi.V1.Factories;
 using AccountsApi.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using AccountApi.V1.Infrastructure;
+using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.Boundary.Request;
 using Microsoft.AspNetCore.JsonPatch;
 
@@ -53,7 +52,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> Get([FromRoute] Guid id)
+        public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             var account = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
@@ -79,7 +78,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Guid targetId, [FromQuery] AccountType accountType)
+        public async Task<IActionResult> GetAllAsync([FromQuery] Guid targetId, [FromQuery] AccountType accountType)
         {
             var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);
 
@@ -113,7 +112,7 @@ namespace AccountsApi.V1.Controllers
             {
                 var accountResponse = await _addUseCase.ExecuteAsync(account).ConfigureAwait(false);
 
-                return CreatedAtAction("Get", new { id = accountResponse.Id }, accountResponse);
+                return CreatedAtAction("GetById", new { id = accountResponse.Id }, accountResponse);
             }
             else
             {
@@ -154,12 +153,12 @@ namespace AccountsApi.V1.Controllers
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelStateExtension.GetErrorMessages(ModelState)));
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
             }
 
             var result = await _updateUseCase.ExecuteAsync(accountResponseObject).ConfigureAwait(false);
 
-            return CreatedAtAction("Get", id, result);
+            return CreatedAtAction("GetById", id, result);
         }
 
         /// <summary>

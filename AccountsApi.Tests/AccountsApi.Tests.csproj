@@ -33,4 +33,8 @@
     <ProjectReference Include="..\AccountsApi\AccountsApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="V1\Boundary\Response\" />
+  </ItemGroup>
+
 </Project>

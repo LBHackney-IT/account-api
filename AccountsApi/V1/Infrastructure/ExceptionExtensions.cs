@@ -1,6 +1,6 @@
 using System;
 
-namespace AccountApi.V1.Infrastructure
+namespace AccountsApi.V1.Infrastructure
 {
     public static class ExceptionExtensions
     {
