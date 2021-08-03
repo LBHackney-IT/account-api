@@ -33,21 +33,4 @@ namespace AccountsApi.Tests.V1.Helper
             new object[]{ Guid.NewGuid(), AccountType.Sundry }
         };
     }
-
-    public static class MockParametersForNull
-    {
-        public static IEnumerable<object[]> GetTestData { get; } = new List<object[]>
-        {
-            new object[]{null}
-        };
-    }
-
-    public static class MockParameterForFormatException
-    {
-        public static IEnumerable<object[]> GetTestData { get; } = new List<object[]>
-        {
-            new object[]{Guid.Empty},
-            new object[]{Guid.NewGuid()}
-        };
-    }
 }
