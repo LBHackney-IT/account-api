@@ -11,7 +11,7 @@ namespace AccountsApi.V1.Boundary.Request
         /// <example>
         ///     Estate
         /// </example>
-        [AllowedValues(TargetType.Block, TargetType.Core, TargetType.Estate, TargetType.Flat)]
+        [AllowedValues(typeof(TargetType))]
         public TargetType TargetType { get; set; }
 
         /// <example>
@@ -23,15 +23,13 @@ namespace AccountsApi.V1.Boundary.Request
         /// <example>
         ///     Master
         /// </example>
-        ///[AllowedValues(AccountType.Master,AccountType.Recharge,AccountType.Sundry)]
-        [Required]
+        [AllowedValues(typeof(AccountType))]
         public AccountType AccountType { get; set; }
 
         /// <example>
         ///     MajorWorks
         /// </example>
-        [Required]
-        [NotNull]
+        [AllowedValues(typeof(RentGroupType))]
         public RentGroupType RentGroupType { get; set; }
 
         /// <example>
@@ -40,11 +38,10 @@ namespace AccountsApi.V1.Boundary.Request
         [Required]
         public string AgreementType { get; set; }
 
-        // TODO check this
         /// <example>
         ///     123.01
         /// </example>
-        public decimal AccountBalance => 0;
+        public decimal AccountBalance { get; set; }
 
         /// <example>
         ///     Admin
@@ -86,7 +83,7 @@ namespace AccountsApi.V1.Boundary.Request
         ///     Active
         /// </example>
         [Required]
-        [AllowedValues(AccountStatus.Active, AccountStatus.Ended, AccountStatus.Suspended)]
+        [AllowedValues(typeof(AccountStatus))]
         public AccountStatus AccountStatus { get; set; }
     }
 }

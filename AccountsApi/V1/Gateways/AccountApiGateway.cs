@@ -23,6 +23,15 @@ namespace AccountsApi.V1.Gateways
             await _accountDbContext.AddAsync(account).ConfigureAwait(false);
         }
 
+        public async Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
+        {
+            var data = _accountDbContext
+                .AccountEntities
+                .Where(x => x.AccountType == accountType);
+
+            return data.Sort(sortBy, direction).Select(p => p.ToDomain()).ToList();
+        }
+
         public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
             if (targetId == null)

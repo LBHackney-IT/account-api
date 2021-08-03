@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace AccountsApi.V1.Domain
 {
@@ -38,5 +34,12 @@ namespace AccountsApi.V1.Domain
     public enum RentGroupType
     {
         LeaseHolders, GenFundRents, Garages, HaLeases, HraRents, MajorWorks, TempAcc, Travellers
+    }
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public enum Direction
+    {
+        Asc,
+        Desc
     }
 }
