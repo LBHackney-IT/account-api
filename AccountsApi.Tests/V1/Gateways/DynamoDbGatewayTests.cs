@@ -1,22 +1,22 @@
-using System;
-using System.Threading.Tasks;
-using Amazon.DynamoDBv2.DataModel;
-using AutoFixture;
 using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.Infrastructure;
+using Amazon.DynamoDBv2.DataModel;
+using AutoFixture;
 using FluentAssertions;
 using Moq;
-using Xunit;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.Gateways
 {
     //TODO: Remove this file if DynamoDb gateway not being used
     //TODO: Rename Tests to match gateway name
     //For instruction on how to run tests please see the wiki: https://github.com/LBHackney-IT/lbh-accounts-api/wiki/Running-the-test-suite.
- 
+
     public class DynamoDbGatewayTests
     {
         private readonly Fixture _fixture = new Fixture();

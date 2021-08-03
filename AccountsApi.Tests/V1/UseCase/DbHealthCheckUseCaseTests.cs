@@ -1,13 +1,13 @@
-using System.Threading;
 using AccountsApi.V1.UseCase;
 using Bogus;
 using FluentAssertions;
 using Microsoft.Extensions.HealthChecks;
 using Moq;
+using System.Threading;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
-{ 
+{
     public class DbHealthCheckUseCaseTests
     {
 

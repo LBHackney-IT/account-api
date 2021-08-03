@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
@@ -16,6 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Controllers

@@ -1,10 +1,7 @@
 using AccountsApi.V1.Boundary.Response;
-using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase.Interfaces;
-using Microsoft.AspNetCore.JsonPatch;
-using System;
 using System.Threading.Tasks;
 
 namespace AccountsApi.V1.UseCase

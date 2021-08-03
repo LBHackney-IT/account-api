@@ -1,8 +1,7 @@
-using System.Linq;
-using System.Reflection.Metadata;
 using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Domain;
 using FluentAssertions;
+using System.Linq;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Domain

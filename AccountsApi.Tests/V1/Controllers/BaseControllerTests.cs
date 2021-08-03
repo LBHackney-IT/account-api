@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using AccountsApi.V1.Controllers;
-using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
+using System.Collections.Generic;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Controllers

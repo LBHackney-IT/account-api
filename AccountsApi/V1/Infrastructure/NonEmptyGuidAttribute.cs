@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-using AccountsApi.V1.Domain;
 
 namespace AccountsApi.V1.Infrastructure
 {

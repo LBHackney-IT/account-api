@@ -1,8 +1,7 @@
 
-using System;
-using System.Collections.Generic;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Domain;
+using System;
 
 namespace AccountsApi.Tests.V1.Helper
 {

@@ -1,14 +1,14 @@
+using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
+using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using AccountsApi.V1.Infrastructure;
-using AccountsApi.V1.Boundary.Request;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace AccountsApi.V1.Controllers
 {
