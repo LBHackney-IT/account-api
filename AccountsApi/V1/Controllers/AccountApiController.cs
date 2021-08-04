@@ -60,8 +60,10 @@ namespace AccountsApi.V1.Controllers
 
             var account = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
-            if (account == null) 
-                return NotFound(id); 
+            if (account == null)
+            {
+                return NotFound(id);
+            }
 
             return Ok(account);
         }
@@ -85,7 +87,9 @@ namespace AccountsApi.V1.Controllers
             var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);
 
             if (accounts == null)
+            {
                 return NotFound();
+            }
 
             return Ok(accounts);
         }

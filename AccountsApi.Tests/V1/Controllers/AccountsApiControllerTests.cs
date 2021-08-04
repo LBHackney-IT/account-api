@@ -1,4 +1,4 @@
-using AccountsApi.Tests.V1.Helper; 
+using AccountsApi.Tests.V1.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +46,6 @@ namespace AccountsApi.Tests.V1.Controllers
             HttpContext httpContext = new DefaultHttpContext();
             var controllerContext = new ControllerContext(new ActionContext(httpContext, new RouteData(), new ControllerActionDescriptor()));
             _sut = new AccountApiController(_getAllUseCase.Object, _getByIdUseCase.Object,
-                                            
                 _addUseCase.Object, _updateUseCase.Object, _getAllArrearsUseCase.Object)
             {
                 ControllerContext = controllerContext
@@ -232,7 +231,6 @@ namespace AccountsApi.Tests.V1.Controllers
 
             result.Should().BeOfType<OkObjectResult>();
             ((OkObjectResult) result).Value.Should().Be(accountModel);
- 
         }
 
         [Fact]

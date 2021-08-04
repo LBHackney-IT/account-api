@@ -9,8 +9,8 @@ namespace AccountsApi.Tests.V1.Infrastructure
     public class CorrelationMiddlewareTest
     {
         private CorrelationMiddleware _sut;
- 
-        public   CorrelationMiddlewareTest()
+
+        public CorrelationMiddlewareTest()
         {
             _sut = new CorrelationMiddleware(null);
         }

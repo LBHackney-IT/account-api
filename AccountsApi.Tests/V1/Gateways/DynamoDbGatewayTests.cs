@@ -19,7 +19,7 @@ namespace AccountsApi.Tests.V1.Gateways
         private readonly Mock<IDynamoDBContext> _dynamoDb;
         private readonly Mock<DynamoDbContextWrapper> _wrapper;
         private readonly DynamoDbGateway _gateway;
- 
+
         public DynamoDbGatewayTests()
         {
             _dynamoDb = new Mock<IDynamoDBContext>();
