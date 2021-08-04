@@ -28,7 +28,8 @@ namespace AccountsApi.V1.Gateways
         {
             var options = new JsonSerializerOptions
             {
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = true
             };
             options.Converters.Add(new JsonStringEnumConverter());
             return options;
