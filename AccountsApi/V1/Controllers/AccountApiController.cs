@@ -158,7 +158,7 @@ namespace AccountsApi.V1.Controllers
 
             var result = await _updateUseCase.ExecuteAsync(accountResponseObject).ConfigureAwait(false);
 
-            return CreatedAtAction("GetById", id, result);
+            return Ok(result);
         }
 
         /// <summary>

@@ -12,6 +12,7 @@ namespace AccountsApi.Tests.V1.Domain
         public void AccountHasPropertiesSet()
         {
             Account account = Constants.ConstructAccountFromConstants();
+
             account.Id.Should().Be(Constants.ID);
             account.ConsolidatedCharges.Should().ContainSingle();
             account.ConsolidatedCharges.First().Amount.Should().Be(Constants.AMOUNT);

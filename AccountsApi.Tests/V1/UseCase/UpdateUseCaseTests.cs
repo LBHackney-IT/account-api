@@ -1,3 +1,4 @@
+using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase;
@@ -9,32 +10,21 @@ using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
 {
-    public class GetByIdUseCaseTests
+    public class UpdateUseCaseTests
     {
-        private Mock<IAccountApiGateway> _gateway;
-        private GetByIdUseCase _getByIdUseCase;
+        private readonly Mock<IAccountApiGateway> _gateway;
+        private readonly UpdateUseCase _updateUseCase;
 
-        public GetByIdUseCaseTests()
+        public UpdateUseCaseTests()
         {
             _gateway = new Mock<IAccountApiGateway>();
-            _getByIdUseCase = new GetByIdUseCase(_gateway.Object);
+            _updateUseCase = new UpdateUseCase(_gateway.Object);
         }
 
         [Fact]
-        public async Task GetById_GatewayReturnsNull_ReturnsNull()
+        public async Task Update_ValidModel_ReturnsAccount()
         {
-            _gateway.Setup(_ => _.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync((Account) null);
-
-            var result = await _getByIdUseCase.ExecuteAsync(Guid.NewGuid()).ConfigureAwait(false);
-
-            result.Should().BeNull();
-        }
-
-        [Fact]
-        public async Task GetById_GatewayReturnsAccount_ReturnsAccount()
-        {
-            var gatewayResponse = new Account()
+            var assetModel = new AccountModel()
             {
                 Id = new Guid("b3b91924-1a3d-44b7-b38a-ae4ae5e57b69"),
                 TargetId = new Guid("2da59b6b-cdcb-46bd-ac61-1c10d1046285"),
@@ -52,14 +42,16 @@ namespace AccountsApi.Tests.V1.UseCase
                 TargetType = TargetType.Block
             };
 
-            _gateway.Setup(_ => _.GetByIdAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(gatewayResponse);
+            _gateway.Setup(_ => _.UpdateAsync(It.IsAny<Account>()))
+                .Returns(Task.CompletedTask);
 
-            var result = await _getByIdUseCase.ExecuteAsync(Guid.NewGuid()).ConfigureAwait(false);
+            var result = await _updateUseCase.ExecuteAsync(assetModel).ConfigureAwait(false);
+
+            _gateway.Verify(_ => _.UpdateAsync(It.IsAny<Account>()), Times.Once);
 
             result.Should().NotBeNull();
 
-            result.Should().BeEquivalentTo(gatewayResponse);
+            result.Should().BeEquivalentTo(assetModel);
         }
     }
 }

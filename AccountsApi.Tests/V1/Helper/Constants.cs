@@ -18,9 +18,9 @@ namespace AccountsApi.Tests.V1.Helper
         public const decimal ACCOUNTBALANCE = 0;
         public const string CREATEDBY = "Admin";
         public const string LASTUPDATEDBY = "Staff001";
-        public static DateTime CREATEDDATE { get; } =  DateTime.Parse("2020-05-05T15:10:37.471Z");
-        public static DateTime LASTUPDATEDDATE { get; }= DateTime.Parse("2020-05-05T15:10:37.471Z");
-        public static DateTime STARTDATE { get; }= DateTime.Parse("2020-05-05T15:10:37.471Z");
+        public static DateTime CREATEDDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
+        public static DateTime LASTUPDATEDDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
+        public static DateTime STARTDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
         public static DateTime ENDDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
         public const AccountStatus ACCOUNTSTATUS = AccountStatus.Active;
         public static Tenure TENURE { get; }= new Tenure()

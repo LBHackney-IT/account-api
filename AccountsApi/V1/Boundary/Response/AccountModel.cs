@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace AccountsApi.V1.Boundary.Response
 {
-    public class AccountModel:AccountBaseModel
+    public class AccountModel : AccountBaseModel
     {
         /// <example>
         ///     74c5fbc4-2fc8-40dc-896a-0cfa671fc832
