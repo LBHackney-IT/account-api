@@ -11,7 +11,7 @@ namespace AccountsApi.Tests
         protected HttpClient Client { get; private set; }
         private readonly DynamoDbMockWebApplicationFactory<TStartup> _factory;
         protected IDynamoDBContext DynamoDbContext => _factory?.DynamoDbContext;
-        protected List<Action> CleanupActions { get; set; }
+        protected List<Action> CleanupActions { get; }
 
         private readonly List<TableDef> _tables = new List<TableDef>
         {
@@ -30,8 +30,8 @@ namespace AccountsApi.Tests
         {
             EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
             EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
-            EnsureEnvVarConfigured("DynamoDb_LocalSecretKey", "8kmm3g");
-            EnsureEnvVarConfigured("DynamoDb_LocalAccessKey", "fco1i2");
+            EnsureEnvVarConfigured("DynamoDb_LocalSecretKey", "vymxp");
+            EnsureEnvVarConfigured("DynamoDb_LocalAccessKey", "2cl9i");
             _factory = new DynamoDbMockWebApplicationFactory<TStartup>(_tables);
 
             Client = _factory.CreateClient();
