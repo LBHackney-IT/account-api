@@ -9,7 +9,7 @@ using Xunit;
 
 namespace AccountsApi.Tests.V1.Infrastructure
 {
-
+    [Collection("MainCollection")]
     public class DynamoDbInitilisationExtensionsTests
     {
         [Theory]

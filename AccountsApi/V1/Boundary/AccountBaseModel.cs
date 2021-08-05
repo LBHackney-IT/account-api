@@ -1,15 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AccountsApi.V1.Domain;
+using System;
 
 namespace AccountsApi.V1.Boundary
 {
     public class AccountBaseModel
     {
-
-
         /// <example>
         ///     Estate
         /// </example>
@@ -23,7 +18,6 @@ namespace AccountsApi.V1.Boundary
         /// <example>
         ///     Master
         /// </example>
-
         public AccountType AccountType { get; set; }
 
         /// <example>

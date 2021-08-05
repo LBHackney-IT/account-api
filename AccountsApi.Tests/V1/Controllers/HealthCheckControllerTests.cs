@@ -10,9 +10,9 @@ namespace AccountsApi.Tests.V1.Controllers
 
     public class HealthCheckControllerTests
     {
-        private HealthCheckController _classUnderTest;
-         
-        public   HealthCheckControllerTests()
+        private readonly HealthCheckController _classUnderTest;
+
+        public HealthCheckControllerTests()
         {
             _classUnderTest = new HealthCheckController();
         }

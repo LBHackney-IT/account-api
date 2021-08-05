@@ -16,7 +16,7 @@ namespace AccountsApi.Tests.V1.Controllers
         private ControllerContext _controllerContext;
         private HttpContext _stubHttpContext;
 
-        public   BaseControllerTests()
+        public BaseControllerTests()
         {
             _stubHttpContext = new DefaultHttpContext();
             _controllerContext = new ControllerContext(new ActionContext(_stubHttpContext, new RouteData(), new ControllerActionDescriptor()));
