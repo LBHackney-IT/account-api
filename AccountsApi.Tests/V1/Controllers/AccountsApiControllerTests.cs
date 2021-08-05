@@ -242,8 +242,21 @@ namespace AccountsApi.Tests.V1.Controllers
 
             var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
 
-            result.Should().BeOfType<NotFoundObjectResult>();
-            ((NotFoundObjectResult) result).Value.Should().Be(id);
+            var notFoundResult = result as NotFoundObjectResult;
+
+            notFoundResult.Should().NotBeNull();
+
+            notFoundResult.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
+
+            notFoundResult.Value.Should().NotBeNull();
+
+            var baseError = notFoundResult.Value as BaseErrorResponse;
+
+            baseError.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
+
+            baseError.Message.Should().BeEquivalentTo("The Account by provided id not found!");
+
+            baseError.Details.Should().BeEquivalentTo(string.Empty);
         }
 
         [Theory]
@@ -427,7 +440,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
             baseError.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
 
-            baseError.Message.Should().BeEquivalentTo("The Account not found");
+            baseError.Message.Should().BeEquivalentTo("The Account by provided id not found!");
 
             baseError.Details.Should().BeEquivalentTo(string.Empty);
         }
@@ -451,7 +464,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
             baseError.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
 
-            baseError.Message.Should().BeEquivalentTo("Account model can't be null");
+            baseError.Message.Should().BeEquivalentTo("Account model cannot be null!");
 
             baseError.Details.Should().BeEquivalentTo(string.Empty);
         }
@@ -576,7 +589,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
             baseErrorResponse.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
 
-            baseErrorResponse.Message.Should().BeEquivalentTo("ArrearRequest can't be null");
+            baseErrorResponse.Message.Should().BeEquivalentTo("ArrearRequest canot be null");
 
             baseErrorResponse.Details.Should().BeEquivalentTo(string.Empty);
         }

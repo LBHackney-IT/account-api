@@ -55,14 +55,15 @@ namespace AccountsApi.V1.Controllers
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest,
-                    "the id can not be empty or null"));
+            {
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "The id can not be empty!"));
+            }
 
             var account = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
             if (account == null)
             {
-                return NotFound(id);
+                return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound, "The Account by provided id not found!"));
             }
 
             return Ok(account);
@@ -143,14 +144,14 @@ namespace AccountsApi.V1.Controllers
         {
             if (patchDoc == null)
             {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "Account model can't be null"));
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "Account model cannot be null!"));
             }
 
             var accountResponseObject = await _getByIdUseCase.ExecuteAsync(id).ConfigureAwait(false);
 
             if (accountResponseObject == null)
             {
-                return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound, "The Account not found"));
+                return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound, "The Account by provided id not found!"));
             }
 
             patchDoc.ApplyTo(accountResponseObject, ModelState);
@@ -181,7 +182,7 @@ namespace AccountsApi.V1.Controllers
         {
             if (arrearRequest == null)
             {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "ArrearRequest can't be null"));
+                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "ArrearRequest canot be null"));
             }
 
             if (!ModelState.IsValid)

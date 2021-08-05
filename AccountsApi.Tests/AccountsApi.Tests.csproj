@@ -35,7 +35,6 @@
 
   <ItemGroup>
     <Folder Include="V1\Boundary\Response\" />
-    <Folder Include="V1\E2ETests\" />
   </ItemGroup>
 
 </Project>
