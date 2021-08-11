@@ -9,7 +9,7 @@ namespace AccountsApi.V1.Factories
     {
         public static AccountModel ToResponse(this Account domain)
         {
-            return new AccountModel()
+            return domain == null ? null : new AccountModel()
             {
                 AccountBalance = domain.AccountBalance,
                 AccountStatus = domain.AccountStatus,
@@ -32,7 +32,7 @@ namespace AccountsApi.V1.Factories
 
         public static List<AccountModel> ToResponse(this IEnumerable<Account> domainList)
         {
-            return domainList.Select(domain => domain.ToResponse()).ToList();
+            return domainList == null ? new List<AccountModel>() : domainList.Select(domain => domain.ToResponse()).ToList();
         }
     }
 }

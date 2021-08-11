@@ -15,9 +15,9 @@ namespace AccountsApi.Tests.V1.UseCase
         private DbHealthCheckUseCase _classUnderTest;
 
         private readonly Faker _faker = new Faker();
-        private string _description;
- 
-        public   DbHealthCheckUseCaseTests()
+        private readonly string _description;
+
+        public DbHealthCheckUseCaseTests()
         {
             _description = _faker.Random.Words();
 

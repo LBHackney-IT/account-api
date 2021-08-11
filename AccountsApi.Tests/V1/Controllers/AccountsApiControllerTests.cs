@@ -1,4 +1,4 @@
-using AccountsApi.Tests.V1.Helper; 
+using AccountsApi.Tests.V1.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Moq;
 using Xunit;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace AccountsApi.Tests.V1.Controllers
 {
@@ -45,13 +46,11 @@ namespace AccountsApi.Tests.V1.Controllers
             HttpContext httpContext = new DefaultHttpContext();
             var controllerContext = new ControllerContext(new ActionContext(httpContext, new RouteData(), new ControllerActionDescriptor()));
             _sut = new AccountApiController(_getAllUseCase.Object, _getByIdUseCase.Object,
-                                            
                 _addUseCase.Object, _updateUseCase.Object, _getAllArrearsUseCase.Object)
             {
                 ControllerContext = controllerContext
             };
         }
-
 
         #region GetAllAsync
         [Fact]
@@ -74,10 +73,10 @@ namespace AccountsApi.Tests.V1.Controllers
                             AccountBalance = 125.23M,
                             CreatedBy = "Admin",
                             LastUpdatedBy = "Staff-001",
-                            CreatedDate = new DateTime(2021,07,30),
-                            LastUpdatedDate = new DateTime(2021,07,30),
-                            StartDate= new DateTime(2021,07,30),
-                            EndDate= new DateTime(2021,07,30),
+                            CreatedDate = new DateTime(2021, 07, 30),
+                            LastUpdatedDate = new DateTime(2021, 07, 30),
+                            StartDate = new DateTime(2021, 07, 30),
+                            EndDate = new DateTime(2021, 07, 30),
                             AccountStatus = AccountStatus.Active,
                             ConsolidatedCharges = new List<ConsolidatedCharges>
                             {
@@ -90,7 +89,7 @@ namespace AccountsApi.Tests.V1.Controllers
                                     Amount = 123, Frequency = "Weekly", Type = "Elevator"
                                 }
                             },
-                            Tenure =new Tenure
+                            Tenure = new Tenure
                             {
                                 TenancyType = "INT",
                                 AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
@@ -232,7 +231,6 @@ namespace AccountsApi.Tests.V1.Controllers
 
             result.Should().BeOfType<OkObjectResult>();
             ((OkObjectResult) result).Value.Should().Be(accountModel);
- 
         }
 
         [Fact]
@@ -244,8 +242,21 @@ namespace AccountsApi.Tests.V1.Controllers
 
             var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
 
-            result.Should().BeOfType<NotFoundObjectResult>();
-            ((NotFoundObjectResult) result).Value.Should().Be(id);
+            var notFoundResult = result as NotFoundObjectResult;
+
+            notFoundResult.Should().NotBeNull();
+
+            notFoundResult.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
+
+            notFoundResult.Value.Should().NotBeNull();
+
+            var baseError = notFoundResult.Value as BaseErrorResponse;
+
+            baseError.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
+
+            baseError.Message.Should().BeEquivalentTo("The Account by provided id not found!");
+
+            baseError.Details.Should().BeEquivalentTo(string.Empty);
         }
 
         [Theory]
@@ -346,7 +357,136 @@ namespace AccountsApi.Tests.V1.Controllers
             model.AccountStatus.Should().Be(AccountStatus.Active);
             model.AccountBalance.Should().Be(0);
 
-        } 
+        }
+        #endregion
+
+        #region Update
+
+        [Fact]
+        public async Task Update_UseCaseReturnsResult_Return200()
+        {
+            var guid = Guid.NewGuid();
+
+            AccountModel modelToUpdate = new AccountModel
+            {
+                Id = guid,
+                TargetType = TargetType.Block,
+                TargetId = Guid.NewGuid(),
+                AccountType = AccountType.Recharge,
+                RentGroupType = RentGroupType.Garages,
+                AgreementType = "Agreement",
+                CreatedBy = "Admin",
+                LastUpdatedBy = "Admin",
+                CreatedDate = new DateTime(2021, 8, 3),
+                LastUpdatedDate = new DateTime(2021, 8, 3),
+                StartDate = new DateTime(2021, 9, 1),
+                EndDate = new DateTime(2022, 9, 1),
+                AccountStatus = AccountStatus.Active,
+                Tenure = null,
+                ConsolidatedCharges = null,
+                AccountBalance = 0
+            };
+
+            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(modelToUpdate);
+
+            modelToUpdate.AccountBalance = 120;
+
+            _updateUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<AccountModel>()))
+                .ReturnsAsync(modelToUpdate);
+
+            var patchDoc = new JsonPatchDocument<AccountModel>();
+            patchDoc.Add(_ => _.AccountBalance, 120);
+
+            var result = await _sut.Patch(guid, patchDoc).ConfigureAwait(false);
+
+            result.Should().NotBeNull();
+
+            var resultResponse = result as OkObjectResult;
+
+            resultResponse.Should().NotBeNull();
+
+            resultResponse.StatusCode.Should().Be((int) HttpStatusCode.OK);
+
+            var responseValue = resultResponse.Value as AccountModel;
+
+            responseValue.Should().NotBeNull();
+
+            responseValue.Should().BeEquivalentTo(modelToUpdate);
+        }
+
+        [Fact]
+        public async Task Update_InvalidId_Returns404()
+        {
+            _getByIdUseCase.Setup(_ => _.ExecuteAsync(Guid.NewGuid()))
+                .ReturnsAsync((AccountModel) null);
+
+            var patchDoc = new JsonPatchDocument<AccountModel>();
+            patchDoc.Add(_ => _.AccountBalance, 120);
+
+            var result = await _sut.Patch(Guid.NewGuid(), patchDoc).ConfigureAwait(false);
+
+            result.Should().NotBeNull();
+
+            var notFoundResult = result as NotFoundObjectResult;
+
+            notFoundResult.Should().NotBeNull();
+
+            notFoundResult.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
+
+            notFoundResult.Value.Should().NotBeNull();
+
+            var baseError = notFoundResult.Value as BaseErrorResponse;
+
+            baseError.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
+
+            baseError.Message.Should().BeEquivalentTo("The Account by provided id not found!");
+
+            baseError.Details.Should().BeEquivalentTo(string.Empty);
+        }
+
+        [Fact]
+        public async Task Update_InvalidModel_Returns400()
+        {
+            var result = await _sut.Patch(Guid.NewGuid(), null).ConfigureAwait(false);
+
+            result.Should().NotBeNull();
+
+            var notFoundResult = result as BadRequestObjectResult;
+
+            notFoundResult.Should().NotBeNull();
+
+            notFoundResult.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
+
+            notFoundResult.Value.Should().NotBeNull();
+
+            var baseError = notFoundResult.Value as BaseErrorResponse;
+
+            baseError.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
+
+            baseError.Message.Should().BeEquivalentTo("Account model cannot be null!");
+
+            baseError.Details.Should().BeEquivalentTo(string.Empty);
+        }
+
+        [Fact]
+        public async Task Update_UseCaseThrowException_Returns500()
+        {
+            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>()))
+                .ThrowsAsync(new Exception("Test exception"));
+
+            try
+            {
+                var result = await _sut.Patch(Guid.NewGuid(), new JsonPatchDocument<AccountModel>()).ConfigureAwait(false);
+                AssertExtensions.Fail();
+            }
+            catch (Exception ex)
+            {
+                ex.Should().BeOfType<Exception>();
+                ex.Message.Should().BeEquivalentTo("Test exception");
+            }
+        }
+
         #endregion
 
         #region Arrears
@@ -449,7 +589,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
             baseErrorResponse.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
 
-            baseErrorResponse.Message.Should().BeEquivalentTo("ArrearRequest can't be null");
+            baseErrorResponse.Message.Should().BeEquivalentTo("ArrearRequest canot be null");
 
             baseErrorResponse.Details.Should().BeEquivalentTo(string.Empty);
         }

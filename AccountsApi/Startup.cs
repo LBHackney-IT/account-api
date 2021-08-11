@@ -156,8 +156,8 @@ namespace AccountsApi
 
         private static void RegisterGateways(IServiceCollection services)
         {
-            //services.AddScoped<IAccountApiGateway, AccountApiGateway>(); 
             services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
+            services.AddSingleton<DynamoDbContextWrapper>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
