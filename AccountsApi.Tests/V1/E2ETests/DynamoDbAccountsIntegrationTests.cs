@@ -46,13 +46,13 @@ namespace AccountsApi.Tests.V1.E2ETests
                 StartDate = new DateTime(2021, 07, 30),
                 EndDate = new DateTime(2021, 07, 30),
                 AccountStatus = AccountStatus.Active,
-                ConsolidatedCharges = new List<ConsolidatedCharge>
+                ConsolidatedCharges = new List<ConsolidatedCharges>
                 {
-                    new ConsolidatedCharge
+                    new ConsolidatedCharges
                     {
                         Amount = 125, Frequency = "Weekly", Type = "Water"
                     },
-                    new ConsolidatedCharge
+                    new ConsolidatedCharges
                     {
                         Amount = 123, Frequency = "Weekly", Type = "Elevator"
                     }
