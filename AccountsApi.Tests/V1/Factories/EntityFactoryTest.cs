@@ -13,6 +13,8 @@ namespace AccountsApi.Tests.V1.Factories
     public class EntityFactoryTest
     {
         [Fact]
+        //[Theory]
+        //[MemberData()]
         public void CanMapADatabaseEntityToADomainObject()
         {
             var entity = new AccountDbEntity
