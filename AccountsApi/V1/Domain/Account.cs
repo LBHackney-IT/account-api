@@ -34,7 +34,7 @@ namespace AccountsApi.V1.Domain
  
         public AccountStatus AccountStatus { get; set; }
 
-        public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
+        public IEnumerable<ConsolidatedCharges> ConsolidatedCharges { get; set; }
 
         public Tenure Tenure { get; set; }
     }

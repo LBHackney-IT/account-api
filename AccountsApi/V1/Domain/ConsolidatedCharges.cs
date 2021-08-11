@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AccountsApi.V1.Domain
 {
-    public class ConsolidatedCharge
+    public class ConsolidatedCharges
     {
         /// <example>
         ///     Rent

@@ -51,8 +51,8 @@ namespace AccountsApi.V1.Infrastructure
         [DynamoDBProperty(AttributeName = "account_status", Converter = typeof(DynamoDbEnumConverter<AccountStatus>))]
         public AccountStatus AccountStatus { get; set; }
 
-        [DynamoDBProperty(AttributeName = "consolidated_charges", Converter = typeof(DynamoDbObjectListConverter<ConsolidatedCharge>))]
-        public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
+        [DynamoDBProperty(AttributeName = "consolidated_charges", Converter = typeof(DynamoDbObjectListConverter<ConsolidatedCharges>))]
+        public IEnumerable<ConsolidatedCharges> ConsolidatedCharges { get; set; }
 
         [DynamoDBProperty(AttributeName = "tenure", Converter = typeof(DynamoDbObjectConverter<Tenure>))]
         public Tenure Tenure { get; set; }

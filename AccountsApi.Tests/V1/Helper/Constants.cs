@@ -48,7 +48,7 @@ namespace AccountsApi.Tests.V1.Helper
                 AccountBalance = ACCOUNTBALANCE,
                 ConsolidatedCharges = new[]
                 {
-                    new ConsolidatedCharge()
+                    new ConsolidatedCharges()
                     {
                         Amount = AMOUNT,
                         Frequency = FREQUENCY,
