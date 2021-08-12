@@ -10,5 +10,9 @@ namespace AccountsApi.Tests.V1.Helper
         {
             return _random.Next(min, max);
         }
+        public static decimal Get()
+        {
+            return new decimal(_random.Next(), _random.Next(), _random.Next(), false, 0);
+        }
     }
 }
