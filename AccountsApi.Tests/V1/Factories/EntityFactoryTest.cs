@@ -6,53 +6,17 @@ using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
+using AccountsApi.Tests.V1.Helper;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Factories
 {
     public class EntityFactoryTest
     {
-        [Fact]
-        //[Theory]
-        //[MemberData()]
-        public void CanMapADatabaseEntityToADomainObject()
-        {
-            var entity = new AccountDbEntity
-            {
-                Id = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b44135554f8"),
-                TargetType = TargetType.Block,
-                TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
-                AccountType = AccountType.Master,
-                RentGroupType = RentGroupType.Garages,
-                AgreementType = "Agreement type 001",
-                AccountBalance = 125.23M,
-                CreatedBy = "Admin",
-                LastUpdatedBy = "Staff-001",
-                CreatedDate = new DateTime(2021, 07, 30),
-                LastUpdatedDate = new DateTime(2021, 07, 30),
-                StartDate = new DateTime(2021, 07, 30),
-                EndDate = new DateTime(2021, 07, 30),
-                AccountStatus = AccountStatus.Active,
-                ConsolidatedCharges = new List<ConsolidatedCharges>
-                {
-                    new ConsolidatedCharges
-                    {
-                        Amount = 125, Frequency = "Weekly", Type = "Water"
-                    },
-                    new ConsolidatedCharges
-                    {
-                        Amount = 123, Frequency = "Weekly", Type = "Elevator"
-                    }
-                },
-                Tenure = new Tenure
-                {
-                    TenancyType = "INT",
-                    AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
-                    FullAddress = "Hamilton Street 123 Alley 4.12",
-                    TenancyId = "123"
-                }
-            };
-
+        [Theory]
+        [MemberData(nameof(MockDatabaseEntityToADomainObject.GetTestData),MemberType = typeof(MockDatabaseEntityToADomainObject))]
+        public void CanMapADatabaseEntityToADomainObject(AccountDbEntity entity) {
+            
             var domain = entity.ToDomain();
 
             entity.Should().BeEquivalentTo(domain);

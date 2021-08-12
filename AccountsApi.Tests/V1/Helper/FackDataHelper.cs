@@ -1,6 +1,7 @@
 using AccountsApi.V1.Domain;
 using System;
 using System.Collections.Generic;
+using AccountsApi.V1.Infrastructure;
 
 namespace AccountsApi.Tests.V1.Helper
 {
@@ -32,20 +33,35 @@ namespace AccountsApi.Tests.V1.Helper
         };
     }
 
-    //public static class MockDatabaseEntityToADomainObject
-    //{
-    //    public static List<object[]> GetTestData => ReturnData();
+    public static class MockDatabaseEntityToADomainObject
+    {
+        public static IEnumerable<object[]> GetTestData => ReturnData();
 
-    //    private static List<object[]> ReturnData()
-    //    {
-    //        for (int i = 0; i < 100; i++)
-    //        {
-    //            yield return new List<object[]> {
-
-    //            };
-    //        }
-    //    }
-    //}
+        private static IEnumerable<object[]> ReturnData()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                yield return new object[] {new AccountDbEntity()
+                {
+                    Id = Guid.NewGuid(),
+                    TargetType = TargetType.Block,
+                    TargetId = Guid.NewGuid(),
+                    AccountType = AccountType.Master,
+                    RentGroupType = RentGroupType.Garages,
+                    AgreementType = RandomStringHelper.Get(100),
+                    AccountBalance = RandomNumberHelper.Get(5, 18),
+                    CreatedBy = RandomStringHelper.Get(20),
+                    LastUpdatedBy = RandomStringHelper.Get(20),
+                    CreatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                    LastUpdatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                    StartDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 0, 365),
+                    EndDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 365, 365 * 2),
+                    AccountStatus = new RandomEnumHelper<AccountStatus>().Get()
+                }
+                };
+            }
+        }
+    }
 
 
 
