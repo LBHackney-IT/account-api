@@ -167,7 +167,7 @@ namespace AccountsApi.V1.Controllers
         }
 
         /// <summary>
-        /// Get a list of Arrear Account models
+        /// Get a list of Arrears Account models
         /// </summary>
         /// <param name="arrearRequest">Model for search and sort</param>
         /// <response code="200">Success. Account models were received successfully</response>
