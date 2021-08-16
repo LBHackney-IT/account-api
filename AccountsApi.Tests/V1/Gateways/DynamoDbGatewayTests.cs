@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Amazon.DynamoDBv2;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Gateways
@@ -24,7 +25,8 @@ namespace AccountsApi.Tests.V1.Gateways
         {
             _dynamoDb = new Mock<IDynamoDBContext>();
             _wrapper = new Mock<DynamoDbContextWrapper>();
-            _gateway = new DynamoDbGateway(_dynamoDb.Object, _wrapper.Object);
+            var amazonDynamoDb = new Mock<IAmazonDynamoDB>();
+            _gateway = new DynamoDbGateway(_dynamoDb.Object, _wrapper.Object,amazonDynamoDb.Object);
         }
 
         [Fact]
