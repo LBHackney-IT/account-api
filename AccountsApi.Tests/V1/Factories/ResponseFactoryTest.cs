@@ -42,7 +42,6 @@ namespace AccountsApi.Tests.V1.Factories
                 Tenure = new Tenure
                 {
                     TenancyType = "INT",
-                    AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
                     FullAddress = "Hamilton Street 123 Alley 4.12",
                     TenancyId = "123"
                 }
@@ -98,7 +97,6 @@ namespace AccountsApi.Tests.V1.Factories
                     Tenure = new Tenure
                     {
                         TenancyType = "INT",
-                        AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
                         FullAddress = "Hamilton Street 123 Alley 4.12",
                         TenancyId = "123"
                     }
@@ -133,7 +131,6 @@ namespace AccountsApi.Tests.V1.Factories
                     Tenure = new Tenure
                     {
                         TenancyType = "INT",
-                        AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
                         FullAddress = "Hamilton Street 123 Alley 4.12",
                         TenancyId = "123"
                     }

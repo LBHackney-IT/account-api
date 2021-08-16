@@ -86,7 +86,6 @@ namespace AccountsApi.Tests.V1.Helper
                             },*/
                         ,Tenure = new Tenure
                         {
-                            AssetId = Guid.NewGuid(),
                             FullAddress = RandomStringHelper.Get(100),
                             TenancyId = RandomStringHelper.Get(25),
                             TenancyType = RandomStringHelper.Get(10)

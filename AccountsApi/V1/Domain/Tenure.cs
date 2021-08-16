@@ -23,11 +23,5 @@ namespace AccountsApi.V1.Domain
         /// </example>
         [NotNull]
         public string FullAddress { get; set; }
-
-        /// <example>
-        ///     3fa85f64-5717-4562-b3fc-2c963f66a7af
-        /// </example>
-        [NonEmptyGuid]
-        public Guid AssetId { get; set; }
     }
 }

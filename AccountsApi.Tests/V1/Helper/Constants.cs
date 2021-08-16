@@ -25,7 +25,6 @@ namespace AccountsApi.Tests.V1.Helper
         public const AccountStatus ACCOUNTSTATUS = AccountStatus.Active;
         public static Tenure TENURE { get; } = new Tenure()
         {
-            AssetId = Guid.NewGuid(),
             FullAddress = "Hamilton Avenue 12",
             TenancyType = "Introductory",
             TenancyId = "123456"
@@ -60,7 +59,6 @@ namespace AccountsApi.Tests.V1.Helper
                 {
                     FullAddress = TENURE.FullAddress,
                     TenancyType = TENURE.TenancyType,
-                    AssetId = TENURE.AssetId,
                     TenancyId = TENURE.TenancyId
                 },
                 CreatedBy = CREATEDBY,

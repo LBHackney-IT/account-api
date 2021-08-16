@@ -91,8 +91,7 @@ namespace AccountsApi.Tests.V1.Controllers
                             },
                             Tenure = new Tenure
                             {
-                                TenancyType = "INT",
-                                AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
+                                TenancyType = "INT", 
                                 FullAddress = "Hamilton Street 123 Alley 4.12",
                                 TenancyId = "123"
                             }
@@ -127,8 +126,8 @@ namespace AccountsApi.Tests.V1.Controllers
                             Tenure =new Tenure
                             {
                                 TenancyType = "INT",
-                                AssetId = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"),
-                                FullAddress = "Hamilton Street 123 Alley 4.12", TenancyId = "123"
+                                FullAddress = "Hamilton Street 123 Alley 4.12",
+                                TenancyId = "123"
                             }
                         }
                     }
@@ -170,8 +169,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
             accounts.AccountResponseList[0].Tenure.FullAddress.Should().Be("Hamilton Street 123 Alley 4.12");
             accounts.AccountResponseList[0].Tenure.TenancyType.Should().Be("INT");
-            accounts.AccountResponseList[0].Tenure.TenancyId.Should().Be("123");
-            accounts.AccountResponseList[0].Tenure.AssetId.Should().Be(Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66a7af"));
+            accounts.AccountResponseList[0].Tenure.TenancyId.Should().Be("123"); 
 
         }
 

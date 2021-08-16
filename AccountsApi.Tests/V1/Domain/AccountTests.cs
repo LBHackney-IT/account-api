@@ -32,8 +32,7 @@ namespace AccountsApi.Tests.V1.Domain
             account.LastUpdatedDate.Should().Be(Constants.LASTUPDATEDDATE);
             account.StartDate.Should().Be(Constants.STARTDATE);
             account.EndDate.Should().Be(Constants.ENDDATE);
-            account.Tenure.TenancyType.Should().Be(Constants.TENURE.TenancyType);
-            account.Tenure.AssetId.Should().Be(Constants.TENURE.AssetId);
+            account.Tenure.TenancyType.Should().Be(Constants.TENURE.TenancyType); 
             account.Tenure.FullAddress.Should().Be(Constants.TENURE.FullAddress);
             account.Tenure.TenancyId.Should().Be(Constants.TENURE.TenancyId);
         }

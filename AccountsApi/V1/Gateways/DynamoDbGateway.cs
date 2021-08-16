@@ -94,7 +94,6 @@ namespace AccountsApi.V1.Gateways
                 {
                     var _tenure = item["tenure"].M;
                     tenure = new Tenure();
-                    tenure.AssetId = Guid.Parse(_tenure["assetId"].S);
                     tenure.FullAddress = _tenure["fullAddress"].S;
                     tenure.TenancyId = _tenure["tenancyId"].S;
                     tenure.TenancyType = _tenure["tenancyType"].S;
