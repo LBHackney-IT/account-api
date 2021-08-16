@@ -5,7 +5,7 @@ namespace AccountsApi.V1.Domain
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TargetType
     {
-        Estate, Block, Core, Flat
+        Estate, Block, Core, Flat, Tenant, Leaseholder
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
@@ -32,7 +32,7 @@ namespace AccountsApi.V1.Domain
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum RentGroupType
     {
-        LeaseHolders, GenFundRents, Garages, HaLeases, HraRents, MajorWorks, TempAcc, Travellers
+        LeaseHolders, GenFundRents, Garages, HaLeases, HraRents, MajorWorks, TempAcc, Travelers
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
