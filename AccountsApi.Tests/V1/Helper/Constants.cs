@@ -84,6 +84,8 @@ namespace AccountsApi.Tests.V1.Helper
         {
             return new AccountRequest
             {
+                ParentAccount = PARENTACCOUNT,
+                PaymentReference = PAYMENTREFERENCE,
                 AccountStatus = ACCOUNTSTATUS,
                 AgreementType = AGREEMENTTYPE,
                 AccountType = ACCOUNTTYPE,
