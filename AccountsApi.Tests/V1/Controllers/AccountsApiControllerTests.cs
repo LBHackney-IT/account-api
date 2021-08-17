@@ -511,7 +511,9 @@ namespace AccountsApi.Tests.V1.Controllers
                         CreatedBy = "Admin",
                         RentGroupType = RentGroupType.Garages,
                         LastUpdatedBy = "Admin",
-                        TargetType = TargetType.Block
+                        TargetType = TargetType.Block,
+                        PaymentReference = "123234345",
+                        ParentAccount = new Guid("17b107e7-b7a1-4c14-a1c9-0630cebdfe82")
                     },
                     new AccountModel()
                     {
@@ -528,7 +530,9 @@ namespace AccountsApi.Tests.V1.Controllers
                         CreatedBy = "Admin",
                         RentGroupType = RentGroupType.GenFundRents,
                         LastUpdatedBy = "Admin",
-                        TargetType = TargetType.Core
+                        TargetType = TargetType.Core,
+                        PaymentReference = "987876765",
+                        ParentAccount = new Guid("17b107e7-b7a1-4c14-a1c9-0630cebdf6h7")
                     }
                 }
             };
@@ -587,7 +591,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
             baseErrorResponse.StatusCode.Should().Be((int) HttpStatusCode.BadRequest);
 
-            baseErrorResponse.Message.Should().BeEquivalentTo("ArrearRequest canot be null");
+            baseErrorResponse.Message.Should().BeEquivalentTo("ArrearRequest can not be null");
 
             baseErrorResponse.Details.Should().BeEquivalentTo(string.Empty);
         }

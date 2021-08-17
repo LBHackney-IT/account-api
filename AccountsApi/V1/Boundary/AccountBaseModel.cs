@@ -5,6 +5,19 @@ namespace AccountsApi.V1.Boundary
 {
     public class AccountBaseModel
     {
+        /// <summary>
+        ///     Foreign reference number to attache to the the parent account.
+        /// </summary>
+        /// <example>
+        ///     74c5fbc4-2fc8-40dc-896a-0cfa671fc435
+        /// </example>
+        public Guid ParentAccount { get; set; }
+
+        /// <example>
+        ///     123234345
+        /// </example>
+        public string PaymentReference { get; set; }
+
         /// <example>
         ///     Estate
         /// </example>

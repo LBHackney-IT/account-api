@@ -12,6 +12,12 @@ namespace AccountsApi.V1.Infrastructure
         [DynamoDBProperty(AttributeName = "id")]
         public Guid Id { get; set; }
 
+        [DynamoDBProperty(AttributeName="parent_account")]
+        public Guid ParentAccount { get; set; }
+
+        [DynamoDBProperty(AttributeName = "payment_reference")]
+        public string PaymentReference { get; set; }
+
         [DynamoDBProperty(AttributeName = "target_type", Converter = typeof(DynamoDbEnumConverter<TargetType>))]
         public TargetType TargetType { get; set; }
 

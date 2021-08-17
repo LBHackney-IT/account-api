@@ -14,6 +14,8 @@ namespace AccountsApi.Tests.V1.Domain
             Account account = Constants.ConstructAccountFromConstants();
 
             account.Id.Should().Be(Constants.ID);
+            account.ParentAccount.Should().Be(Constants.PARENTACCOUNT);
+            account.PaymentReference.Should().Be(Constants.PAYMENTREFERENCE);
             account.ConsolidatedCharges.Should().ContainSingle();
             account.ConsolidatedCharges.First().Amount.Should().Be(Constants.AMOUNT);
             account.ConsolidatedCharges.First().Frequency.Should().Be(Constants.FREQUENCY);
@@ -35,6 +37,8 @@ namespace AccountsApi.Tests.V1.Domain
             account.Tenure.TenancyType.Should().Be(Constants.TENURE.TenancyType); 
             account.Tenure.FullAddress.Should().Be(Constants.TENURE.FullAddress);
             account.Tenure.TenancyId.Should().Be(Constants.TENURE.TenancyId);
+            account.Tenure.PrimaryTenants.First().FullName.Should()
+                .Be(Constants.TENURE.PrimaryTenants.First().FullName);
         }
     }
 }

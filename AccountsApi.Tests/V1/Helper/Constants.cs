@@ -23,11 +23,18 @@ namespace AccountsApi.Tests.V1.Helper
         public static DateTime STARTDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
         public static DateTime ENDDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
         public const AccountStatus ACCOUNTSTATUS = AccountStatus.Active;
+        public static Guid PARENTACCOUNT = Guid.NewGuid();
+        public const string PAYMENTREFERENCE = "123234345";
         public static Tenure TENURE { get; } = new Tenure()
         {
             FullAddress = "Hamilton Avenue 12",
             TenancyType = "Introductory",
-            TenancyId = "123456"
+            TenancyId = "123456",
+            PrimaryTenants = new[]
+            {
+                new PrimaryTenant{FullName = "John"},
+                new PrimaryTenant{FullName = "Fredrick"}
+            }
         };
         #endregion
 

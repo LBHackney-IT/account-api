@@ -52,6 +52,17 @@ namespace AccountsApi.Tests.V1.Helper
             }
         }
 
+        private static IEnumerable<PrimaryTenant> PrimaryTenantsFakeData(int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                yield return new PrimaryTenant
+                {
+                    FullName = RandomStringHelper.Get(50)
+                };
+            }
+        }
+
         private static IEnumerable<object[]> ReturnData()
         {
             for (int i = 0; i < 1000; i++)
@@ -75,20 +86,12 @@ namespace AccountsApi.Tests.V1.Helper
                         EndDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 365, 365 * 2),
                         AccountStatus = new RandomEnumHelper<AccountStatus>().Get(),
                         ConsolidatedCharges = ConsolidatedChargesFakeData(10)
-                            /*new[]
-                            {
-                                new ConsolidatedCharges
-                                {
-                                    Amount = RandomNumberHelper.Get(),
-                                    Frequency = RandomStringHelper.Get(10),
-                                    Type = RandomStringHelper.Get(10)
-                                }
-                            },*/
                         ,Tenure = new Tenure
                         {
                             FullAddress = RandomStringHelper.Get(100),
                             TenancyId = RandomStringHelper.Get(25),
-                            TenancyType = RandomStringHelper.Get(10)
+                            TenancyType = RandomStringHelper.Get(10),
+                            PrimaryTenants = PrimaryTenantsFakeData(10)
                         }
                     }
                 };

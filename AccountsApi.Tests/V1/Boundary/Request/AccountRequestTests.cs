@@ -24,6 +24,8 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             request.StartDate.Should().Be(Constants.STARTDATE);
             request.TargetId.Should().Be(Constants.TARGETID);
             request.TargetType.Should().Be(Constants.TARGETTYPE);
+            request.ParentAccount.Should().Be(Constants.PARENTACCOUNT);
+            request.PaymentReference.Should().Be(Constants.PAYMENTREFERENCE);
         }
     }
 }

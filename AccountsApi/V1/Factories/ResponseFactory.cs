@@ -26,7 +26,9 @@ namespace AccountsApi.V1.Factories
                 AgreementType = domain.AgreementType,
                 Tenure = domain.Tenure,
                 ConsolidatedCharges = domain.ConsolidatedCharges,
-                RentGroupType = domain.RentGroupType
+                RentGroupType = domain.RentGroupType,
+                PaymentReference = domain.PaymentReference,
+                ParentAccount = domain.ParentAccount
             };
         }
 

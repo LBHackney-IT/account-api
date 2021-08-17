@@ -79,6 +79,8 @@ namespace AccountsApi.Tests.V1.Gateways
                 new AccountDbEntity()
                 {
                     Id = new Guid("b3b91924-1a3d-44b7-b38a-ae4ae5e57b69"),
+                    ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh5r3"),
+                    PaymentReference = "123234345",
                     TargetId = new Guid("2da59b6b-cdcb-46bd-ac61-1c10d1046285"),
                     StartDate = new DateTime(2021, 7, 1),
                     CreatedDate = new DateTime(2021, 6, 1),
@@ -96,6 +98,8 @@ namespace AccountsApi.Tests.V1.Gateways
                 new AccountDbEntity()
                 {
                     Id = new Guid("42668c56-3a7e-4897-867c-0c39e8a328ea"),
+                    ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh5r3"),
+                    PaymentReference = "123234345",
                     TargetId = new Guid("2da59b6b-cdcb-46bd-ac61-1c10d1046285"),
                     StartDate = new DateTime(2021, 7, 1),
                     CreatedDate = new DateTime(2021, 6, 1),
@@ -205,6 +209,8 @@ namespace AccountsApi.Tests.V1.Gateways
                 new AccountDbEntity()
                 {
                     Id = new Guid("b3b91924-1a3d-44b7-b38a-ae4ae5e57b69"),
+                    ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh5r3"),
+                    PaymentReference = "123234345",
                     TargetId = new Guid("2da59b6b-cdcb-46bd-ac61-1c10d1046285"),
                     StartDate = new DateTime(2021, 7, 1),
                     CreatedDate = new DateTime(2021, 6, 1),
@@ -222,6 +228,8 @@ namespace AccountsApi.Tests.V1.Gateways
                 new AccountDbEntity()
                 {
                     Id = new Guid("42668c56-3a7e-4897-867c-0c39e8a328ea"),
+                    ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh5r3"),
+                    PaymentReference = "123234345",
                     TargetId = new Guid("2da59b6b-cdcb-46bd-ac61-1c10d1046285"),
                     StartDate = new DateTime(2021, 7, 1),
                     CreatedDate = new DateTime(2021, 6, 1),

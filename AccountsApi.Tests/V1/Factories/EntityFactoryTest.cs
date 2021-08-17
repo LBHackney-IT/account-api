@@ -38,6 +38,8 @@ namespace AccountsApi.Tests.V1.Factories
             var domain = new Account
             {
                 Id = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b44135554f8"),
+                ParentAccount = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b4413555o8f"),
+                PaymentReference = "234345456",
                 TargetType = TargetType.Block,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                 AccountType = AccountType.Master,
@@ -66,7 +68,12 @@ namespace AccountsApi.Tests.V1.Factories
                 {
                     TenancyType = "INT",
                     FullAddress = "Hamilton Street 123 Alley 4.12",
-                    TenancyId = "123"
+                    TenancyId = "123",
+                    PrimaryTenants = new[]
+                    {
+                        new PrimaryTenant{FullName = "John"},
+                        new PrimaryTenant{FullName = "Fredrick"}
+                    }
                 }
             };
 
@@ -92,6 +99,7 @@ namespace AccountsApi.Tests.V1.Factories
             {
                 TargetType = TargetType.Block,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
+                ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fn89j"),
                 AccountType = AccountType.Master,
                 RentGroupType = RentGroupType.Garages,
                 AgreementType = "Agreement type 001",
@@ -125,6 +133,8 @@ namespace AccountsApi.Tests.V1.Factories
             var accountModel = new Account
             {
                 Id = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b44135554f8"),
+                ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh5r3"),
+                PaymentReference = "123234345",
                 TargetType = TargetType.Block,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                 AccountType = AccountType.Master,
@@ -153,7 +163,12 @@ namespace AccountsApi.Tests.V1.Factories
                 {
                     TenancyType = "INT",
                     FullAddress = "Hamilton Street 123 Alley 4.12",
-                    TenancyId = "123"
+                    TenancyId = "123",
+                    PrimaryTenants = new[]
+                    {
+                        new PrimaryTenant{FullName = "John"},
+                        new PrimaryTenant{FullName = "Fredrick"}
+                    }
                 }
             };
 

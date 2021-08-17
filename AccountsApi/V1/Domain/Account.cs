@@ -7,6 +7,10 @@ namespace AccountsApi.V1.Domain
     {
         public Guid Id { get; set; }
 
+        public Guid ParentAccount { get; set; }
+
+        public string PaymentReference { get; set; }
+
         public TargetType TargetType { get; set; }
 
         public Guid TargetId { get; set; }
@@ -16,6 +20,7 @@ namespace AccountsApi.V1.Domain
         public RentGroupType RentGroupType { get; set; }
 
         public string AgreementType { get; set; }
+
 
         public decimal AccountBalance { get; set; } = 0;
 

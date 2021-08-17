@@ -36,6 +36,8 @@ namespace AccountsApi.Tests.V1.E2ETests
                 TargetType = TargetType.Block,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                 AccountType = AccountType.Master,
+                ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh531"),
+                PaymentReference = "345456567",
                 RentGroupType = RentGroupType.Garages,
                 AgreementType = "Agreement type 001",
                 AccountBalance = _fixture.Create<decimal>(),
@@ -61,7 +63,12 @@ namespace AccountsApi.Tests.V1.E2ETests
                 {
                     TenancyType = "INT", 
                     FullAddress = "Hamilton Street 123 Alley 4.12",
-                    TenancyId = "123"
+                    TenancyId = "123",
+                    PrimaryTenants = new []
+                    {
+                        new PrimaryTenant{FullName = "John"},
+                        new PrimaryTenant{FullName = "Fredrick"}
+                    }
                 }
             };
 

@@ -117,7 +117,9 @@ namespace AccountsApi.V1.Gateways
                     LastUpdatedDate = DateTime.Parse(item["last_updated_date"].S),
                     StartDate = DateTime.Parse(item["start_date"].S),
                     EndDate = DateTime.Parse(item["end_date"].S),
-                    AccountStatus = Enum.Parse<AccountStatus>(item["account_status"].S)
+                    AccountStatus = Enum.Parse<AccountStatus>(item["account_status"].S),
+                    PaymentReference = item["payment_reference"].S,
+                    ParentAccount = Guid.Parse(item["parent_account"].S)
                 });
             }
 
