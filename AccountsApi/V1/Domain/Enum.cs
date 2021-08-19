@@ -5,7 +5,7 @@ namespace AccountsApi.V1.Domain
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum TargetType
     {
-        Estate, Block, Core, Flat, Tenant, Leaseholder
+        Tenure
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
