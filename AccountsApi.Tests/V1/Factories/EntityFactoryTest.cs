@@ -40,7 +40,7 @@ namespace AccountsApi.Tests.V1.Factories
                 Id = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b44135554f8"),
                 ParentAccount = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b4413555o8f"),
                 PaymentReference = "234345456",
-                TargetType = TargetType.Block,
+                TargetType = TargetType.Tenure,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                 AccountType = AccountType.Master,
                 RentGroupType = RentGroupType.Garages,
@@ -97,7 +97,7 @@ namespace AccountsApi.Tests.V1.Factories
         {
             var request = new AccountRequest
             {
-                TargetType = TargetType.Block,
+                TargetType = TargetType.Tenure,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                 ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fn89j"),
                 AccountType = AccountType.Master,
@@ -135,7 +135,7 @@ namespace AccountsApi.Tests.V1.Factories
                 Id = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b44135554f8"),
                 ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh5r3"),
                 PaymentReference = "123234345",
-                TargetType = TargetType.Block,
+                TargetType = TargetType.Tenure,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                 AccountType = AccountType.Master,
                 RentGroupType = RentGroupType.Garages,

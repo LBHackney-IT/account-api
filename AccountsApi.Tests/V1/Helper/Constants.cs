@@ -10,7 +10,7 @@ namespace AccountsApi.Tests.V1.Helper
         #region Account
 
         public static Guid ID { get; } = Guid.NewGuid();
-        public const TargetType TARGETTYPE = TargetType.Block;
+        public const TargetType TARGETTYPE = TargetType.Tenure;
         public static Guid TARGETID { get; } = Guid.NewGuid();
         public const AccountType ACCOUNTTYPE = AccountType.Master;
         public const RentGroupType RENTGROUPTYPE = RentGroupType.Garages;
