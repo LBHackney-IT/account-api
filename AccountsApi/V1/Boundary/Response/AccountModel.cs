@@ -20,5 +20,6 @@ namespace AccountsApi.V1.Boundary.Response
         public IEnumerable<ConsolidatedCharges> ConsolidatedCharges { get; set; }
         [NotNull]
         public Tenure Tenure { get; set; }
+
     }
 }

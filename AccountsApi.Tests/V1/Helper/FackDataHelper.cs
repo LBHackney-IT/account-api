@@ -1,6 +1,8 @@
 using AccountsApi.V1.Domain;
 using System;
 using System.Collections.Generic;
+using AccountsApi.V1.Boundary.Request;
+using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Infrastructure;
 
 namespace AccountsApi.Tests.V1.Helper
@@ -17,11 +19,12 @@ namespace AccountsApi.Tests.V1.Helper
 
     public static class MockParametersForArgumentNullException
     {
+        static Guid _guid = Guid.NewGuid();
         public static List<object[]> GetTestData { get; } = new List<object[]>
         {
             new object[] {null, null},
             new object[] {null, "Recharge"},
-            new object[] {"3fa85f64-5717-4562-b3fc-2c963f66a7af", null},
+            new object[] {_guid.ToString(), null},
         };
     }
 
@@ -39,7 +42,7 @@ namespace AccountsApi.Tests.V1.Helper
     {
         public static IEnumerable<object[]> GetTestData => ReturnData();
 
-        private static IEnumerable<ConsolidatedCharges> ConsolidatedChargesFakeData(int count)
+        public static IEnumerable<ConsolidatedCharges> ConsolidatedChargesFakeData(int count)
         {
             for (int i = 0; i < count; i++)
             {
@@ -52,7 +55,7 @@ namespace AccountsApi.Tests.V1.Helper
             }
         }
 
-        private static IEnumerable<PrimaryTenant> PrimaryTenantsFakeData(int count)
+        public static IEnumerable<PrimaryTenant> PrimaryTenantsFakeData(int count)
         {
             for (int i = 0; i < count; i++)
             {
@@ -91,11 +94,117 @@ namespace AccountsApi.Tests.V1.Helper
                             FullAddress = RandomStringHelper.Get(100),
                             TenancyId = RandomStringHelper.Get(25),
                             TenancyType = RandomStringHelper.Get(10),
-                            PrimaryTenants = PrimaryTenantsFakeData(10)
+                            PrimaryTenants = MockDatabaseEntityToADomainObject.PrimaryTenantsFakeData(10)
                         }
                     }
                 };
             }
+        }
+        
+    }
+
+    public static class  FakeDataHelper
+    {
+        public static IEnumerable<AccountRequest> GetFakeAccountRequests()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                yield return new AccountRequest
+                {
+                    TargetType = TargetType.Tenure,
+                    TargetId = Guid.NewGuid(),
+                    AccountType = AccountType.Master,
+                    RentGroupType = RentGroupType.Garages,
+                    AgreementType = RandomStringHelper.Get(100),
+                    CreatedBy = RandomStringHelper.Get(20),
+                    LastUpdatedBy = RandomStringHelper.Get(20),
+                    CreatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                    LastUpdatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                    StartDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 0, 365),
+                    EndDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 365, 365 * 2),
+                    AccountStatus = new RandomEnumHelper<AccountStatus>().Get()
+                };
+            }
+        }
+
+        public static AccountRequest GetFakeAccountRequest()
+        {
+            return new AccountRequest
+            {
+                TargetType = TargetType.Tenure,
+                TargetId = Guid.NewGuid(),
+                AccountType = AccountType.Master,
+                RentGroupType = RentGroupType.Garages,
+                AgreementType = RandomStringHelper.Get(100),
+                CreatedBy = RandomStringHelper.Get(20),
+                LastUpdatedBy = RandomStringHelper.Get(20),
+                CreatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                LastUpdatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                StartDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 0, 365),
+                EndDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 365, 365 * 2),
+                AccountStatus = new RandomEnumHelper<AccountStatus>().Get()
+            };
+        }
+
+        public static IEnumerable<AccountModel> GetFakeAccountModels()
+        {
+            for (int i = 0; i < 1000; i++)
+            {
+                yield return new AccountModel
+                {
+                    Id = Guid.NewGuid(),
+                    TargetType = TargetType.Tenure,
+                    TargetId = Guid.NewGuid(),
+                    AccountType = AccountType.Master,
+                    RentGroupType = RentGroupType.Garages,
+                    AgreementType = RandomStringHelper.Get(100),
+                    AccountBalance = RandomNumberHelper.Get(5, 18),
+                    CreatedBy = RandomStringHelper.Get(20),
+                    LastUpdatedBy = RandomStringHelper.Get(20),
+                    CreatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                    LastUpdatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                    StartDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 0, 365),
+                    EndDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 365, 365 * 2),
+                    AccountStatus = new RandomEnumHelper<AccountStatus>().Get(),
+                    ConsolidatedCharges = MockDatabaseEntityToADomainObject.ConsolidatedChargesFakeData(10),
+                    Tenure = new Tenure
+                    {
+                        FullAddress = RandomStringHelper.Get(100),
+                        TenancyId = RandomStringHelper.Get(25),
+                        TenancyType = RandomStringHelper.Get(10),
+                        PrimaryTenants = MockDatabaseEntityToADomainObject.PrimaryTenantsFakeData(10)
+                    }
+                };
+            }
+        }
+
+        public static AccountModel GetFakeAccountModel()
+        {
+            return new AccountModel
+            {
+                Id = Guid.NewGuid(),
+                TargetType = TargetType.Tenure,
+                TargetId = Guid.NewGuid(),
+                AccountType = AccountType.Master,
+                RentGroupType = RentGroupType.Garages,
+                AgreementType = RandomStringHelper.Get(100),
+                AccountBalance = RandomNumberHelper.Get(5, 18),
+                CreatedBy = RandomStringHelper.Get(20),
+                LastUpdatedBy = RandomStringHelper.Get(20),
+                CreatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                LastUpdatedDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Previous, 0, 0),
+                StartDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 0, 365),
+                EndDate = RandomDateHelper.Get(RandomDateHelper.DateDirection.Future, 365, 365 * 2),
+                AccountStatus = new RandomEnumHelper<AccountStatus>().Get(),
+                ConsolidatedCharges = MockDatabaseEntityToADomainObject.ConsolidatedChargesFakeData(10),
+                Tenure = new Tenure
+                {
+                    FullAddress = RandomStringHelper.Get(100),
+                    TenancyId = RandomStringHelper.Get(25),
+                    TenancyType = RandomStringHelper.Get(10),
+                    PrimaryTenants = MockDatabaseEntityToADomainObject.PrimaryTenantsFakeData(10)
+                }
+            };
         }
     }
 }

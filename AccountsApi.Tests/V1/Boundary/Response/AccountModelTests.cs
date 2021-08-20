@@ -32,7 +32,7 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             response.TargetType.Should().Be(Constants.TARGETTYPE);
             response.ParentAccount.Should().Be(Constants.PARENTACCOUNT);
             response.PaymentReference.Should().Be(Constants.PAYMENTREFERENCE);
-            response.ConsolidatedCharges.First().Should().Be(Constants.CONSOLIDATEDCHARGES);
+            response.ConsolidatedCharges.ToList()[0].Should().Be(Constants.CONSOLIDATEDCHARGES.ToList()[0]);
             response.ConsolidatedCharges.ToList()[1].Should().Be(Constants.CONSOLIDATEDCHARGES.ToList()[1]);
         }
     }
