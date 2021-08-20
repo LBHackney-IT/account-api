@@ -9,7 +9,7 @@ namespace AccountsApi.V1.Factories
     {
         public static Account ToDomain(this AccountDbEntity databaseEntity)
         {
-            return databaseEntity == null ? null : new Account
+            return new Account
             {
                 Id = databaseEntity.Id,
                 ParentAccount = databaseEntity.ParentAccount,
@@ -34,7 +34,7 @@ namespace AccountsApi.V1.Factories
 
         public static Account ToDomain(this AccountRequest request)
         {
-            return request == null ? null : new Account
+            return new Account
             {
                 AccountStatus = request.AccountStatus,
                 EndDate = request.EndDate,
@@ -55,7 +55,7 @@ namespace AccountsApi.V1.Factories
 
         public static Account ToDomain(this AccountModel model)
         {
-            return model == null ? null : new Account
+            return new Account
             {
                 Id = model.Id,
                 AccountBalance = model.AccountBalance,
@@ -80,7 +80,7 @@ namespace AccountsApi.V1.Factories
 
         public static AccountDbEntity ToDatabase(this Account account)
         {
-            return account == null ? null : new AccountDbEntity
+            return new AccountDbEntity
             {
                 Id = account.Id,
                 AccountBalance = account.AccountBalance,

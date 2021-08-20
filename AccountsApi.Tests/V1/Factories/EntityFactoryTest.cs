@@ -182,7 +182,7 @@ namespace AccountsApi.Tests.V1.Factories
         {
             var accountModel = (AccountModel) null;
 
-            var domain = accountModel.ToDomain();
+            var domain= accountModel.ToDomain();
 
             domain.Should().BeNull();
         }
