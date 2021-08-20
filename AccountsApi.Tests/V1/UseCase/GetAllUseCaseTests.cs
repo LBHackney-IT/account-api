@@ -56,7 +56,7 @@ namespace AccountsApi.Tests.V1.UseCase
                     CreatedBy = "Admin",
                     RentGroupType = RentGroupType.Garages,
                     LastUpdatedBy = "Admin",
-                    TargetType = TargetType.Block
+                    TargetType = TargetType.Tenure
                 },
                 new Account()
                 {
@@ -73,7 +73,7 @@ namespace AccountsApi.Tests.V1.UseCase
                     CreatedBy = "Admin",
                     RentGroupType = RentGroupType.GenFundRents,
                     LastUpdatedBy = "Admin",
-                    TargetType = TargetType.Core
+                    TargetType = TargetType.Tenure
                 }
             };
 

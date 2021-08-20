@@ -33,7 +33,7 @@ namespace AccountsApi.Tests.V1.E2ETests
             var entity = new Account()
             {
                 Id = Guid.NewGuid(),
-                TargetType = TargetType.Block,
+                TargetType = TargetType.Tenure,
                 TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                 AccountType = AccountType.Master,
                 ParentAccount = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fh531"),

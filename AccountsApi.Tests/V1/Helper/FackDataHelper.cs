@@ -72,7 +72,7 @@ namespace AccountsApi.Tests.V1.Helper
                     new AccountDbEntity()
                     {
                         Id = Guid.NewGuid(),
-                        TargetType = TargetType.Block,
+                        TargetType = TargetType.Tenure,
                         TargetId = Guid.NewGuid(),
                         AccountType = AccountType.Master,
                         RentGroupType = RentGroupType.Garages,

@@ -37,7 +37,7 @@ namespace AccountsApi.Tests.V1.UseCase
                 CreatedBy = "Admin",
                 RentGroupType = RentGroupType.Garages,
                 LastUpdatedBy = "Admin",
-                TargetType = TargetType.Block
+                TargetType = TargetType.Tenure
             };
 
             _gateway.Setup(_ => _.AddAsync(It.IsAny<Account>()))

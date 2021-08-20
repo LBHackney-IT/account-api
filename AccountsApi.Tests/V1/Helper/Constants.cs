@@ -2,6 +2,8 @@
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Domain;
 using System;
+using System.Collections.Generic;
+using AccountsApi.V1.Boundary.Response;
 
 namespace AccountsApi.Tests.V1.Helper
 {
@@ -42,6 +44,19 @@ namespace AccountsApi.Tests.V1.Helper
         public const string TYPE = "Electricity";
         public const string FREQUENCY = "Weekly";
         public const decimal AMOUNT = 125.12M;
+
+        public static IEnumerable<ConsolidatedCharges> CONSOLIDATEDCHARGES { get; } = new ConsolidatedCharges[]
+        {
+            new ConsolidatedCharges
+            {
+                Frequency = "Monthly", Amount = 1232000.32M, Type = "Elevator"
+            },
+            new ConsolidatedCharges
+            {
+                Frequency = "Monthly", Amount = 363.44M, Type = "Cleaning"
+            }
+        };
+
         #endregion
 
         public static Account ConstructAccountFromConstants()
@@ -98,6 +113,31 @@ namespace AccountsApi.Tests.V1.Helper
                 StartDate = STARTDATE,
                 TargetId = TARGETID,
                 TargetType = TARGETTYPE
+            };
+        }
+
+        public static AccountModel ConstructorAccountModelFromConstants()
+        {
+            return new AccountModel
+            {
+                Id = ID,
+                ParentAccount = PARENTACCOUNT,
+                PaymentReference = PAYMENTREFERENCE,
+                AccountStatus = ACCOUNTSTATUS,
+                AgreementType = AGREEMENTTYPE,
+                AccountType = ACCOUNTTYPE,
+                CreatedBy = CREATEDBY,
+                CreatedDate = CREATEDDATE,
+                EndDate = ENDDATE,
+                LastUpdatedBy = LASTUPDATEDBY,
+                LastUpdatedDate = LASTUPDATEDDATE,
+                RentGroupType = RENTGROUPTYPE,
+                StartDate = STARTDATE,
+                TargetId = TARGETID,
+                TargetType = TARGETTYPE,
+                AccountBalance = ACCOUNTBALANCE,
+                Tenure       = TENURE,
+                ConsolidatedCharges = CONSOLIDATEDCHARGES
             };
         }
     }

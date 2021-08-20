@@ -93,7 +93,7 @@ namespace AccountsApi.Tests.V1.Gateways
                     CreatedBy = "Admin",
                     RentGroupType = RentGroupType.Garages,
                     LastUpdatedBy = "Admin",
-                    TargetType = TargetType.Block
+                    TargetType = TargetType.Tenure
                 },
                 new AccountDbEntity()
                 {
@@ -112,7 +112,7 @@ namespace AccountsApi.Tests.V1.Gateways
                     CreatedBy = "Admin",
                     RentGroupType = RentGroupType.Garages,
                     LastUpdatedBy = "Admin",
-                    TargetType = TargetType.Block
+                    TargetType = TargetType.Tenure
                 }
             };
 
@@ -223,7 +223,7 @@ namespace AccountsApi.Tests.V1.Gateways
                     CreatedBy = "Admin",
                     RentGroupType = RentGroupType.Garages,
                     LastUpdatedBy = "Admin",
-                    TargetType = TargetType.Block
+                    TargetType = TargetType.Tenure
                 },
                 new AccountDbEntity()
                 {
@@ -242,7 +242,7 @@ namespace AccountsApi.Tests.V1.Gateways
                     CreatedBy = "Admin",
                     RentGroupType = RentGroupType.Garages,
                     LastUpdatedBy = "Admin",
-                    TargetType = TargetType.Block
+                    TargetType = TargetType.Tenure
                 }
             };
 

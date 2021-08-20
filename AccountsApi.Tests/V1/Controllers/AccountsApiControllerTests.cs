@@ -65,7 +65,7 @@ namespace AccountsApi.Tests.V1.Controllers
                         new AccountModel
                         {
                             Id = Guid.Parse("82aa6932-e98d-41a1-a4d4-2b44135554f8"),
-                            TargetType = TargetType.Block,
+                            TargetType = TargetType.Tenure,
                             TargetId = Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"),
                             AccountType = AccountType.Master,
                             RentGroupType= RentGroupType.Garages,
@@ -99,7 +99,7 @@ namespace AccountsApi.Tests.V1.Controllers
                         new AccountModel
                         {
                             Id = Guid.Parse("72aa6932-e98d-41a1-a4d4-2b44135554f7"),
-                            TargetType = TargetType.Core,
+                            TargetType = TargetType.Tenure,
                             TargetId = Guid.Parse("64c5fbc4-2fc8-40dc-896a-0cfa671fc831"),
                             AccountType = AccountType.Recharge,
                             RentGroupType= RentGroupType.GenFundRents,
@@ -148,7 +148,7 @@ namespace AccountsApi.Tests.V1.Controllers
             accounts.AccountResponseList.Should().HaveCount(2);
 
             accounts.AccountResponseList[0].Id.Should().Be(Guid.Parse("82aa6932-e98d-41a1-a4d4-2b44135554f8"));
-            accounts.AccountResponseList[0].TargetType.Should().Be(TargetType.Block);
+            accounts.AccountResponseList[0].TargetType.Should().Be(TargetType.Tenure);
             accounts.AccountResponseList[0].TargetId.Should().Be(Guid.Parse("74c5fbc4-2fc8-40dc-896a-0cfa671fc832"));
             accounts.AccountResponseList[0].AccountType.Should().Be(AccountType.Master);
             accounts.AccountResponseList[0].RentGroupType.Should().Be(RentGroupType.Garages);
@@ -291,7 +291,7 @@ namespace AccountsApi.Tests.V1.Controllers
             // Arrange
             AccountRequest request = new AccountRequest
             {
-                TargetType = TargetType.Block,
+                TargetType = TargetType.Tenure,
                 TargetId = Guid.NewGuid(),
                 AccountType = AccountType.Recharge,
                 RentGroupType = RentGroupType.Garages,
@@ -308,7 +308,7 @@ namespace AccountsApi.Tests.V1.Controllers
             AccountModel response = new AccountModel
             {
                 Id = id,
-                TargetType = TargetType.Block,
+                TargetType = TargetType.Tenure,
                 TargetId = Guid.NewGuid(),
                 AccountType = AccountType.Recharge,
                 RentGroupType = RentGroupType.Garages,
@@ -341,7 +341,7 @@ namespace AccountsApi.Tests.V1.Controllers
             model.Id.Should().NotBeEmpty();
             model.ConsolidatedCharges.Should().BeNull();
             model.Tenure.Should().BeNull();
-            model.TargetType.Should().Be(TargetType.Block);
+            model.TargetType.Should().Be(TargetType.Tenure);
             model.TargetId.Should().NotBeEmpty();
             model.AccountType.Should().Be(AccountType.Recharge);
             model.RentGroupType.Should().Be(RentGroupType.Garages);
@@ -368,7 +368,7 @@ namespace AccountsApi.Tests.V1.Controllers
             AccountModel modelToUpdate = new AccountModel
             {
                 Id = guid,
-                TargetType = TargetType.Block,
+                TargetType = TargetType.Tenure,
                 TargetId = Guid.NewGuid(),
                 AccountType = AccountType.Recharge,
                 RentGroupType = RentGroupType.Garages,
@@ -511,7 +511,7 @@ namespace AccountsApi.Tests.V1.Controllers
                         CreatedBy = "Admin",
                         RentGroupType = RentGroupType.Garages,
                         LastUpdatedBy = "Admin",
-                        TargetType = TargetType.Block,
+                        TargetType = TargetType.Tenure,
                         PaymentReference = "123234345",
                         ParentAccount = new Guid("17b107e7-b7a1-4c14-a1c9-0630cebdfe82")
                     },
@@ -530,7 +530,7 @@ namespace AccountsApi.Tests.V1.Controllers
                         CreatedBy = "Admin",
                         RentGroupType = RentGroupType.GenFundRents,
                         LastUpdatedBy = "Admin",
-                        TargetType = TargetType.Core,
+                        TargetType = TargetType.Tenure,
                         PaymentReference = "987876765",
                         ParentAccount = new Guid("17b107e7-b7a1-4c14-a1c9-0630cebdf6h7")
                     }
