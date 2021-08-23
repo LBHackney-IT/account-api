@@ -42,7 +42,7 @@ namespace AccountsApi.V1.Gateways
             {
                 Message = message,
                 TopicArn = Environment.GetEnvironmentVariable("ACCOUNT_SNS_ARN"),
-                MessageGroupId = "SomeGroupId"
+                MessageGroupId = "AccountSnsGroupId"
             };
             await _amazonSimpleNotificationService.PublishAsync(request).ConfigureAwait(false);
         }
