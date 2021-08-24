@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 namespace AccountsApi.V1.UseCase
 {
-    //TODO: Rename class name and interface name to reflect the entity they are representing eg. GetAllClaimantsUseCase
     public class GetAllUseCase : IGetAllUseCase
     {
         private readonly IAccountApiGateway _gateway;
@@ -19,12 +18,13 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountResponseObjectList> ExecuteAsync(Guid targetId)
+        public async Task<AccountResponses> ExecuteAsync(Guid targetId, AccountType accountType)
         {
-            string accountType = "Test";
-            AccountResponseObjectList accountResponseObjectList = new AccountResponseObjectList();
+            AccountResponses accountResponseObjectList = new AccountResponses();
             List<Account> data = await _gateway.GetAllAsync(targetId, accountType).ConfigureAwait(false);
-            accountResponseObjectList.AccountResponseObjects = data?.Select(p => p.ToResponse()).ToList();
+
+            accountResponseObjectList.AccountResponseList = data?.Select(p => p.ToResponse()).ToList();
+
             return accountResponseObjectList;
         }
     }
