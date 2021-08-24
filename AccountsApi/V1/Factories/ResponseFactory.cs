@@ -7,27 +7,34 @@ namespace AccountsApi.V1.Factories
 {
     public static class AccountResponseFactory
     {
-        public static AccountResponseObject ToResponse(this Account domain)
+        public static AccountModel ToResponse(this Account domain)
         {
-            return new AccountResponseObject()
+            return domain == null ? null : new AccountModel()
             {
                 AccountBalance = domain.AccountBalance,
                 AccountStatus = domain.AccountStatus,
                 EndDate = domain.EndDate,
-                LastUpdated = domain.LastUpdated,
-                PaymentReference = domain.PaymentReference,
+                LastUpdatedDate = domain.LastUpdatedDate,
+                LastUpdatedBy = domain.LastUpdatedBy,
+                CreatedDate = domain.CreatedDate,
+                CreatedBy = domain.CreatedBy,
                 StartDate = domain.StartDate,
                 Id = domain.Id,
                 TargetId = domain.TargetId,
                 TargetType = domain.TargetType,
-                TotalCharged = domain.TotalCharged,
-                TotalPaid = domain.TotalPaid
+                AccountType = domain.AccountType,
+                AgreementType = domain.AgreementType,
+                Tenure = domain.Tenure,
+                ConsolidatedCharges = domain.ConsolidatedCharges,
+                RentGroupType = domain.RentGroupType,
+                PaymentReference = domain.PaymentReference,
+                ParentAccount = domain.ParentAccount
             };
         }
 
-        public static List<AccountResponseObject> ToResponse(this IEnumerable<Account> domainList)
+        public static List<AccountModel> ToResponse(this IEnumerable<Account> domainList)
         {
-            return domainList.Select(domain => domain.ToResponse()).ToList();
+            return domainList == null ? new List<AccountModel>() : domainList.Select(domain => domain.ToResponse()).ToList();
         }
     }
 }
