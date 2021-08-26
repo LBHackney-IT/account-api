@@ -12,7 +12,7 @@ namespace AccountsApi.V1.Infrastructure
         [DynamoDBProperty(AttributeName = "id")]
         public Guid Id { get; set; }
 
-        [DynamoDBProperty(AttributeName="parent_account")]
+        [DynamoDBProperty(AttributeName = "parent_account")]
         public Guid ParentAccount { get; set; }
 
         [DynamoDBProperty(AttributeName = "payment_reference")]

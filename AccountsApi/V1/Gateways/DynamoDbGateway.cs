@@ -87,7 +87,7 @@ namespace AccountsApi.V1.Gateways
                         });
                     }
                 }
-                catch{}
+                catch { }
 
                 Tenure tenure = null;
                 try
@@ -98,7 +98,7 @@ namespace AccountsApi.V1.Gateways
                     tenure.TenancyId = _tenure["tenancyId"].S;
                     tenure.TenancyType = _tenure["tenancyType"].S;
                 }
-                catch{}
+                catch { }
 
                 accounts.Add(new Account
                 {
