@@ -9,7 +9,6 @@ Base API is a boilerplate code for being reused for new APIs for LBH
 
 ## Dependencies
 
-- Universal Housing Simulator
 
 ## Contributing
 
