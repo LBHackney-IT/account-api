@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AccountsApi.V1;
 using AccountsApi.V1.Controllers;
 using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
