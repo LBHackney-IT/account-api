@@ -45,7 +45,7 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             Assert.IsType<Guid>(account.TargetId);
             Assert.IsType<TargetType>(account.TargetType);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
-            Assert.IsType<Tenure>(account.Tenure); 
+            Assert.IsType<Tenure>(account.Tenure);
             #endregion
 
             #region ConsolidatedCharge

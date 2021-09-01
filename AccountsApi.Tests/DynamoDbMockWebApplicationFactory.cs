@@ -50,7 +50,7 @@ namespace AccountsApi.Tests
                     // Hanna Holosova
                     // This command helps to prevent the next exception:
                     // Amazon.XRay.Recorder.Core.Exceptions.EntityNotAvailableException : Entity doesn't exist in AsyncLocal
-                     AWSXRayRecorder.Instance.ContextMissingStrategy = ContextMissingStrategy.LOG_ERROR;
+                    AWSXRayRecorder.Instance.ContextMissingStrategy = ContextMissingStrategy.LOG_ERROR;
 
                     var request = new CreateTableRequest(table.Name,
                         new List<KeySchemaElement> { new KeySchemaElement(table.KeyName, KeyType.HASH) },

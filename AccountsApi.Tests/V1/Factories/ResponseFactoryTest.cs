@@ -22,7 +22,7 @@ namespace AccountsApi.Tests.V1.Factories
         [MemberData(nameof(MockAccount.GetTestData), MemberType = typeof(MockAccount))]
         public void ToResponseCanMapAccountToAccountModel(Account domain)
         {
-            var response = domain.ToResponse(); 
+            var response = domain.ToResponse();
             response.Should().BeEquivalentTo(domain);
         }
 

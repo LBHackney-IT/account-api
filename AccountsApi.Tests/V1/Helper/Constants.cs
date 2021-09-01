@@ -136,7 +136,7 @@ namespace AccountsApi.Tests.V1.Helper
                 TargetId = TARGETID,
                 TargetType = TARGETTYPE,
                 AccountBalance = ACCOUNTBALANCE,
-                Tenure       = TENURE,
+                Tenure = TENURE,
                 ConsolidatedCharges = CONSOLIDATEDCHARGES
             };
         }

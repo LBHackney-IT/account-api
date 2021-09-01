@@ -74,9 +74,9 @@ namespace AccountsApi.Tests.V1.Factories
         }
 
         [Theory]
-        [MemberData(nameof(MockAccount.GetTestData),MemberType = typeof(MockAccount))]
+        [MemberData(nameof(MockAccount.GetTestData), MemberType = typeof(MockAccount))]
         public void ToDatabaseMapAccountToAccountDbEntity(Account domain)
-        { 
+        {
             AccountDbEntity dbEntity = domain.ToDatabase();
             dbEntity.Should().NotBeNull();
             dbEntity.Should().BeEquivalentTo(domain);

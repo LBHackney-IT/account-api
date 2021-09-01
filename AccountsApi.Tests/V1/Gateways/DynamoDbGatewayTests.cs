@@ -31,7 +31,7 @@ namespace AccountsApi.Tests.V1.Gateways
         {
             _dynamoDb = new Mock<IDynamoDBContext>();
             _amazonDynamoDb = new Mock<IAmazonDynamoDB>();
-            _gateway = new DynamoDbGateway(_dynamoDb.Object,_amazonDynamoDb.Object);
+            _gateway = new DynamoDbGateway(_dynamoDb.Object, _amazonDynamoDb.Object);
         }
 
         #region GetById
@@ -63,7 +63,7 @@ namespace AccountsApi.Tests.V1.Gateways
 
             dbEntity.Should().NotBeNull();
             dbEntity.Id.Should().Be(id);
-        } 
+        }
         #endregion
 
         #region Add
@@ -205,12 +205,12 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(x => x.DeleteAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            async Task Func() => await _gateway.RemoveAsync((Account)null).ConfigureAwait(false);
+            async Task Func() => await _gateway.RemoveAsync((Account) null).ConfigureAwait(false);
 
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
             _dynamoDb.Verify(x => x.DeleteAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()), Times.Never());
             Assert.Equal("Value cannot be null. (Parameter 'The provided model shouldn't be null')", exception.Message);
-        } 
+        }
         #endregion
     }
 }

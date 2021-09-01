@@ -47,8 +47,8 @@ namespace AccountsApi.Tests.V1.UseCase
         public async Task ExecuteAsyncWithValidParametersReturnsRealAccountList()
         {
             // Arrange
-            var gatewayResponse = Enumerable.Range(0,20)
-                .Select(x=> _fixture.Build<Account>().Create())
+            var gatewayResponse = Enumerable.Range(0, 20)
+                .Select(x => _fixture.Build<Account>().Create())
                 .ToList();
 
             _gateway.Setup(_ => _.GetAllAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
@@ -61,7 +61,7 @@ namespace AccountsApi.Tests.V1.UseCase
             result.Should().NotBeNull();
 
             result.AccountResponseList.Should().NotBeNull();
-            _gateway.Verify(p => p.GetAllAsync(It.IsAny<Guid>(),It.IsAny<AccountType>()), Times.Once);
+            _gateway.Verify(p => p.GetAllAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()), Times.Once);
             result.AccountResponseList.Should().HaveCount(20);
             result.AccountResponseList[0].Should().BeEquivalentTo(gatewayResponse[0]);
             result.AccountResponseList[1].Should().BeEquivalentTo(gatewayResponse[1]);

@@ -43,7 +43,7 @@ namespace AccountsApi.Tests.V1.Domain
             Assert.IsType<DateTime>(account.EndDate);
             Assert.IsType<AccountStatus>(account.AccountStatus);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
-            Assert.IsType<Tenure>(account.Tenure); 
+            Assert.IsType<Tenure>(account.Tenure);
             #endregion
 
             #region ConsolidatedCharge
@@ -73,7 +73,7 @@ namespace AccountsApi.Tests.V1.Domain
             entityPrimaryTenant.GetProperties().Length.Should().Be(1);
 
             PrimaryTenant primaryTenant = _fixture.Create<PrimaryTenant>();
-            Assert.IsType<string>(primaryTenant.FullName); 
+            Assert.IsType<string>(primaryTenant.FullName);
             #endregion
 
         }

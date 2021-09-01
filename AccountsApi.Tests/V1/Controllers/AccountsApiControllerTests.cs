@@ -70,15 +70,15 @@ namespace AccountsApi.Tests.V1.Controllers
             accountModel2.TargetId = targetId;
             accountModel2.AccountType = accountType;
 
-            List<AccountModel> accountModels = new List<AccountModel>() {accountModel1, accountModel2};
-            AccountResponses accountResponses = new AccountResponses {AccountResponseList = accountModels};
+            List<AccountModel> accountModels = new List<AccountModel>() { accountModel1, accountModel2 };
+            AccountResponses accountResponses = new AccountResponses { AccountResponseList = accountModels };
 
             _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(),
                     It.IsAny<AccountType>()))
                 .ReturnsAsync(accountResponses);
 
             // Action
-            var result = await _sut.GetAllAsync(targetId,AccountType.Recharge).ConfigureAwait(false);
+            var result = await _sut.GetAllAsync(targetId, AccountType.Recharge).ConfigureAwait(false);
 
             // Assert
             result.Should().NotBeNull();
@@ -174,9 +174,9 @@ namespace AccountsApi.Tests.V1.Controllers
             var baseError = notFoundResult?.Value as BaseErrorResponse;
 
             baseError?.StatusCode.Should().Be((int) HttpStatusCode.NotFound);
-                     
+
             baseError?.Message.Should().BeEquivalentTo("The Account by provided id not found!");
-                     
+
             baseError?.Details.Should().BeEquivalentTo(string.Empty);
         }
 
@@ -226,7 +226,7 @@ namespace AccountsApi.Tests.V1.Controllers
             // Assert
             result.Should().NotBeNull();
 
-            AccountModel model = (AccountModel)((CreatedAtActionResult) result).Value;
+            AccountModel model = (AccountModel) ((CreatedAtActionResult) result).Value;
 
             model.Should().NotBeNull();
 
