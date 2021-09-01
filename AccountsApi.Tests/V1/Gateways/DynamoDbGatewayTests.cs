@@ -14,13 +14,13 @@ namespace AccountsApi.Tests.V1.Gateways
 {
     [TestFixture]
     public class DynamoDbGatewayTests
-    { 
-        private Mock<IDynamoDBContext> _dynamoDb; 
+    {
+        private Mock<IDynamoDBContext> _dynamoDb;
 
         [SetUp]
         public void Setup()
         {
-            _dynamoDb = new Mock<IDynamoDBContext>(); 
-        } 
+            _dynamoDb = new Mock<IDynamoDBContext>();
+        }
     }
 }
