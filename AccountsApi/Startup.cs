@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AccountsApi.V1;
 using AccountsApi.V1.Controllers;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AccountsApi.V1.Gateways;
@@ -36,14 +37,15 @@ namespace AccountsApi
 
         public IConfiguration Configuration { get; }
         private static List<ApiVersionDescription> _apiVersions { get; set; }
-        //TODO update the below to the name of your API
-        private const string ApiName = "Your API Name";
+
+        private const string ApiName = "AccountsAPI";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services
                 .AddMvc()
+                .AddNewtonsoftJson()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddApiVersioning(o =>
             {
@@ -113,12 +115,15 @@ namespace AccountsApi
 
             ConfigureLogging(services, Configuration);
 
-            //ConfigureDbContext(services);
-            //TODO: For DynamoDb, remove the line above and uncomment the line below.
             services.ConfigureDynamoDB();
 
             RegisterGateways(services);
             RegisterUseCases(services);
+
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         private static void ConfigureDbContext(IServiceCollection services)
@@ -151,10 +156,7 @@ namespace AccountsApi
 
         private static void RegisterGateways(IServiceCollection services)
         {
-            services.AddScoped<IAccountApiGateway, AccountApiGateway>();
-
-            //TODO: For DynamoDb, remove the line above and uncomment the line below.
-            //services.AddScoped<IExampleGateway, DynamoDbGateway>();
+            services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
@@ -163,7 +165,7 @@ namespace AccountsApi
             services.AddScoped<IGetByIdUseCase, GetByIdUseCase>();
             services.AddScoped<IAddUseCase, AddUseCase>();
             services.AddScoped<IUpdateUseCase, UpdateUseCase>();
-            services.AddScoped<IRemoveUseCase, RemoveUseCase>();
+            services.AddScoped<IGetAllArrearsUseCase, GetAllArrearsUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -180,8 +182,6 @@ namespace AccountsApi
                 app.UseHsts();
             }
 
-            // TODO
-            // If you DON'T use the renaming script, PLEASE replace with your own API name manually
             app.UseXRay("accounts-api");
 
 
@@ -199,6 +199,7 @@ namespace AccountsApi
                         $"{ApiName}-api {apiVersionDescription.GetFormattedApiVersion()}");
                 }
             });
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseSwagger();
             app.UseRouting();
             app.UseEndpoints(endpoints =>

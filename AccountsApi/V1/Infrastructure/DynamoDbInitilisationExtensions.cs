@@ -1,5 +1,6 @@
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
+using Amazon.Runtime;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
@@ -10,15 +11,19 @@ namespace AccountsApi.V1.Infrastructure
         public static void ConfigureDynamoDB(this IServiceCollection services)
         {
             bool localMode = false;
-            _ = bool.TryParse(Environment.GetEnvironmentVariable("DynamoDb_LocalMode"), out localMode);
+            _ = bool.TryParse(Environment.GetEnvironmentVariable("Dynamo" +
+                "Db_LocalMode"), out localMode);
 
             if (localMode)
             {
                 var url = Environment.GetEnvironmentVariable("DynamoDb_LocalServiceUrl");
+                var accessKey = Environment.GetEnvironmentVariable("DynamoDb_LocalAccessKey");
+                var secretKey = Environment.GetEnvironmentVariable("DynamoDb_LocalSecretKey");
                 services.AddSingleton<IAmazonDynamoDB>(sp =>
                 {
                     var clientConfig = new AmazonDynamoDBConfig { ServiceURL = url };
-                    return new AmazonDynamoDBClient(clientConfig);
+                    var credentials = new BasicAWSCredentials(accessKey, secretKey);
+                    return new AmazonDynamoDBClient(credentials, clientConfig);
                 });
             }
             else

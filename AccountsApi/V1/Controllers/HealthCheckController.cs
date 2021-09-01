@@ -25,6 +25,5 @@ namespace AccountsApi.V1.Controllers
         {
             ThrowOpsErrorUsecase.Execute();
         }
-
     }
 }
