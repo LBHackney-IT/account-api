@@ -1,35 +1,32 @@
 using System;
 using AccountsApi.V1.Domain;
 using AutoFixture;
-using AutoFixture.Dsl;
-using AutoFixture.Kernel;
-using Bogus;
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.Domain
 {
-    [TestFixture]
     public class AccountSnsTests
     {
-        private static Fixture _fixture = new Fixture();
+        private static readonly Fixture _fixture = new Fixture();
 
-        [TestCase(TestName = "Account Sns object should have the correct properties")]
+        [Fact(DisplayName = "Account Sns object should have the correct properties")]
         public void AccountSnsObjectShouldHaveTheCorrectProperties()
         {
             var entityType = typeof(AccountSns);
             entityType.GetProperties().Length.Should().Be(10);
             var entity = _fixture.Create<AccountSns>();
-            Assert.That(entity, Has.Property("Id").InstanceOf(typeof(Guid)));
-            Assert.That(entity, Has.Property("EventType").InstanceOf(typeof(string)));
-            Assert.That(entity, Has.Property("SourceDomain").InstanceOf(typeof(string)));
-            Assert.That(entity, Has.Property("SourceSystem").InstanceOf(typeof(string)));
-            Assert.That(entity, Has.Property("Version").InstanceOf(typeof(string)));
-            Assert.That(entity, Has.Property("CorrelationId").InstanceOf(typeof(Guid)));
-            Assert.That(entity, Has.Property("DateTime").InstanceOf(typeof(DateTime)));
-            Assert.That(entity, Has.Property("User").InstanceOf(typeof(User)));
-            Assert.That(entity, Has.Property("EntityId").InstanceOf(typeof(Guid)));
-            Assert.That(entity, Has.Property("EventData").InstanceOf(typeof(EventData)));
+
+            Assert.IsType<Guid>(entity.Id);
+            Assert.IsType<string>(entity.EventType);
+            Assert.IsType<string>(entity.SourceDomain);
+            Assert.IsType<string>(entity.SourceSystem);
+            Assert.IsType<string>(entity.Version);
+            Assert.IsType<Guid>(entity.CorrelationId);
+            Assert.IsType<DateTime>(entity.DateTime);
+            Assert.IsType<User>(entity.User);
+            Assert.IsType<Guid>(entity.EntityId);
+            Assert.IsType<EventData>(entity.EventData);
         }
     }
 }

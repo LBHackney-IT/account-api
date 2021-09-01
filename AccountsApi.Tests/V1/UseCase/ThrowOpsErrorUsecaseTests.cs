@@ -1,13 +1,12 @@
 using AccountsApi.V1.UseCase;
 using FluentAssertions;
-using NUnit.Framework;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
 {
-    [TestFixture]
     public class ThrowOpsErrorUsecaseTests
     {
-        [Test]
+        [Fact]
         public void ThrowsTestOpsErrorException()
         {
             var ex = Assert.Throws<TestOpsErrorException>(

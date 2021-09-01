@@ -1,20 +1,21 @@
+using AccountsApi.V1.Infrastructure;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
-using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
-using NUnit.Framework;
 using System;
 using System.Linq;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.Infrastructure
 {
-    [TestFixture]
+    [Collection("MainCollection")]
     public class DynamoDbInitilisationExtensionsTests
     {
-        [TestCase(null)]
-        [TestCase("false")]
-        [TestCase("true")]
+        [Theory]
+        [InlineData(null)]
+        [InlineData("false")]
+        [InlineData("true")]
         public void ConfigureDynamoDBTestNoLocalModeEnvVarUsesAWSService(string localModeEnvVar)
         {
             Environment.SetEnvironmentVariable("DynamoDb_LocalMode", localModeEnvVar);

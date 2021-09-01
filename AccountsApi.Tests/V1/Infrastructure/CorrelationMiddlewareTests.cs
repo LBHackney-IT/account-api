@@ -1,25 +1,22 @@
-using System.Threading.Tasks;
-using AccountsApi.V1;
 using AccountsApi.V1.Controllers;
-using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using NUnit.Framework;
+using System.Threading.Tasks;
+using AccountsApi.V1;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.Infrastructure
 {
-    [TestFixture]
     public class CorrelationMiddlewareTest
     {
         private CorrelationMiddleware _sut;
 
-        [SetUp]
-        public void Init()
+        public CorrelationMiddlewareTest()
         {
             _sut = new CorrelationMiddleware(null);
         }
 
-        [Test]
+        [Fact]
         public async Task DoesNotReplaceCorrelationIdIfOneExists()
         {
             // Arrange
@@ -33,9 +30,10 @@ namespace AccountsApi.Tests.V1.Infrastructure
 
             // Assert
             httpContext.HttpContext.Request.Headers[Constants.CorrelationId].Should().BeEquivalentTo(headerValue);
+            httpContext.HttpContext.Response.Headers[Constants.CorrelationId].Should().BeEquivalentTo(headerValue);
         }
 
-        [Test]
+        [Fact]
         public async Task AddsCorrelationIdIfOneDoesNotExist()
         {
             // Arrange
@@ -46,6 +44,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
 
             // Assert
             httpContext.HttpContext.Request.Headers[Constants.CorrelationId].Should().HaveCountGreaterThan(0);
+            httpContext.HttpContext.Response.Headers[Constants.CorrelationId].Should().HaveCountGreaterThan(0);
         }
     }
 }

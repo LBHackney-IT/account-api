@@ -1,42 +1,70 @@
-using System.Linq;
-using AutoFixture;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
-using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways;
-using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase;
+using AutoFixture;
 using FluentAssertions;
 using Moq;
-using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
 {
     public class GetAllUseCaseTests
     {
-        private Mock<IAccountApiGateway> _mockGateway;
-        private GetAllUseCase _classUnderTest;
-        private Fixture _fixture;
+        private readonly Fixture _fixture;
+        private readonly Mock<IAccountApiGateway> _gateway;
+        private readonly GetAllUseCase _getAllUseCase;
 
-        [SetUp]
-        public void SetUp()
+        public GetAllUseCaseTests()
         {
-            _mockGateway = new Mock<IAccountApiGateway>();
-            _classUnderTest = new GetAllUseCase(_mockGateway.Object);
             _fixture = new Fixture();
+            _gateway = new Mock<IAccountApiGateway>();
+            _getAllUseCase = new GetAllUseCase(_gateway.Object);
         }
 
-        // [Test]
-        // public void GetsAllFromTheGateway()
-        // {
-        //     var stubbedEntities = _fixture.CreateMany<AccountDbEntity>().ToList();
-        //     _mockGateway.Setup(x => x.GetAll()).Returns(stubbedEntities);
-        //
-        //     var expectedResponse = new ResponseObjectList { ResponseObjects = stubbedEntities.ToResponse() };
-        //
-        //     _classUnderTest.Execute().Should().BeEquivalentTo(expectedResponse);
-        // }
+        [Fact]
+        public async Task ExecuteAsyncNoneExistIDReturnsEmpryAccountList()
+        {
+            // Arrange
+            _gateway.Setup(_ => _.GetAllAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
+                .ReturnsAsync(new List<Account>());
 
-        //TODO: Add extra tests here for extra functionality added to the use case
+            // Act
+            var result = await _getAllUseCase.ExecuteAsync(Guid.NewGuid(), AccountType.Master).ConfigureAwait(false);
+
+            // Assert
+            result.Should().NotBeNull();
+            result.AccountResponseList.Should().NotBeNull();
+            result.AccountResponseList.Should().HaveCount(0);
+            _gateway.Verify(x => x.GetAllAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ExecuteAsyncWithValidParametersReturnsRealAccountList()
+        {
+            // Arrange
+            var gatewayResponse = Enumerable.Range(0,20)
+                .Select(x=> _fixture.Build<Account>().Create())
+                .ToList();
+
+            _gateway.Setup(_ => _.GetAllAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
+                .ReturnsAsync(gatewayResponse);
+
+            // Act
+            var result = await _getAllUseCase.ExecuteAsync(Guid.NewGuid(), AccountType.Master).ConfigureAwait(false);
+
+            // Assert
+            result.Should().NotBeNull();
+
+            result.AccountResponseList.Should().NotBeNull();
+            _gateway.Verify(p => p.GetAllAsync(It.IsAny<Guid>(),It.IsAny<AccountType>()), Times.Once);
+            result.AccountResponseList.Should().HaveCount(20);
+            result.AccountResponseList[0].Should().BeEquivalentTo(gatewayResponse[0]);
+            result.AccountResponseList[1].Should().BeEquivalentTo(gatewayResponse[1]);
+        }
     }
 }
