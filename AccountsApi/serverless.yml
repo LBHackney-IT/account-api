@@ -25,12 +25,12 @@ package:
   artifact: ./bin/release/netcoreapp3.1/your-api-name.zip
 
 functions:
-  baseApi:
+  accountsApi:
     name: ${self:service}-${self:provider.stage}
     handler: AccountsApi::AccountsApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
     environment:
-      ACCOUNTS_SNS_ARN: ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
+      ACCOUNTS_SNS_ARN: ${ssm:/accounts-api/${self:provider.stage}/accounts/arn}
     events:
       - http:
           path: /{proxy+}
@@ -90,6 +90,29 @@ resources:
                   Action:
                     - "lambda:InvokeFunction"
                   Resource: "*"
+          - PolicyName: accountsDynamoDBAccess
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - "dynamodb:BatchGet*"
+                    - "dynamodb:BatchWrite"
+                    - "dynamodb:DeleteItem"
+                    - "dynamodb:DescribeStream"
+                    - "dynamodb:DescribeTable"
+                    - "dynamodb:Get*"
+                    - "dynamodb:PutItem"
+                    - "dynamodb:Query"
+                    - "dynamodb:Scan"
+                    - "dynamodb:UpdateItem"
+                  Resource:
+                    - 'Fn::Join':
+                        - ':'
+                        - - 'arn:aws:dynamodb'
+                          - Ref: 'AWS::Region'
+                          - Ref: 'AWS::AccountId'
+                          - 'table/accounts'
 custom:
   vpc:
     development:
