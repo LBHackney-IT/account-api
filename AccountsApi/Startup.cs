@@ -163,7 +163,6 @@ namespace AccountsApi
             services.AddScoped<IGetByIdUseCase, GetByIdUseCase>();
             services.AddScoped<IAddUseCase, AddUseCase>();
             services.AddScoped<IUpdateUseCase, UpdateUseCase>();
-            services.AddScoped<IRemoveUseCase, RemoveUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

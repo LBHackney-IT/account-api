@@ -1,13 +1,11 @@
+using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AccountsApi.V1.Boundary.Request;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -19,11 +17,15 @@ namespace AccountsApi.V1.UseCase
         {
             _gateway = gateway;
         }
-
-
-        public Task<AccountModel> ExecuteAsync(AccountRequest account)
+        public async Task<AccountModel> ExecuteAsync(AccountRequest account)
         {
-            throw new NotImplementedException();
+            Account domain = account.ToDomain();
+
+            domain.Id = Guid.NewGuid();
+
+            await _gateway.AddAsync(domain).ConfigureAwait(false);
+
+            return domain.ToResponse();
         }
     }
 }
