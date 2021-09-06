@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace AccountsApi.V1.UseCase.Interfaces
 {
-    public interface IAddUseCase
+    public interface IGetAllArrearsUseCase
     {
-        public Task<AccountModel> ExecuteAsync(AccountRequest account);
+        public Task<AccountResponses> ExecuteAsync(ArrearRequest arrearRequest);
     }
 }

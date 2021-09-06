@@ -6,6 +6,6 @@ namespace AccountsApi.V1.UseCase.Interfaces
 {
     public interface IGetByIdUseCase
     {
-        public Task<AccountResponseObject> ExecuteAsync(Guid id);
+        public Task<AccountModel> ExecuteAsync(Guid id);
     }
 }
