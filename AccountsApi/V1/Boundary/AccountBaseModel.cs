@@ -3,7 +3,7 @@ using System;
 
 namespace AccountsApi.V1.Boundary
 {
-    public class AccountBaseModel
+    public abstract class AccountBaseModel
     {
         /// <summary>
         ///     Foreign reference number to attache to the the parent account.
