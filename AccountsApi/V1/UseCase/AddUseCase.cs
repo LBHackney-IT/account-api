@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AccountsApi.V1.Boundary.Request;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -19,17 +20,10 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public AccountResponseObject Execute(Account account)
-        {
-            _gateway.Add(account);
-            return account.ToResponse();
 
-        }
-
-        public async Task<AccountResponseObject> ExecuteAsync(Account account)
+        public Task<AccountModel> ExecuteAsync(AccountRequest account)
         {
-            await _gateway.AddAsync(account).ConfigureAwait(false);
-            return account.ToResponse();
+            throw new NotImplementedException();
         }
     }
 }

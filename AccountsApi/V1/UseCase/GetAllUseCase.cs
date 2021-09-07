@@ -19,13 +19,9 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public async Task<AccountResponseObjectList> ExecuteAsync(Guid targetId)
+        public Task<AccountResponses> ExecuteAsync(Guid targetId, AccountType accountType)
         {
-            string accountType = "Test";
-            AccountResponseObjectList accountResponseObjectList = new AccountResponseObjectList();
-            List<Account> data = await _gateway.GetAllAsync(targetId, accountType).ConfigureAwait(false);
-            accountResponseObjectList.AccountResponseObjects = data?.Select(p => p.ToResponse()).ToList();
-            return accountResponseObjectList;
+            throw new NotImplementedException();
         }
     }
 }

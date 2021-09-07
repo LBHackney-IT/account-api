@@ -19,16 +19,9 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        public AccountResponseObject Execute(Account account)
+        public Task<AccountModel> ExecuteAsync(AccountModel account)
         {
-            _gateway.Update(account);
-            return account.ToResponse();
-        }
-
-        public async Task<AccountResponseObject> ExecuteAsync(Account account)
-        {
-            await _gateway.UpdateAsync(account).ConfigureAwait(false);
-            return account.ToResponse();
+            throw new NotImplementedException();
         }
     }
 }
