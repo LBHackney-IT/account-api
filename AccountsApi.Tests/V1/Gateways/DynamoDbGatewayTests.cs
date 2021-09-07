@@ -114,7 +114,21 @@ namespace AccountsApi.Tests.V1.Gateways
         [Fact]
         public async Task GetAll_DbReturnsItems_ReturnsList()
         {
-            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountModel>(); /*_fixture.Create<QueryResponse>();*/
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountModel>();
+
+            _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            var result = await _gateway.GetAllAsync(Guid.NewGuid(), AccountType.Master).ConfigureAwait(false);
+            _amazonDynamoDb.Verify(x => x.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()), Times.Once);
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(response.ToAccounts());
+        }
+
+        [Fact]
+        public async Task GetAll_DbReturnsItemsWithoutConsolidatedCharges_ReturnsList()
+        {
+            QueryResponse response = FakeDataHelper.MockQueryResponseWithoutConsolidatedCharges<AccountModel>();
 
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);

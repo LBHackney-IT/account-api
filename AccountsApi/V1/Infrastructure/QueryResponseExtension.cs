@@ -16,9 +16,10 @@ namespace AccountsApi.V1.Infrastructure
             {
                 List<ConsolidatedCharge> consolidatedChargesList = null;
 
-                try
+                if (item.Keys.Any(p => p == "consolidated_charges"))
                 {
                     var charges = item["consolidated_charges"].L;
+
                     var chargesItems = charges.Select(p => p.M);
                     consolidatedChargesList = new List<ConsolidatedCharge>();
                     foreach (Dictionary<string, AttributeValue> inneritem in chargesItems)
@@ -31,18 +32,16 @@ namespace AccountsApi.V1.Infrastructure
                         });
                     }
                 }
-                catch { }
 
                 Tenure tenure = null;
-                try
+                if(item.Keys.Any(p=>p== "tenure"))
                 {
                     var _tenure = item["tenure"].M;
                     tenure = new Tenure();
                     tenure.FullAddress = _tenure["fullAddress"].S;
                     tenure.TenancyId = _tenure["tenancyId"].S;
                     tenure.TenancyType = _tenure["tenancyType"].S;
-                }
-                catch { }
+                } 
 
                 accounts.Add(new Account
                 {
