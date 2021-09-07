@@ -1,86 +1,88 @@
-using Amazon.DynamoDBv2.DataModel;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2.DocumentModel;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Policy;
+using System.Threading.Tasks;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.Model;
+using Amazon.Runtime;
 
 namespace AccountsApi.V1.Gateways
 {
     public class DynamoDbGateway : IAccountApiGateway
     {
         private readonly IDynamoDBContext _dynamoDbContext;
+        private readonly IAmazonDynamoDB _amazonDynamoDb;
 
-        public DynamoDbGateway(IDynamoDBContext dynamoDbContext)
+        public DynamoDbGateway(IDynamoDBContext dynamoDbContext, IAmazonDynamoDB amazonDynamoDb)
         {
             _dynamoDbContext = dynamoDbContext;
-        }
-
-        public void Add(Account account)
-        {
-            _dynamoDbContext.SaveAsync<AccountDbEntity>(account.ToDatabase());
-        }
-
-        public async Task AddAsync(Account account)
-        {
-            await _dynamoDbContext.SaveAsync<AccountDbEntity>(account.ToDatabase())
-                .ConfigureAwait(false);
-        }
-
-        public void AddRange(List<Account> accounts)
-        {
-            accounts.ForEach(account =>
-            {
-                Add(account);
-            });
-        }
-
-        public async Task AddRangeAsync(List<Account> accounts)
-        {
-            foreach (Account account in accounts)
-            {
-                await AddAsync(account).ConfigureAwait(false);
-            }
-        }
-
-        public async Task<List<Account>> GetAllAsync(Guid targetId, string accountType)
-        {
-            ScanCondition scanCondition_targetid = new ScanCondition("TargetId", Amazon.DynamoDBv2.DocumentModel.ScanOperator.Equal, targetId);
-            List<ScanCondition> scanConditions = new List<ScanCondition>();
-            scanConditions.Add(scanCondition_targetid);
-
-            List<AccountDbEntity> data = await _dynamoDbContext
-                .ScanAsync<AccountDbEntity>(scanConditions)
-                .GetRemainingAsync()
-                .ConfigureAwait(false);
-
-            return data.Select(p => p.ToDomain()).ToList();
+            this._amazonDynamoDb = amazonDynamoDb;
         }
 
         public async Task<Account> GetByIdAsync(Guid id)
         {
             var result = await _dynamoDbContext.LoadAsync<AccountDbEntity>(id).ConfigureAwait(false);
+
             return result?.ToDomain();
         }
+
+        public async Task AddAsync(Account account)
+        {
+            await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
+        }
+
+        public async Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
+        {
+            QueryRequest request = new QueryRequest
+            {
+                TableName = "accounts",
+                IndexName = "account_type_dx",
+                KeyConditionExpression = "account_type = :V_account_type",
+                FilterExpression = "account_balance < :V_value",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":V_account_type",new AttributeValue{S = accountType.ToString()}},
+                    {":V_value",new AttributeValue{N = "0"}}
+                },
+                ScanIndexForward = true
+            };
+
+            var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
+            List<Account> data = response.ToAccounts();
+
+            return data.Sort(sortBy, direction).ToList();
+        }
+
+        public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
+        {
+            QueryRequest request = new QueryRequest
+            {
+                TableName = "accounts",
+                IndexName = "target_id_dx",
+                KeyConditionExpression = "target_id = :V_target_id",
+                FilterExpression = "account_type = :V_account_type",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":V_target_id",new AttributeValue{S = targetId.ToString()}},
+                    {":V_account_type",new AttributeValue{S = accountType.ToString()}}
+                },
+                ScanIndexForward = true
+            };
+
+            var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
+
+            return response.ToAccounts();
+        }
+
         public async Task RemoveAsync(Account account)
         {
-            await _dynamoDbContext.DeleteAsync<AccountDbEntity>(account.ToDatabase())
-                .ConfigureAwait(false);
-        }
-
-        public async Task RemoveRangeAsync(List<Account> accounts)
-        {
-            foreach (Account account in accounts)
-            {
-                await RemoveAsync(account).ConfigureAwait(false);
-            }
-        }
-
-        public void Update(Account account)
-        {
-            _dynamoDbContext.SaveAsync<AccountDbEntity>(account.ToDatabase());
+            await _dynamoDbContext.DeleteAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
         public async Task UpdateAsync(Account account)
