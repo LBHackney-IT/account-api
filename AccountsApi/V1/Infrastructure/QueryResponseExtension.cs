@@ -34,14 +34,14 @@ namespace AccountsApi.V1.Infrastructure
                 }
 
                 Tenure tenure = null;
-                if(item.Keys.Any(p=>p== "tenure"))
+                if (item.Keys.Any(p => p == "tenure"))
                 {
                     var _tenure = item["tenure"].M;
                     tenure = new Tenure();
                     tenure.FullAddress = _tenure["fullAddress"].S;
                     tenure.TenancyId = _tenure["tenancyId"].S;
                     tenure.TenancyType = _tenure["tenancyType"].S;
-                } 
+                }
 
                 accounts.Add(new Account
                 {
