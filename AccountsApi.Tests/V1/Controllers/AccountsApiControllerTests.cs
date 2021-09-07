@@ -233,16 +233,6 @@ namespace AccountsApi.Tests.V1.Controllers
             model.Should().BeEquivalentTo(response);
 
         }
-        //[Fact]
-        //public async Task PostNullInputReturnsBadRequest()
-        //{
-        //    // Arrange 
-
-        //    // Act 
-        //    Assert.True(1 == 1);
-        //    // Assert 
-
-        //}
         #endregion
 
         #region Update
