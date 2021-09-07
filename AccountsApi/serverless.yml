@@ -23,7 +23,7 @@ package:
   artifact: ./bin/release/netcoreapp3.1/accounts-api.zip
 
 functions:
-  FinancialTransactionsApi:
+  AccountsApi:
     name: ${self:service}-${self:provider.stage}
     handler: AccountsApi::AccountsApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
