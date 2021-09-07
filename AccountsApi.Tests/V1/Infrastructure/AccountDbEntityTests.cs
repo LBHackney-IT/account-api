@@ -1,51 +1,52 @@
+using AccountsApi.V1.Domain;
+using Amazon.DynamoDBv2.DataModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using AccountsApi.Tests.V1.Helper;
-using AccountsApi.V1.Boundary.Request;
-using AccountsApi.V1.Boundary.Response;
-using AccountsApi.V1.Domain;
+using AccountsApi.V1.Infrastructure;
 using AutoFixture;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace AccountsApi.Tests.V1.Boundary.Response
+namespace AccountsApi.Tests.V1.Infrastructure
 {
-    public class AccountModelTests
+
+    public class AccountDbEntityTests
     {
         private readonly Fixture _fixture;
-        public AccountModelTests()
+        public AccountDbEntityTests()
         {
             _fixture = new Fixture();
         }
+
         [Fact]
-        public void AccountModelHasPropertiesSet()
+        public void AccountDbEntityHasPropertiesSet()
         {
-            #region AccountModel
-            var model = typeof(AccountModel);
-            model.GetProperties().Length.Should().Be(18);
+            var entityType = typeof(AccountDbEntity);
+            entityType.GetProperties().Length.Should().Be(18);
 
-            AccountModel account = _fixture.Create<AccountModel>();
+            AccountDbEntity entity = _fixture.Create<AccountDbEntity>();
 
-            Assert.IsType<Guid>(account.Id);
-            Assert.IsType<AccountStatus>(account.AccountStatus);
-            Assert.IsType<AccountType>(account.AccountType);
-            Assert.IsType<string>(account.AgreementType);
-            Assert.IsType<string>(account.CreatedBy);
-            Assert.IsType<DateTime>(account.CreatedDate);
-            Assert.IsType<DateTime>(account.EndDate);
-            Assert.IsType<string>(account.LastUpdatedBy);
-            Assert.IsType<DateTime>(account.LastUpdatedDate);
-            Assert.IsType<Guid>(account.ParentAccount);
-            Assert.IsType<string>(account.PaymentReference);
-            Assert.IsType<RentGroupType>(account.RentGroupType);
-            Assert.IsType<DateTime>(account.StartDate);
-            Assert.IsType<Guid>(account.TargetId);
-            Assert.IsType<TargetType>(account.TargetType);
-            Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
-            Assert.IsType<Tenure>(account.Tenure);
+            #region Account
+
+            entity.AccountBalance.Should().BeOfType(typeof(decimal));
+            Assert.IsType<Guid>(entity.Id);
+            Assert.IsType<string>(entity.PaymentReference);
+            Assert.IsType<TargetType>(entity.TargetType);
+            Assert.IsType<Guid>(entity.TargetId);
+            Assert.IsType<AccountType>(entity.AccountType);
+            Assert.IsType<RentGroupType>(entity.RentGroupType);
+            Assert.IsType<string>(entity.AgreementType);
+            Assert.IsType<decimal>(entity.AccountBalance);
+            Assert.IsType<string>(entity.CreatedBy);
+            Assert.IsType<string>(entity.LastUpdatedBy);
+            Assert.IsType<DateTime>(entity.CreatedDate);
+            Assert.IsType<DateTime>(entity.LastUpdatedDate);
+            Assert.IsType<DateTime>(entity.StartDate);
+            Assert.IsType<DateTime>(entity.EndDate);
+            Assert.IsType<AccountStatus>(entity.AccountStatus);
+            Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(entity.ConsolidatedCharges);
+            Assert.IsType<Tenure>(entity.Tenure);
             #endregion
 
             #region ConsolidatedCharge
