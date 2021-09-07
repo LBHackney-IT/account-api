@@ -8,8 +8,7 @@ provider:
     apiGateway: true
   vpc: ${self:custom.vpc.${opt:stage}}
   stage: ${opt:stage}
-  # TODO: Enable this line if DynamoDb is in use
-  #account: ${opt:account}
+  account: ${opt:account}
   region: eu-west-2
   apiKeys:
     - secureAccess:
@@ -21,21 +20,19 @@ provider:
           rateLimit: 100
 
 package:
-# TODO: Rename zipfile in build.sh and build.cmd to match this
-  artifact: ./bin/release/netcoreapp3.1/your-api-name.zip
+  artifact: ./bin/release/netcoreapp3.1/accounts-api.zip
 
 functions:
-  baseApi:
+  AccountsApi:
     name: ${self:service}-${self:provider.stage}
     handler: AccountsApi::AccountsApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
-    environment:
-      ACCOUNTS_SNS_ARN: ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
     events:
       - http:
           path: /{proxy+}
           method: ANY
           private: true
+          cors: true
 resources:
   Resources:
     lambdaExecutionRole:
@@ -54,8 +51,6 @@ resources:
         ManagedPolicyArns:
           - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
           - arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
-# TODO: Enable this line and set the correct policy name if DynamoDb is in use
-#          - arn:aws:iam::${self:provider.account}:policy/accounts-api/lambda-dynamodb-accounts-api
         Policies:
           - PolicyName: manageLogs
             PolicyDocument:
@@ -90,6 +85,29 @@ resources:
                   Action:
                     - "lambda:InvokeFunction"
                   Resource: "*"
+          - PolicyName: transactionsDynamoDBAccess
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - "dynamodb:BatchGet*"
+                    - "dynamodb:BatchWrite"
+                    - "dynamodb:DeleteItem"
+                    - "dynamodb:DescribeStream"
+                    - "dynamodb:DescribeTable"
+                    - "dynamodb:Get*"
+                    - "dynamodb:PutItem"
+                    - "dynamodb:Query"
+                    - "dynamodb:Scan"
+                    - "dynamodb:UpdateItem"
+                  Resource:
+                    - 'Fn::Join':
+                        - ':'
+                        - - 'arn:aws:dynamodb'
+                          - Ref: 'AWS::Region'
+                          - Ref: 'AWS::AccountId'
+                          - 'table/Accounts'
 custom:
   vpc:
     development:
