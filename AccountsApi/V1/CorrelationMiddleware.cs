@@ -1,9 +1,10 @@
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using System;
+using System.Threading.Tasks;
+using AccountsApi.V1.Controllers;
 
-namespace AccountsApi.V1.Controllers
+namespace AccountsApi.V1
 {
     public class CorrelationMiddleware
     {
@@ -18,11 +19,16 @@ namespace AccountsApi.V1.Controllers
         {
             if (context.Request.Headers[Constants.CorrelationId].Count == 0)
             {
-                context.Request.Headers[Constants.CorrelationId] = Guid.NewGuid().ToString();
+                var correlationId = Guid.NewGuid().ToString();
+                context.Request.Headers[Constants.CorrelationId] = correlationId;
             }
 
+            context.Response.Headers[Constants.CorrelationId] = context.Request.Headers[Constants.CorrelationId];
+
             if (_next != null)
+            {
                 await _next(context).ConfigureAwait(false);
+            }
         }
     }
 
