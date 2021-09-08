@@ -112,5 +112,46 @@ namespace AccountsApi.Tests.V1.Helper
             }
             return response;
         }
+
+        public static QueryResponse MockQueryResponseWithoutConsolidatedCharges<T>()
+        {
+            QueryResponse response = new QueryResponse();
+            if (typeof(T) == typeof(AccountModel))
+            {
+                response.Items.Add(
+                new Dictionary<string, AttributeValue>()
+                    {
+                        { "id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
+                        { "parent_account", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
+                        { "payment_reference", new AttributeValue { S = _fixture.Create<string>() } },
+                        { "target_type", new AttributeValue { S = _fixture.Create<TargetType>().ToString() } },
+                        { "target_id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
+                        { "account_type", new AttributeValue { S = _fixture.Create<AccountType>().ToString() } },
+                        { "rent_group_type", new AttributeValue { S = _fixture.Create<RentGroupType>().ToString() } },
+                        { "agreement_type", new AttributeValue { S = _fixture.Create<string>() } },
+                        { "account_balance", new AttributeValue { N = _fixture.Create<decimal>().ToString("F") } },
+                        { "created_by", new AttributeValue { S = _fixture.Create<string>() } },
+                        { "last_updated_by", new AttributeValue { S = _fixture.Create<string>() } },
+                        { "created_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "last_updated_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "start_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "end_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "account_status", new AttributeValue { S = _fixture.Create<AccountStatus>().ToString() } },
+                        {
+                            "tenure",
+                            new AttributeValue
+                            {
+                                M = new Dictionary<string, AttributeValue>
+                                {
+                                    { "fullAddress", new AttributeValue { S = _fixture.Create<string>() } },
+                                    { "tenancyId", new AttributeValue { S = _fixture.Create<string>() } },
+                                    { "tenancyType", new AttributeValue { S = _fixture.Create<string>() } }
+                                }
+                            }
+                        }
+                    });
+            }
+            return response;
+        }
     }
 }
