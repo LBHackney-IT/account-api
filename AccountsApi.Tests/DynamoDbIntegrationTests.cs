@@ -17,7 +17,7 @@ namespace AccountsApi.Tests
         {
             new TableDef()
             {
-                TableName = "accounts",
+                TableName = "Accounts",
                 PartitionKey = new AttributeDef()
                 {
                     KeyName = "id",
