@@ -4,8 +4,8 @@ namespace AccountsApi.V1.Infrastructure
     {
         // JWT TOKEN
         public const string V1VERSION = "v1";
-        public const string EVENTTYPE = "PersonUpdatedEvent";
-        public const string SOURCEDOMAIN = "Person";
-        public const string SOURCESYSTEM = "PersonAPI";
+        public const string EVENTTYPE = "AccountUpdatedEvent";
+        public const string SOURCEDOMAIN = "Accounts";
+        public const string SOURCESYSTEM = "AccountsAPI";
     }
 }
