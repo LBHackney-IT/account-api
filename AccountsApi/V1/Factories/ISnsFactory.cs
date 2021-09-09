@@ -8,6 +8,6 @@ namespace AccountsApi.V1.Factories
     {
         AccountSns Create(Account account);
 
-        AccountSns Update(UpdateEntityResult<AccountDbEntity> updateResult);
+        AccountSns Update(Account account);
     }
 }

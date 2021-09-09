@@ -87,9 +87,6 @@ namespace AccountsApi.Tests.V1.UseCase
 
             // Assert
             _snsGateway.Verify(x => x.Publish(It.IsAny<AccountSns>()), Times.Exactly(1));
-            result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(accountRequest);
-            result.Id.Should().NotBeEmpty();
         }
     }
 }

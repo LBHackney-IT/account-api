@@ -30,13 +30,13 @@ namespace AccountsApi.V1.Factories
             };
         }
 
-        public AccountSns Update(UpdateEntityResult<AccountDbEntity> updateResult)
+        public AccountSns Update(Account account)
         {
             return new AccountSns
             {
                 CorrelationId = Guid.NewGuid(),
                 DateTime = DateTime.UtcNow,
-                EntityId = updateResult.UpdatedEntity.Id,
+                EntityId = account.Id,
                 Id = Guid.NewGuid(),
                 EventType = UpdateEventConstants.EVENTTYPE,
                 Version = UpdateEventConstants.V1VERSION,
@@ -49,8 +49,7 @@ namespace AccountsApi.V1.Factories
                 },
                 EventData = new EventData
                 {
-                    OldData = updateResult.OldValues,
-                    NewData = updateResult.NewValues
+                    NewData = account
                 }
             };
         }

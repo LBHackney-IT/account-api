@@ -6,6 +6,8 @@ using FluentAssertions;
 using Moq;
 using System;
 using System.Threading.Tasks;
+using AccountsApi.V1.Factories;
+using AutoFixture;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
@@ -14,11 +16,16 @@ namespace AccountsApi.Tests.V1.UseCase
     {
         private readonly Mock<IAccountApiGateway> _gateway;
         private readonly UpdateUseCase _updateUseCase;
+        private readonly Fixture _fixture = new Fixture();
+        private readonly Mock<ISnsGateway> _snsGateway;
+        private readonly ISnsFactory _snsFactory;
 
         public UpdateUseCaseTests()
         {
             _gateway = new Mock<IAccountApiGateway>();
-            _updateUseCase = new UpdateUseCase(_gateway.Object);
+            _snsGateway = new Mock<ISnsGateway>();
+            _snsFactory = new AccountSnsFactory();
+            _updateUseCase = new UpdateUseCase(_gateway.Object, _snsGateway.Object, _snsFactory);
         }
 
         [Fact]
@@ -52,6 +59,22 @@ namespace AccountsApi.Tests.V1.UseCase
             result.Should().NotBeNull();
 
             result.Should().BeEquivalentTo(assetModel);
+        }
+
+
+        [Fact]
+        public async Task AddValidModelCallsSnsGateway()
+        {
+            // Arrange
+            AccountModel account = _fixture.Create<AccountModel>();
+
+            _gateway.Setup(z => z.AddAsync(It.IsAny<Account>())).Returns(Task.CompletedTask);
+
+            // Act
+            var result = await _updateUseCase.ExecuteAsync(account).ConfigureAwait(false);
+
+            // Assert
+            _snsGateway.Verify(x => x.Publish(It.IsAny<AccountSns>()), Times.Exactly(1));
         }
     }
 }
