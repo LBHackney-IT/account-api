@@ -41,7 +41,7 @@ namespace AccountsApi.V1.Gateways
         {
             QueryRequest request = new QueryRequest
             {
-                TableName = "accounts",
+                TableName = "Accounts",
                 IndexName = "account_type_dx",
                 KeyConditionExpression = "account_type = :V_account_type",
                 FilterExpression = "account_balance < :V_value",
@@ -63,7 +63,7 @@ namespace AccountsApi.V1.Gateways
         {
             QueryRequest request = new QueryRequest
             {
-                TableName = "accounts",
+                TableName = "Accounts",
                 IndexName = "target_id_dx",
                 KeyConditionExpression = "target_id = :V_target_id",
                 FilterExpression = "account_type = :V_account_type",
