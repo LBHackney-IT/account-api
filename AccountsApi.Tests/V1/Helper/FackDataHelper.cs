@@ -13,11 +13,12 @@ namespace AccountsApi.Tests.V1.Helper
 {
     public static class MockParametersForFormatException
     {
+        private  static readonly Fixture _fixture = new Fixture();
         public static List<object[]> GetTestData { get; } = new List<object[]>
         {
-            new object[] {RandomStringHelper.Get(255), AccountType.Sundry},
-            new object[] {RandomStringHelper.Get(255), AccountType.Master},
-            new object[] {RandomStringHelper.Get(255), AccountType.Recharge}
+            new object[] {_fixture.Build<string>().With(s=>s.Length==255).Create(), AccountType.Sundry},
+            new object[] { _fixture.Build<string>().With(s => s.Length == 255).Create(), AccountType.Master},
+            new object[] { _fixture.Build<string>().With(s => s.Length == 255).Create(), AccountType.Recharge}
         };
     }
 
