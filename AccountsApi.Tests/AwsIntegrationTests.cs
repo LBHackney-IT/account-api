@@ -18,7 +18,34 @@ namespace AccountsApi.Tests
         private readonly AwsMockWebApplicationFactory<TStartup> _factory;
         private readonly List<TableDef> _tables = new List<TableDef>
         {
-            new TableDef { Name = "Accounts", KeyName = "id", KeyType = ScalarAttributeType.S }
+            new TableDef()
+            {
+                TableName = "Accounts",
+                PartitionKey = new AttributeDef()
+                {
+                    KeyName = "id",
+                    KeyType = KeyType.HASH,
+                    KeyScalarType = ScalarAttributeType.S
+                },
+                Indices = new List<GlobalIndexDef>{
+                    new GlobalIndexDef()
+                    {
+                        KeyName = "target_id",
+                        KeyType = KeyType.HASH,
+                        KeyScalarType = ScalarAttributeType.S,
+                        IndexName = "target_id_dx",
+                        ProjectionType = "ALL"
+                    },
+                    new GlobalIndexDef()
+                    {
+                        KeyName = "account_type",
+                        KeyType = KeyType.HASH,
+                        KeyScalarType = ScalarAttributeType.S,
+                        IndexName = "account_type_dx",
+                        ProjectionType = "ALL"
+                    }
+                }
+            },
         };
 
         public AwsIntegrationTests()
@@ -74,9 +101,22 @@ namespace AccountsApi.Tests
 
     public class TableDef
     {
-        public string Name { get; set; }
+        public string TableName { get; set; }
+        public AttributeDef PartitionKey { get; set; }
+        public List<GlobalIndexDef> Indices { get; set; }
+    }
+
+    public class AttributeDef
+    {
         public string KeyName { get; set; }
-        public ScalarAttributeType KeyType { get; set; }
+        public ScalarAttributeType KeyScalarType { get; set; }
+        public KeyType KeyType { get; set; }
+    }
+
+    public class GlobalIndexDef : AttributeDef
+    {
+        public string IndexName { get; set; }
+        public string ProjectionType { get; set; }
     }
 
 
