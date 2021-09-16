@@ -55,7 +55,7 @@ namespace AccountsApi.V1.Infrastructure
                     RentGroupType = Enum.Parse<RentGroupType>(item["rent_group_type"].S),
                     AgreementType = item.ContainsKey("agreement_type") ? item["agreement_type"].S : null,
                     CreatedBy = item.ContainsKey("created_by") ? item["created_by"].S : null,
-                    LastUpdatedBy = item.ContainsKey("last_updated_by") ? item["last_updated_by"].S:null,
+                    LastUpdatedBy = item.ContainsKey("last_updated_by") ? item["last_updated_by"].S : null,
                     CreatedDate = DateTime.Parse(item["created_date"].S),
                     LastUpdatedDate = DateTime.Parse(item["last_updated_date"].S),
                     StartDate = DateTime.Parse(item["start_date"].S),
