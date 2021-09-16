@@ -13,7 +13,7 @@ namespace AccountsApi.Tests.V1.Helper
 {
     public static class MockParametersForFormatException
     {
-        private  static readonly Fixture _fixture = new Fixture();
+        private static readonly Fixture _fixture = new Fixture();
         public static List<object[]> GetTestData { get; } = new List<object[]>
         {
             new object[] {_fixture.Build<string>().With(s=>s.Length==255).Create(), AccountType.Sundry},
