@@ -16,9 +16,18 @@ namespace AccountsApi.Tests.V1.Helper
         private static readonly Fixture _fixture = new Fixture();
         public static List<object[]> GetTestData { get; } = new List<object[]>
         {
-            new object[] {_fixture.Build<string>().With(s=>s.Length==255).Create(), AccountType.Sundry},
-            new object[] { _fixture.Build<string>().With(s => s.Length == 255).Create(), AccountType.Master},
-            new object[] { _fixture.Build<string>().With(s => s.Length == 255).Create(), AccountType.Recharge}
+            new object[]
+            {
+                _fixture.Create<string>(), AccountType.Sundry
+            },
+            new object[]
+            {
+                _fixture.Create<string>(), AccountType.Master
+            },
+            new object[]
+            {
+                _fixture.Create<string>(), AccountType.Recharge
+            }
         };
     }
 
