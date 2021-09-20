@@ -75,24 +75,24 @@ namespace AccountsApi.Tests
                     attributeDefinitions.Add(new AttributeDefinition(table.PartitionKey.KeyName,
                         table.PartitionKey.KeyScalarType));
 
-                    foreach (var index in table.Indices)
+                    if (table.Indices != null)
                     {
-                        globalSecondaryIndexes.Add(
-                            new GlobalSecondaryIndex()
-                            {
-                                IndexName = index.IndexName,
-                                ProvisionedThroughput =
-                                    new ProvisionedThroughput { ReadCapacityUnits = 1L, WriteCapacityUnits = 1L },
-                                KeySchema =
+                        foreach (var index in table.Indices)
+                        {
+                            globalSecondaryIndexes.Add(
+                                new GlobalSecondaryIndex()
                                 {
-                                    new KeySchemaElement
+                                    IndexName = index.IndexName,
+                                    ProvisionedThroughput =
+                                        new ProvisionedThroughput { ReadCapacityUnits = 1L, WriteCapacityUnits = 1L },
+                                    KeySchema =
                                     {
-                                        AttributeName = index.KeyName, KeyType = index.KeyType
-                                    }
-                                },
-                                Projection = new Projection { ProjectionType = index.ProjectionType }
-                            });
-                        attributeDefinitions.Add(new AttributeDefinition(index.KeyName, index.KeyScalarType));
+                                        new KeySchemaElement { AttributeName = index.KeyName, KeyType = index.KeyType }
+                                    },
+                                    Projection = new Projection { ProjectionType = index.ProjectionType }
+                                });
+                            attributeDefinitions.Add(new AttributeDefinition(index.KeyName, index.KeyScalarType));
+                        }
                     }
 
                     CreateTableRequest request = new CreateTableRequest
