@@ -116,6 +116,7 @@ namespace AccountsApi
 
             ConfigureLogging(services, Configuration);
 
+            services.ConfigureAws();
             services.ConfigureDynamoDB();
 
             RegisterGateways(services);
