@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using AccountsApi.V1;
 using AccountsApi.V1.Controllers;
+using AccountsApi.V1.Factories;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.Infrastructure;
@@ -157,6 +158,8 @@ namespace AccountsApi
         private static void RegisterGateways(IServiceCollection services)
         {
             services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
+            services.AddScoped<ISnsGateway, AccountSnsGateway>();
+            services.AddScoped<ISnsFactory, AccountSnsFactory>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)

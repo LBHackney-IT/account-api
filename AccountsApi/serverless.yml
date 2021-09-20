@@ -27,6 +27,8 @@ functions:
     name: ${self:service}-${self:provider.stage}
     handler: AccountsApi::AccountsApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
+    environment:
+      ACCOUNTS_SNS_ARN: ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
     events:
       - http:
           path: /{proxy+}

@@ -1,18 +1,21 @@
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.SimpleNotificationService;
+using Amazon.SimpleNotificationService.Model;
+using Xunit;
 
 namespace AccountsApi.Tests
 {
-    public class DynamoDbIntegrationTests<TStartup> : IDisposable where TStartup : class
+    public class AwsIntegrationTests<TStartup> : IDisposable where TStartup : class
     {
-        protected HttpClient Client { get; private set; }
-        private readonly DynamoDbMockWebApplicationFactory<TStartup> _factory;
-        protected IDynamoDBContext DynamoDbContext => _factory?.DynamoDbContext;
-        protected List<Action> CleanupActions { get; }
+        public HttpClient Client { get; private set; }
+        public IDynamoDBContext DynamoDbContext => _factory?.DynamoDbContext;
+        public IAmazonSimpleNotificationService SimpleNotificationService => _factory?.SimpleNotificationService;
 
+        private readonly AwsMockWebApplicationFactory<TStartup> _factory;
         private readonly List<TableDef> _tables = new List<TableDef>
         {
             new TableDef()
@@ -45,24 +48,16 @@ namespace AccountsApi.Tests
             },
         };
 
-        private static void EnsureEnvVarConfigured(string name, string defaultValue)
-        {
-            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(name)))
-            {
-                Environment.SetEnvironmentVariable(name, defaultValue);
-            }
-        }
-
-        public DynamoDbIntegrationTests()
+        public AwsIntegrationTests()
         {
             EnsureEnvVarConfigured("DynamoDb_LocalMode", "true");
             EnsureEnvVarConfigured("DynamoDb_LocalServiceUrl", "http://localhost:8000");
-            EnsureEnvVarConfigured("DynamoDb_LocalSecretKey", "vymxp");
-            EnsureEnvVarConfigured("DynamoDb_LocalAccessKey", "2cl9i");
-            _factory = new DynamoDbMockWebApplicationFactory<TStartup>(_tables);
+            EnsureEnvVarConfigured("Localstack_SnsServiceUrl", "http://localhost:4566");
 
+            _factory = new AwsMockWebApplicationFactory<TStartup>(_tables);
             Client = _factory.CreateClient();
-            CleanupActions = new List<Action>();
+
+            CreateSnsTopic();
         }
 
         public void Dispose()
@@ -76,16 +71,31 @@ namespace AccountsApi.Tests
         {
             if (disposing && !_disposed)
             {
-                foreach (var act in CleanupActions)
-                {
-                    act();
-                }
-                Client.Dispose();
-
                 if (null != _factory)
                     _factory.Dispose();
                 _disposed = true;
             }
+        }
+
+        private static void EnsureEnvVarConfigured(string name, string defaultValue)
+        {
+            if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable(name)))
+                Environment.SetEnvironmentVariable(name, defaultValue);
+        }
+
+        private void CreateSnsTopic()
+        {
+            var snsAttrs = new Dictionary<string, string>();
+            snsAttrs.Add("fifo_topic", "true");
+            snsAttrs.Add("content_based_deduplication", "true");
+
+            var response = SimpleNotificationService.CreateTopicAsync(new CreateTopicRequest
+            {
+                Name = "account",
+                Attributes = snsAttrs
+            }).Result;
+
+            Environment.SetEnvironmentVariable("ACCOUNT_SNS_ARN", response.TopicArn);
         }
     }
 
@@ -107,5 +117,14 @@ namespace AccountsApi.Tests
     {
         public string IndexName { get; set; }
         public string ProjectionType { get; set; }
+    }
+
+
+    [CollectionDefinition("Aws collection", DisableParallelization = true)]
+    public class DynamoDbCollection : ICollectionFixture<AwsIntegrationTests<Startup>>
+    {
+        // This class has no code, and is never created. Its purpose is simply
+        // to be the place to apply [CollectionDefinition] and all the
+        // ICollectionFixture<> interfaces.
     }
 }

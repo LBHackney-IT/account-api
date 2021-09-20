@@ -44,8 +44,8 @@ resource "aws_sns_topic" "accounts_topic" {
     kms_master_key_id = "alias/aws/sns"
 }
 
-resource "aws_ssm_parameter" "new_account_created_sns_arn" {
-    name  = "/sns-topic/${var.environment_name}/account_created/arn"
+resource "aws_ssm_parameter" "accounts_sns_arn" {
+    name  = "/sns-topic/${var.environment_name}/accounts/arn"
     type  = "String"
     value = aws_sns_topic.accounts_topic.arn
 }

@@ -12,19 +12,22 @@ namespace AccountsApi.V1.UseCase
     public class AddUseCase : IAddUseCase
     {
         private readonly IAccountApiGateway _gateway;
+        private readonly ISnsGateway _snsGateway;
+        private readonly ISnsFactory _snsFactory;
 
-        public AddUseCase(IAccountApiGateway gateway)
+        public AddUseCase(IAccountApiGateway gateway, ISnsGateway snsGateway, ISnsFactory snsFactory)
         {
             _gateway = gateway;
+            _snsGateway = snsGateway;
+            _snsFactory = snsFactory;
         }
         public async Task<AccountModel> ExecuteAsync(AccountRequest account)
         {
             Account domain = account.ToDomain();
-
             domain.Id = Guid.NewGuid();
-
             await _gateway.AddAsync(domain).ConfigureAwait(false);
-
+            var accountSnsMessage = _snsFactory.Create(domain);
+            await _snsGateway.Publish(accountSnsMessage).ConfigureAwait(false);
             return domain.ToResponse();
         }
     }
