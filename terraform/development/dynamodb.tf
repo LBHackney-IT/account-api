@@ -9,6 +9,16 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
         name              = "id"
         type              = "S"
     }
+	
+    attribute {
+        name              = "account_type"
+        type              = "S"
+    }
+	
+    attribute {
+        name              = "target_id"
+        type              = "S"
+    }
 
     tags = {
         Name              = "accounts-api-${var.environment_name}"
