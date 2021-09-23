@@ -16,9 +16,9 @@
       "environmentVariables": {
         "DynamoDb_LocalServiceUrl": "http://localhost:8000",
         "DynamoDb_LocalAccessKey": "vix9vm",
-        "Localstack_SnsServiceUrl": "http://localhost:9200",
+        "Localstack_SnsServiceUrl99": "http://localhost:9200",
         "DynamoDb_LocalSecretKey": "2rmm3",
-        "DynamoDb_LocalMode": "true",
+        "DynamoDb_LocalMode": "false",
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
