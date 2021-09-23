@@ -10,9 +10,7 @@ namespace AccountsApi.V1.Infrastructure
     {
         public static void ConfigureDynamoDB(this IServiceCollection services)
         {
-            bool localMode = false;
-            _ = bool.TryParse(Environment.GetEnvironmentVariable("Dynamo" +
-                "Db_LocalMode"), out localMode);
+            bool localMode = bool.TryParse(Environment.GetEnvironmentVariable("DynamoDb_LocalMode"), out localMode);
 
             if (localMode)
             {

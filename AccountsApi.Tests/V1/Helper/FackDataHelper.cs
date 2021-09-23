@@ -59,7 +59,7 @@ namespace AccountsApi.Tests.V1.Helper
         public static QueryResponse MockQueryResponse<T>()
         {
             QueryResponse response = new QueryResponse();
-            if (typeof(T) == typeof(AccountModel))
+            if (typeof(T) == typeof(AccountResponse))
             {
                 response.Items.Add(
                 new Dictionary<string, AttributeValue>()
@@ -126,7 +126,7 @@ namespace AccountsApi.Tests.V1.Helper
         public static QueryResponse MockQueryResponseWithoutConsolidatedCharges<T>()
         {
             QueryResponse response = new QueryResponse();
-            if (typeof(T) == typeof(AccountModel))
+            if (typeof(T) == typeof(AccountResponse))
             {
                 response.Items.Add(
                 new Dictionary<string, AttributeValue>()

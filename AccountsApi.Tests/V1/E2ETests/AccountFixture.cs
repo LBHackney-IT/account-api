@@ -16,7 +16,7 @@ namespace AccountsApi.Tests.V1.E2ETests
         public AccountDbEntity Account { get; private set; }
 
         public AccountRequest CreateAccountRequest { get; private set; }
-        public AccountModel UpdateAccountRequest { get; private set; }
+        public AccountResponse UpdateAccountRequest { get; private set; }
 
         public AccountFixture(IDynamoDBContext dbContext, IAmazonSimpleNotificationService amazonSimpleNotificationService)
         {

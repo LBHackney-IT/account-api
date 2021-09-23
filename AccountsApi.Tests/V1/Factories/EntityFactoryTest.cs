@@ -4,10 +4,6 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using AccountsApi.Tests.V1.Helper;
 using Xunit;
 using AutoFixture;
 
@@ -35,13 +31,6 @@ namespace AccountsApi.Tests.V1.Factories
         }
 
         [Fact]
-        public void ToDomainNullDatabaseEntityThrowArgumentNullException()
-        {
-            Func<Account> func = () => ((AccountDbEntity) null).ToDomain();
-            func.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
         public void ToDomainMapAccountRequestToDomainObject()
         {
             AccountRequest entity = _fixture.Create<AccountRequest>();
@@ -51,27 +40,15 @@ namespace AccountsApi.Tests.V1.Factories
         }
 
         [Fact]
-        public void ToDomainNullAccountRequestThrowArgumentNullException()
-        {
-            Func<Account> func = () => ((AccountRequest) null).ToDomain();
-            func.Should().Throw<ArgumentNullException>();
-
-        }
-
-        [Fact]
         public void ToDomainMapAccountModelToDomainObject()
         {
-            AccountModel entity = _fixture.Create<AccountModel>();
+            AccountResponse entity = _fixture.Create<AccountResponse>();
             var domain = entity.ToDomain();
             entity.Should().NotBeNull();
-            entity.Should().BeEquivalentTo(domain);
-        }
-
-        [Fact]
-        public void ToDomainNullAccountModelThrowArgumentNullException()
-        {
-            Func<Account> func = () => ((AccountModel) null).ToDomain();
-            func.Should().Throw<ArgumentNullException>();
+            entity.Should().BeEquivalentTo(domain, opt =>
+                 opt.Excluding(a => a.CreatedDate)
+                     .Excluding(a => a.CreatedBy)
+                     .Excluding(a => a.LastUpdatedDate));
         }
 
         [Fact]
@@ -83,11 +60,5 @@ namespace AccountsApi.Tests.V1.Factories
             dbEntity.Should().BeEquivalentTo(domain);
         }
 
-        [Fact]
-        public void ToDatabaseNullAccountThrowArgumentNullException()
-        {
-            Func<AccountDbEntity> func = () => ((Account) null).ToDatabase();
-            func.Should().Throw<ArgumentNullException>();
-        }
     }
 }

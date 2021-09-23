@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AccountsApi.Tests.V1.Helper;
-using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AutoFixture;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Boundary.Response
@@ -24,10 +19,10 @@ namespace AccountsApi.Tests.V1.Boundary.Response
         public void AccountModelHasPropertiesSet()
         {
             #region AccountModel
-            var model = typeof(AccountModel);
-            model.GetProperties().Length.Should().Be(18);
+            var model = typeof(AccountResponse);
+            model.GetProperties().Length.Should().Be(19);
 
-            AccountModel account = _fixture.Create<AccountModel>();
+            AccountResponse account = _fixture.Create<AccountResponse>();
 
             Assert.IsType<Guid>(account.Id);
             Assert.IsType<AccountStatus>(account.AccountStatus);
@@ -46,6 +41,7 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             Assert.IsType<TargetType>(account.TargetType);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
             Assert.IsType<Tenure>(account.Tenure);
+            Assert.IsType<decimal>(account.TotalBalance);
             #endregion
 
             #region ConsolidatedCharge

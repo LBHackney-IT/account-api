@@ -1,4 +1,3 @@
-
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Domain;
 using System;
@@ -105,10 +104,7 @@ namespace AccountsApi.Tests.V1.Helper
                 AgreementType = AGREEMENTTYPE,
                 AccountType = ACCOUNTTYPE,
                 CreatedBy = CREATEDBY,
-                CreatedDate = CREATEDDATE,
                 EndDate = ENDDATE,
-                LastUpdatedBy = LASTUPDATEDBY,
-                LastUpdatedDate = LASTUPDATEDDATE,
                 RentGroupType = RENTGROUPTYPE,
                 StartDate = STARTDATE,
                 TargetId = TARGETID,
@@ -116,9 +112,9 @@ namespace AccountsApi.Tests.V1.Helper
             };
         }
 
-        public static AccountModel ConstructorAccountModelFromConstants()
+        public static AccountResponse ConstructorAccountModelFromConstants()
         {
-            return new AccountModel
+            return new AccountResponse
             {
                 Id = ID,
                 ParentAccount = PARENTACCOUNT,

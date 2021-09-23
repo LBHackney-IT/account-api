@@ -5,11 +5,9 @@ using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase;
 using AutoFixture;
 using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
 using System.Threading.Tasks;
-using AccountsApi.Tests.V1.E2ETests;
 using AccountsApi.V1.Factories;
 using Xunit;
 
@@ -66,7 +64,7 @@ namespace AccountsApi.Tests.V1.UseCase
             _gateway.Setup(x => x.AddAsync(It.IsAny<Account>())).Returns(Task.CompletedTask);
 
             // Act
-            Func<Task<AccountModel>> func = async () => await _addUseCase.ExecuteAsync(null).ConfigureAwait(false);
+            Func<Task<AccountResponse>> func = async () => await _addUseCase.ExecuteAsync(null).ConfigureAwait(false);
 
             // Assert
             _gateway.Verify(x => x.AddAsync(It.IsAny<Account>()), Times.Never);

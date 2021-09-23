@@ -38,6 +38,9 @@ namespace AccountsApi.V1.Infrastructure
         [DynamoDBProperty(AttributeName = "account_balance")]
         public decimal AccountBalance { get; set; }
 
+        [DynamoDBProperty(AttributeName = "total_balance")]
+        public decimal TotalBalance { get; set; }
+
         [DynamoDBProperty(AttributeName = "created_by")]
         public string CreatedBy { get; set; }
 

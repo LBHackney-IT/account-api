@@ -1,4 +1,3 @@
-using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Domain;
 using AutoFixture;
@@ -20,7 +19,7 @@ namespace AccountsApi.Tests.V1.Boundary.Request
         public void AccountRequestHasPropertiesSet()
         {
             var request = typeof(AccountRequest);
-            request.GetProperties().Length.Should().Be(14);
+            request.GetProperties().Length.Should().Be(11);
 
             AccountRequest account = _fixture.Create<AccountRequest>();
 
@@ -28,10 +27,7 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             Assert.IsType<AccountType>(account.AccountType);
             Assert.IsType<string>(account.AgreementType);
             Assert.IsType<string>(account.CreatedBy);
-            Assert.IsType<DateTime>(account.CreatedDate);
             Assert.IsType<DateTime>(account.EndDate);
-            Assert.IsType<string>(account.LastUpdatedBy);
-            Assert.IsType<DateTime>(account.LastUpdatedDate);
             Assert.IsType<Guid>(account.ParentAccount);
             Assert.IsType<string>(account.PaymentReference);
             Assert.IsType<RentGroupType>(account.RentGroupType);

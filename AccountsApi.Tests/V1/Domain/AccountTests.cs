@@ -1,10 +1,8 @@
-using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Domain;
 using AutoFixture;
 using FluentAssertions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Domain
@@ -22,7 +20,7 @@ namespace AccountsApi.Tests.V1.Domain
         {
 
             var entityType = typeof(Account);
-            entityType.GetProperties().Length.Should().Be(18);
+            entityType.GetProperties().Length.Should().Be(19);
             Account account = _fixture.Create<Account>();
 
             #region Account
@@ -44,6 +42,7 @@ namespace AccountsApi.Tests.V1.Domain
             Assert.IsType<AccountStatus>(account.AccountStatus);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
             Assert.IsType<Tenure>(account.Tenure);
+            Assert.IsType<decimal>(account.TotalBalance);
             #endregion
 
             #region ConsolidatedCharge

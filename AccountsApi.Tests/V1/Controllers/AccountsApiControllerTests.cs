@@ -1,7 +1,6 @@
 using AccountsApi.Tests.V1.Helper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
@@ -10,7 +9,6 @@ using AccountsApi.V1.Controllers;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase.Interfaces;
-using Amazon.Runtime.Internal;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
@@ -62,15 +60,15 @@ namespace AccountsApi.Tests.V1.Controllers
             Guid targetId = Guid.NewGuid();
             AccountType accountType = AccountType.Recharge;
 
-            var accountModel1 = _fixture.Create<AccountModel>();
+            var accountModel1 = _fixture.Create<AccountResponse>();
             accountModel1.TargetId = targetId;
             accountModel1.AccountType = accountType;
 
-            var accountModel2 = _fixture.Create<AccountModel>();
+            var accountModel2 = _fixture.Create<AccountResponse>();
             accountModel2.TargetId = targetId;
             accountModel2.AccountType = accountType;
 
-            List<AccountModel> accountModels = new List<AccountModel>() { accountModel1, accountModel2 };
+            List<AccountResponse> accountModels = new List<AccountResponse>() { accountModel1, accountModel2 };
             AccountResponses accountResponses = new AccountResponses { AccountResponseList = accountModels };
 
             _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(),
@@ -144,7 +142,7 @@ namespace AccountsApi.Tests.V1.Controllers
         public async Task GetByIdAsyncFoundReturnsResponse()
         {
             Guid id = Guid.NewGuid();
-            AccountModel accountModel = _fixture.Create<AccountModel>();
+            AccountResponse accountModel = _fixture.Create<AccountResponse>();
             accountModel.Id = id;
             _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>())).ReturnsAsync(accountModel);
 
@@ -159,7 +157,7 @@ namespace AccountsApi.Tests.V1.Controllers
         {
             Guid id = Guid.NewGuid();
 
-            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>())).ReturnsAsync((AccountModel) null);
+            _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>())).ReturnsAsync((AccountResponse) null);
 
             var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
 
@@ -197,7 +195,7 @@ namespace AccountsApi.Tests.V1.Controllers
             // Arrange
             Guid id = Guid.Empty;
             _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(() => new AccountModel());
+                .ReturnsAsync(() => new AccountResponse());
 
             // Act
             var result = await _sut.GetByIdAsync(id).ConfigureAwait(false);
@@ -214,7 +212,7 @@ namespace AccountsApi.Tests.V1.Controllers
             // Arrange
             AccountRequest request = _fixture.Create<AccountRequest>();
             Guid id = Guid.NewGuid();
-            AccountModel response = _fixture.Create<AccountModel>();
+            AccountResponse response = _fixture.Create<AccountResponse>();
             response.Id = id;
 
             _addUseCase.Setup(x => x.ExecuteAsync(It.IsAny<AccountRequest>()))
@@ -226,7 +224,7 @@ namespace AccountsApi.Tests.V1.Controllers
             // Assert
             result.Should().NotBeNull();
 
-            AccountModel model = (AccountModel) ((CreatedAtActionResult) result).Value;
+            AccountResponse model = (AccountResponse) ((CreatedAtActionResult) result).Value;
 
             model.Should().NotBeNull();
 
@@ -242,7 +240,7 @@ namespace AccountsApi.Tests.V1.Controllers
         {
             var guid = Guid.NewGuid();
 
-            AccountModel modelToUpdate = new AccountModel
+            AccountResponse responseModel = new AccountResponse
             {
                 Id = guid,
                 TargetType = TargetType.Tenure,
@@ -263,15 +261,17 @@ namespace AccountsApi.Tests.V1.Controllers
             };
 
             _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>()))
-                .ReturnsAsync(modelToUpdate);
+                .ReturnsAsync(responseModel);
 
-            modelToUpdate.AccountBalance = 120;
+            responseModel.AccountBalance = 120;
+            responseModel.TotalBalance = 365;
 
-            _updateUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<AccountModel>()))
-                .ReturnsAsync(modelToUpdate);
+            _updateUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<AccountResponse>()))
+                .ReturnsAsync(responseModel);
 
-            var patchDoc = new JsonPatchDocument<AccountModel>();
+            var patchDoc = new JsonPatchDocument<AccountUpdate>();
             patchDoc.Add(_ => _.AccountBalance, 120);
+            patchDoc.Add(_ => _.TotalBalance, 365);
 
             var result = await _sut.Patch(guid, patchDoc).ConfigureAwait(false);
 
@@ -283,20 +283,20 @@ namespace AccountsApi.Tests.V1.Controllers
 
             resultResponse.StatusCode.Should().Be((int) HttpStatusCode.OK);
 
-            var responseValue = resultResponse.Value as AccountModel;
+            var responseValue = resultResponse.Value as AccountResponse;
 
             responseValue.Should().NotBeNull();
 
-            responseValue.Should().BeEquivalentTo(modelToUpdate);
+            responseValue.Should().BeEquivalentTo(responseModel);
         }
 
         [Fact]
         public async Task Update_InvalidId_Returns404()
         {
             _getByIdUseCase.Setup(_ => _.ExecuteAsync(Guid.NewGuid()))
-                .ReturnsAsync((AccountModel) null);
+                .ReturnsAsync((AccountResponse) null);
 
-            var patchDoc = new JsonPatchDocument<AccountModel>();
+            var patchDoc = new JsonPatchDocument<AccountUpdate>();
             patchDoc.Add(_ => _.AccountBalance, 120);
 
             var result = await _sut.Patch(Guid.NewGuid(), patchDoc).ConfigureAwait(false);
@@ -350,7 +350,7 @@ namespace AccountsApi.Tests.V1.Controllers
             _getByIdUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(new Exception("Test exception"));
 
-            async Task<IActionResult> Func() => await _sut.Patch(Guid.NewGuid(), new JsonPatchDocument<AccountModel>()).ConfigureAwait(false);
+            async Task<IActionResult> Func() => await _sut.Patch(Guid.NewGuid(), new JsonPatchDocument<AccountUpdate>()).ConfigureAwait(false);
 
             Exception exception = await Assert.ThrowsAsync<Exception>((Func<Task<IActionResult>>) Func).ConfigureAwait(false);
             exception.Message.Should().BeEquivalentTo("Test exception");
@@ -365,10 +365,10 @@ namespace AccountsApi.Tests.V1.Controllers
         {
             var useCaseResponse = new AccountResponses()
             {
-                AccountResponseList = new List<AccountModel>()
+                AccountResponseList = new List<AccountResponse>()
                 {
-                    _fixture.Create<AccountModel>(),
-                    _fixture.Create<AccountModel>(),
+                    _fixture.Create<AccountResponse>(),
+                    _fixture.Create<AccountResponse>(),
                 }
             };
 
