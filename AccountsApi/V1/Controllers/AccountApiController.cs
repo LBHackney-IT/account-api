@@ -164,7 +164,7 @@ namespace AccountsApi.V1.Controllers
             }
 
             accountResponseObject = accountUpdate.ToResponse();
-            accountResponseObject.LastUpdatedDate = DateTime.Now;
+            accountResponseObject.LastUpdatedAt = DateTime.Now;
 
             var result = await _updateUseCase.ExecuteAsync(accountResponseObject).ConfigureAwait(false);
 

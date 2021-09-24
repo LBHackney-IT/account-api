@@ -29,10 +29,10 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             Assert.IsType<AccountType>(account.AccountType);
             Assert.IsType<string>(account.AgreementType);
             Assert.IsType<string>(account.CreatedBy);
-            Assert.IsType<DateTime>(account.CreatedDate);
+            Assert.IsType<DateTime>(account.CreatedAt);
             Assert.IsType<DateTime>(account.EndDate);
             Assert.IsType<string>(account.LastUpdatedBy);
-            Assert.IsType<DateTime>(account.LastUpdatedDate);
+            Assert.IsType<DateTime>(account.LastUpdatedAt);
             Assert.IsType<Guid>(account.ParentAccount);
             Assert.IsType<string>(account.PaymentReference);
             Assert.IsType<RentGroupType>(account.RentGroupType);

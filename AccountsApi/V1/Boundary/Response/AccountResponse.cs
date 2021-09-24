@@ -10,12 +10,12 @@ namespace AccountsApi.V1.Boundary.Response
         /// <example>
         ///     2021-03-29T15:10:37.471Z
         /// </example>
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         /// <example>
         ///     2021-03-29T15:10:37.471Z
         /// </example>
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime LastUpdatedAt { get; set; }
 
         /// <example>
         ///     Admin
