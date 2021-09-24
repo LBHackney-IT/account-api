@@ -17,8 +17,8 @@ namespace AccountsApi.V1.Domain
         public decimal TotalBalance { get; set; } = 0;
         public string CreatedBy { get; set; }
         public string LastUpdatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime LastUpdatedAt { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public AccountStatus AccountStatus { get; set; }

@@ -46,9 +46,9 @@ namespace AccountsApi.Tests.V1.Factories
             var domain = entity.ToDomain();
             entity.Should().NotBeNull();
             entity.Should().BeEquivalentTo(domain, opt =>
-                 opt.Excluding(a => a.CreatedDate)
+                 opt.Excluding(a => a.CreatedAt)
                      .Excluding(a => a.CreatedBy)
-                     .Excluding(a => a.LastUpdatedDate));
+                     .Excluding(a => a.LastUpdatedAt));
         }
 
         [Fact]

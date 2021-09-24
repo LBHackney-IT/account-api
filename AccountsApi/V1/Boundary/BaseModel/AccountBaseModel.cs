@@ -54,28 +54,6 @@ namespace AccountsApi.V1.Boundary.BaseModel
         [Required]
         public string AgreementType { get; set; }
 
-        /*/// <example>
-        ///     Admin
-        /// </example>
-        [Required]
-        public string CreatedBy { get; set; }*/
-
-        /*/// <example>
-        ///     Admin
-        /// </example>
-        [Required]
-        public string LastUpdatedBy { get; set; }*/
-
-        /*/// <example>
-        ///     2021-03-29T15:10:37.471Z
-        /// </example>
-        public DateTime CreatedDate { get; set; }*/
-
-        /*/// <example>
-        ///     2021-03-29T15:10:37.471Z
-        /// </example>
-        public DateTime LastUpdatedDate { get; set; }*/
-
         /// <example>
         ///     2021-03-29T15:10:37.471Z
         /// </example>

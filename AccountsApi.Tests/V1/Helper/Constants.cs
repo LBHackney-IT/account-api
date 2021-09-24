@@ -75,7 +75,7 @@ namespace AccountsApi.Tests.V1.Helper
                         Type = TYPE
                     }
                 },
-                LastUpdatedDate = LASTUPDATEDDATE,
+                LastUpdatedAt = LASTUPDATEDDATE,
                 Tenure = new Tenure
                 {
                     FullAddress = TENURE.FullAddress,
@@ -84,7 +84,7 @@ namespace AccountsApi.Tests.V1.Helper
                 },
                 CreatedBy = CREATEDBY,
                 LastUpdatedBy = LASTUPDATEDBY,
-                CreatedDate = CREATEDDATE,
+                CreatedAt = CREATEDDATE,
                 AccountStatus = ACCOUNTSTATUS,
                 AccountType = ACCOUNTTYPE,
                 AgreementType = AGREEMENTTYPE,
