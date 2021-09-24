@@ -40,8 +40,8 @@ namespace AccountsApi.Tests.V1.Infrastructure
             Assert.IsType<decimal>(entity.AccountBalance);
             Assert.IsType<string>(entity.CreatedBy);
             Assert.IsType<string>(entity.LastUpdatedBy);
-            Assert.IsType<DateTime>(entity.CreatedDate);
-            Assert.IsType<DateTime>(entity.LastUpdatedDate);
+            Assert.IsType<DateTime>(entity.CreatedAt);
+            Assert.IsType<DateTime>(entity.LastUpdatedAt);
             Assert.IsType<DateTime>(entity.StartDate);
             Assert.IsType<DateTime>(entity.EndDate);
             Assert.IsType<AccountStatus>(entity.AccountStatus);

@@ -27,7 +27,9 @@ namespace AccountsApi.Tests.V1.Factories
             AccountDbEntity entity = _fixture.Create<AccountDbEntity>();
             var domain = entity.ToDomain();
             domain.Should().NotBeNull();
-            entity.Should().BeEquivalentTo(domain);
+            entity.Should().BeEquivalentTo(domain, opt =>
+                 opt.Excluding(a => a.CreatedAt)
+                     .Excluding(a => a.LastUpdatedAt));
         }
 
         [Fact]
@@ -57,7 +59,10 @@ namespace AccountsApi.Tests.V1.Factories
             Account domain = _fixture.Create<Account>();
             AccountDbEntity dbEntity = domain.ToDatabase();
             dbEntity.Should().NotBeNull();
-            dbEntity.Should().BeEquivalentTo(domain);
+            dbEntity.Should().BeEquivalentTo(domain, opt =>
+                opt.Excluding(a => a.CreatedAt)
+                    .Excluding(a => a.CreatedBy)
+                    .Excluding(a => a.LastUpdatedAt));
         }
 
     }
