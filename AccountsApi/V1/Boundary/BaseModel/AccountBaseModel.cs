@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using AccountsApi.V1.Infrastructure;
 
-namespace AccountsApi.V1.Boundary
+namespace AccountsApi.V1.Boundary.BaseModel
 {
     public abstract class AccountBaseModel
     {

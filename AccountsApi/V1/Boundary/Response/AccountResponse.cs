@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using AccountsApi.V1.Boundary.BaseModel;
 using AccountsApi.V1.Boundary.BaseModel.Interface;
 
 namespace AccountsApi.V1.Boundary.Response
