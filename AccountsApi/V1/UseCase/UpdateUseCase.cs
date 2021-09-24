@@ -19,7 +19,7 @@ namespace AccountsApi.V1.UseCase
             _snsFactory = snsFactory;
         }
 
-        public async Task<AccountModel> ExecuteAsync(AccountModel account)
+        public async Task<AccountResponse> ExecuteAsync(AccountResponse account)
         {
             await _gateway.UpdateAsync(account.ToDomain()).ConfigureAwait(false);
             var accountSnsMessage = _snsFactory.Update(account.ToDomain());

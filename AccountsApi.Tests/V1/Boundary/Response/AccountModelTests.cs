@@ -1,14 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AccountsApi.Tests.V1.Helper;
-using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AutoFixture;
 using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Boundary.Response
@@ -24,20 +19,20 @@ namespace AccountsApi.Tests.V1.Boundary.Response
         public void AccountModelHasPropertiesSet()
         {
             #region AccountModel
-            var model = typeof(AccountModel);
-            model.GetProperties().Length.Should().Be(18);
+            var model = typeof(AccountResponse);
+            model.GetProperties().Length.Should().Be(19);
 
-            AccountModel account = _fixture.Create<AccountModel>();
+            AccountResponse account = _fixture.Create<AccountResponse>();
 
             Assert.IsType<Guid>(account.Id);
             Assert.IsType<AccountStatus>(account.AccountStatus);
             Assert.IsType<AccountType>(account.AccountType);
             Assert.IsType<string>(account.AgreementType);
             Assert.IsType<string>(account.CreatedBy);
-            Assert.IsType<DateTime>(account.CreatedDate);
+            Assert.IsType<DateTime>(account.CreatedAt);
             Assert.IsType<DateTime>(account.EndDate);
             Assert.IsType<string>(account.LastUpdatedBy);
-            Assert.IsType<DateTime>(account.LastUpdatedDate);
+            Assert.IsType<DateTime>(account.LastUpdatedAt);
             Assert.IsType<Guid>(account.ParentAccount);
             Assert.IsType<string>(account.PaymentReference);
             Assert.IsType<RentGroupType>(account.RentGroupType);
@@ -46,6 +41,7 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             Assert.IsType<TargetType>(account.TargetType);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
             Assert.IsType<Tenure>(account.Tenure);
+            Assert.IsType<decimal>(account.TotalBalance);
             #endregion
 
             #region ConsolidatedCharge

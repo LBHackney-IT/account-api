@@ -17,7 +17,7 @@ namespace AccountsApi.V1.Infrastructure
         /// <summary>
         /// Default property to sort
         /// </summary>
-        private const string DEFAULT_SORT_FIELD = "LastUpdatedDate";
+        private const string DEFAULT_SORT_FIELD = "LastUpdatedAt";
 
         /// <summary>
         /// Method for sort collection by field SortBy with type Direction
@@ -38,24 +38,6 @@ namespace AccountsApi.V1.Infrastructure
 
             return models.AsQueryable().OrderBy(order).ToDynamicList<T>();
         }
-
-        /*        /// <summary>
-                /// Method for sort collection by field SortBy with type Direction
-                /// </summary>
-                /// <param name="accounts">Collection to sort</param>
-                /// <param name="sortBy">Field in model to sort</param>
-                /// <param name="direction">Type of sort [Asc, Desc]</param>
-                public static IEnumerable<Account> Sort(this IEnumerable<Account> accounts, string sortBy, Direction direction)
-                {
-                    if (string.IsNullOrWhiteSpace(sortBy))
-                    {
-                        sortBy = DEFAULT_SORT_FIELD;
-                    }
-
-                    var order = CreateOrderQuery<Account>(sortBy, direction.ToString());
-
-                    return accounts.AsQueryable().OrderBy(order).ToDynamicList<Account>();
-                }*/
 
         /// <summary>
         /// Support method, which return correct string for dynamic LINQ OrderBy

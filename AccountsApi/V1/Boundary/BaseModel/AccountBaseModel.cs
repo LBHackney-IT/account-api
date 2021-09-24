@@ -1,7 +1,10 @@
 using AccountsApi.V1.Domain;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
+using AccountsApi.V1.Infrastructure;
 
-namespace AccountsApi.V1.Boundary
+namespace AccountsApi.V1.Boundary.BaseModel
 {
     public abstract class AccountBaseModel
     {
@@ -16,52 +19,42 @@ namespace AccountsApi.V1.Boundary
         /// <example>
         ///     123234345
         /// </example>
+        [Required]
+        [NotNull]
         public string PaymentReference { get; set; }
 
         /// <example>
         ///     Estate
         /// </example>
+        [AllowedValues(typeof(TargetType))]
+        [Required]
         public TargetType TargetType { get; set; }
 
         /// <example>
         ///     74c5fbc4-2fc8-40dc-896a-0cfa671fc832
         /// </example>
+        [NonEmptyGuid]
         public Guid TargetId { get; set; }
 
         /// <example>
         ///     Master
         /// </example>
+        [AllowedValues(typeof(AccountType))]
+        [Required]
         public AccountType AccountType { get; set; }
 
         /// <example>
         ///     MajorWorks
         /// </example>
+        [AllowedValues(typeof(RentGroupType))]
+        [Required]
         public RentGroupType RentGroupType { get; set; }
 
         /// <example>
         ///     Master Account
         /// </example>
+        [Required]
         public string AgreementType { get; set; }
-
-        /// <example>
-        ///     Admin
-        /// </example>
-        public string CreatedBy { get; set; }
-
-        /// <example>
-        ///     Admin
-        /// </example>
-        public string LastUpdatedBy { get; set; }
-
-        /// <example>
-        ///     2021-03-29T15:10:37.471Z
-        /// </example>
-        public DateTime CreatedDate { get; set; }
-
-        /// <example>
-        ///     2021-03-29T15:10:37.471Z
-        /// </example>
-        public DateTime LastUpdatedDate { get; set; }
 
         /// <example>
         ///     2021-03-29T15:10:37.471Z

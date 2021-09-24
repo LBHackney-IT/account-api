@@ -31,14 +31,14 @@ namespace AccountsApi.Tests.V1.UseCase
         [Fact]
         public async Task Update_ValidModel_ReturnsAccount()
         {
-            var assetModel = new AccountModel()
+            var assetModel = new AccountResponse()
             {
                 Id = new Guid("b3b91924-1a3d-44b7-b38a-ae4ae5e57b69"),
                 TargetId = new Guid("2da59b6b-cdcb-46bd-ac61-1c10d1046285"),
                 StartDate = new DateTime(2021, 7, 1),
-                CreatedDate = new DateTime(2021, 6, 1),
+                CreatedAt = new DateTime(2021, 6, 1),
                 EndDate = new DateTime(2021, 9, 1),
-                LastUpdatedDate = new DateTime(2021, 7, 1),
+                LastUpdatedAt = new DateTime(2021, 7, 1),
                 AccountBalance = 100.0M,
                 AccountStatus = AccountStatus.Active,
                 AccountType = AccountType.Master,
@@ -66,7 +66,7 @@ namespace AccountsApi.Tests.V1.UseCase
         public async Task AddValidModelCallsSnsGateway()
         {
             // Arrange
-            AccountModel account = _fixture.Create<AccountModel>();
+            AccountResponse account = _fixture.Create<AccountResponse>();
 
             _gateway.Setup(z => z.AddAsync(It.IsAny<Account>())).Returns(Task.CompletedTask);
 

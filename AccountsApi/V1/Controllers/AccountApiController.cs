@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+using AccountsApi.V1.Factories;
 
 namespace AccountsApi.V1.Controllers
 {
@@ -46,7 +47,7 @@ namespace AccountsApi.V1.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Account with provided id cannot be found</response>
         /// <response code="500">Internal Server Error</response>
-        [ProducesResponseType(typeof(AccountModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -102,7 +103,7 @@ namespace AccountsApi.V1.Controllers
         /// <response code="201">Success. Account model was created successfully</response>
         /// <response code="400">Bad Request</response>
         /// <response code="500">Internal Server Error</response>
-        [ProducesResponseType(typeof(AccountModel), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost]
@@ -134,13 +135,13 @@ namespace AccountsApi.V1.Controllers
         /// <response code="400">Bad Request</response>
         /// <response code="404">Account with provided id cannot be found</response>
         /// <response code="500">Internal Server Error</response>
-        [ProducesResponseType(typeof(AccountModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
         [HttpPatch]
-        public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<AccountModel> patchDoc)
+        public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<AccountUpdate> patchDoc)
         {
             if (patchDoc == null)
             {
@@ -154,12 +155,16 @@ namespace AccountsApi.V1.Controllers
                 return NotFound(new BaseErrorResponse((int) HttpStatusCode.NotFound, "The Account by provided id not found!"));
             }
 
-            patchDoc.ApplyTo(accountResponseObject, ModelState);
+            AccountUpdate accountUpdate = accountResponseObject.ToUpdateModel();
+            patchDoc.ApplyTo(accountUpdate, ModelState);
 
             if (!ModelState.IsValid)
             {
                 return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
             }
+
+            accountResponseObject = accountUpdate.ToResponse();
+            accountResponseObject.LastUpdatedAt = DateTime.Now;
 
             var result = await _updateUseCase.ExecuteAsync(accountResponseObject).ConfigureAwait(false);
 

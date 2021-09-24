@@ -59,7 +59,7 @@ namespace AccountsApi.Tests.V1.Helper
         public static QueryResponse MockQueryResponse<T>()
         {
             QueryResponse response = new QueryResponse();
-            if (typeof(T) == typeof(AccountModel))
+            if (typeof(T) == typeof(AccountResponse))
             {
                 response.Items.Add(
                 new Dictionary<string, AttributeValue>()
@@ -75,8 +75,8 @@ namespace AccountsApi.Tests.V1.Helper
                         { "account_balance", new AttributeValue { N = _fixture.Create<decimal>().ToString("F") } },
                         { "created_by", new AttributeValue { S = _fixture.Create<string>() } },
                         { "last_updated_by", new AttributeValue { S = _fixture.Create<string>() } },
-                        { "created_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
-                        { "last_updated_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "created_at", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "last_updated_at", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
                         { "start_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
                         { "end_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
                         { "account_status", new AttributeValue { S = _fixture.Create<AccountStatus>().ToString() } },
@@ -126,7 +126,7 @@ namespace AccountsApi.Tests.V1.Helper
         public static QueryResponse MockQueryResponseWithoutConsolidatedCharges<T>()
         {
             QueryResponse response = new QueryResponse();
-            if (typeof(T) == typeof(AccountModel))
+            if (typeof(T) == typeof(AccountResponse))
             {
                 response.Items.Add(
                 new Dictionary<string, AttributeValue>()
@@ -142,8 +142,8 @@ namespace AccountsApi.Tests.V1.Helper
                         { "account_balance", new AttributeValue { N = _fixture.Create<decimal>().ToString("F") } },
                         { "created_by", new AttributeValue { S = _fixture.Create<string>() } },
                         { "last_updated_by", new AttributeValue { S = _fixture.Create<string>() } },
-                        { "created_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
-                        { "last_updated_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "created_at", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
+                        { "last_updated_at", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
                         { "start_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
                         { "end_date", new AttributeValue { S = _fixture.Create<DateTime>().ToString("F") } },
                         { "account_status", new AttributeValue { S = _fixture.Create<AccountStatus>().ToString() } },

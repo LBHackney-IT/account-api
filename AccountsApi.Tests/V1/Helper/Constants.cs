@@ -1,4 +1,3 @@
-
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Domain;
 using System;
@@ -76,7 +75,7 @@ namespace AccountsApi.Tests.V1.Helper
                         Type = TYPE
                     }
                 },
-                LastUpdatedDate = LASTUPDATEDDATE,
+                LastUpdatedAt = LASTUPDATEDDATE,
                 Tenure = new Tenure
                 {
                     FullAddress = TENURE.FullAddress,
@@ -85,7 +84,7 @@ namespace AccountsApi.Tests.V1.Helper
                 },
                 CreatedBy = CREATEDBY,
                 LastUpdatedBy = LASTUPDATEDBY,
-                CreatedDate = CREATEDDATE,
+                CreatedAt = CREATEDDATE,
                 AccountStatus = ACCOUNTSTATUS,
                 AccountType = ACCOUNTTYPE,
                 AgreementType = AGREEMENTTYPE,
@@ -105,10 +104,7 @@ namespace AccountsApi.Tests.V1.Helper
                 AgreementType = AGREEMENTTYPE,
                 AccountType = ACCOUNTTYPE,
                 CreatedBy = CREATEDBY,
-                CreatedDate = CREATEDDATE,
                 EndDate = ENDDATE,
-                LastUpdatedBy = LASTUPDATEDBY,
-                LastUpdatedDate = LASTUPDATEDDATE,
                 RentGroupType = RENTGROUPTYPE,
                 StartDate = STARTDATE,
                 TargetId = TARGETID,
@@ -116,9 +112,9 @@ namespace AccountsApi.Tests.V1.Helper
             };
         }
 
-        public static AccountModel ConstructorAccountModelFromConstants()
+        public static AccountResponse ConstructorAccountModelFromConstants()
         {
-            return new AccountModel
+            return new AccountResponse
             {
                 Id = ID,
                 ParentAccount = PARENTACCOUNT,
@@ -127,10 +123,10 @@ namespace AccountsApi.Tests.V1.Helper
                 AgreementType = AGREEMENTTYPE,
                 AccountType = ACCOUNTTYPE,
                 CreatedBy = CREATEDBY,
-                CreatedDate = CREATEDDATE,
+                CreatedAt = CREATEDDATE,
                 EndDate = ENDDATE,
                 LastUpdatedBy = LASTUPDATEDBY,
-                LastUpdatedDate = LASTUPDATEDDATE,
+                LastUpdatedAt = LASTUPDATEDDATE,
                 RentGroupType = RENTGROUPTYPE,
                 StartDate = STARTDATE,
                 TargetId = TARGETID,

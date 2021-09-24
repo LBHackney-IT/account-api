@@ -23,7 +23,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
         public void AccountDbEntityHasPropertiesSet()
         {
             var entityType = typeof(AccountDbEntity);
-            entityType.GetProperties().Length.Should().Be(18);
+            entityType.GetProperties().Length.Should().Be(19);
 
             AccountDbEntity entity = _fixture.Create<AccountDbEntity>();
 
@@ -40,13 +40,14 @@ namespace AccountsApi.Tests.V1.Infrastructure
             Assert.IsType<decimal>(entity.AccountBalance);
             Assert.IsType<string>(entity.CreatedBy);
             Assert.IsType<string>(entity.LastUpdatedBy);
-            Assert.IsType<DateTime>(entity.CreatedDate);
-            Assert.IsType<DateTime>(entity.LastUpdatedDate);
+            Assert.IsType<DateTime>(entity.CreatedAt);
+            Assert.IsType<DateTime>(entity.LastUpdatedAt);
             Assert.IsType<DateTime>(entity.StartDate);
             Assert.IsType<DateTime>(entity.EndDate);
             Assert.IsType<AccountStatus>(entity.AccountStatus);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(entity.ConsolidatedCharges);
             Assert.IsType<Tenure>(entity.Tenure);
+            Assert.IsType<decimal>(entity.TotalBalance);
             #endregion
 
             #region ConsolidatedCharge

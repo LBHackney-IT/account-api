@@ -91,8 +91,6 @@ namespace AccountsApi.Tests.V1.Gateways
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Never);
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
-
-            Assert.Equal("Value cannot be null. (Parameter 'The provided model shouldn't be null')", exception.Message);
         }
 
         #endregion
@@ -101,7 +99,7 @@ namespace AccountsApi.Tests.V1.Gateways
         [Fact]
         public async Task GetAll_DbReturnsZeroItems_ReturnsEmptyList()
         {
-            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountModel>();
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
 
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new QueryResponse());
@@ -114,7 +112,7 @@ namespace AccountsApi.Tests.V1.Gateways
         [Fact]
         public async Task GetAll_DbReturnsItems_ReturnsList()
         {
-            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountModel>();
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
 
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -128,7 +126,7 @@ namespace AccountsApi.Tests.V1.Gateways
         [Fact]
         public async Task GetAll_DbReturnsItemsWithoutConsolidatedCharges_ReturnsList()
         {
-            QueryResponse response = FakeDataHelper.MockQueryResponseWithoutConsolidatedCharges<AccountModel>();
+            QueryResponse response = FakeDataHelper.MockQueryResponseWithoutConsolidatedCharges<AccountResponse>();
 
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -165,7 +163,6 @@ namespace AccountsApi.Tests.V1.Gateways
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Never);
-            Assert.Equal("Value cannot be null. (Parameter 'The provided model shouldn't be null')", exception.Message);
         }
         #endregion
 
@@ -186,7 +183,7 @@ namespace AccountsApi.Tests.V1.Gateways
         [Fact]
         public async Task GetAllArrears_DbReturnsItems_ReturnsSortedList()
         {
-            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountModel>();
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
 
             _amazonDynamoDb.Setup(_ => _.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
@@ -223,7 +220,6 @@ namespace AccountsApi.Tests.V1.Gateways
 
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
             _dynamoDb.Verify(x => x.DeleteAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()), Times.Never());
-            Assert.Equal("Value cannot be null. (Parameter 'The provided model shouldn't be null')", exception.Message);
         }
         #endregion
     }

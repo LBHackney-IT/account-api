@@ -1,4 +1,3 @@
-using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
@@ -28,13 +27,6 @@ namespace AccountsApi.Tests.V1.Factories
         }
 
         [Fact]
-        public void ToResponseNullAccountThrowArgumentNullException()
-        {
-            Func<AccountModel> func = () => ((Account) null).ToResponse();
-            func.Should().Throw<ArgumentNullException>();
-        }
-
-        [Fact]
         public void CanMapAListOfDomainObjectsToAListOfAccountModelObjects()
         {
             var listDomains = Enumerable.Range(0, 2).Select(x => _fixture.Create<Account>()).ToList();
@@ -51,7 +43,7 @@ namespace AccountsApi.Tests.V1.Factories
         [Fact]
         public void CanMapAListOfDomainObjectsToAListOfAccountModelObjects_WhenNull()
         {
-            Func<IEnumerable<AccountModel>> func = () => ((List<Account>) null).ToResponse();
+            Func<IEnumerable<AccountResponse>> func = () => ((List<Account>) null).ToResponse();
             func.Should().Throw<ArgumentNullException>();
         }
     }
