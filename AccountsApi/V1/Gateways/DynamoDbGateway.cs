@@ -34,7 +34,7 @@ namespace AccountsApi.V1.Gateways
 
         public async Task AddAsync(Account account)
         {
-            if(account==null)
+            if (account == null)
                 throw new ArgumentNullException($"{nameof(account).ToString()} model shouldn't be null");
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
@@ -84,8 +84,8 @@ namespace AccountsApi.V1.Gateways
 
         public async Task RemoveAsync(Account account)
         {
-            if(account==null)
-                throw  new ArgumentNullException($"{nameof(account).ToString()} ModelStateExtension shouldn't be null");
+            if (account == null)
+                throw new ArgumentNullException($"{nameof(account).ToString()} ModelStateExtension shouldn't be null");
             await _dynamoDbContext.DeleteAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 

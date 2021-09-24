@@ -27,7 +27,7 @@ namespace AccountsApi.V1.UseCase
                 throw new ArgumentNullException($"{nameof(account).ToString()} ModelStateExtension shouldn't be null");
             Account domain = account.ToDomain();
             domain.Id = Guid.NewGuid();
-            domain.LastUpdatedDate =DateTime.Now;
+            domain.LastUpdatedDate = DateTime.Now;
             domain.LastUpdatedBy = account.CreatedBy;
             await _gateway.AddAsync(domain).ConfigureAwait(false);
             var accountSnsMessage = _snsFactory.Create(domain);
