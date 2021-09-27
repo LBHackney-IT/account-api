@@ -14,7 +14,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     74c5fbc4-2fc8-40dc-896a-0cfa671fc435
         /// </example>
-        public Guid ParentAccount { get; set; }
+        public Guid ParentAccountId { get; set; }
 
         /// <example>
         ///     123234345

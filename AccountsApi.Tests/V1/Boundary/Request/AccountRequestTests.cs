@@ -28,7 +28,7 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             Assert.IsType<string>(account.AgreementType);
             Assert.IsType<string>(account.CreatedBy);
             Assert.IsType<DateTime>(account.EndDate);
-            Assert.IsType<Guid>(account.ParentAccount);
+            Assert.IsType<Guid>(account.ParentAccountId);
             Assert.IsType<string>(account.PaymentReference);
             Assert.IsType<RentGroupType>(account.RentGroupType);
             Assert.IsType<DateTime>(account.StartDate);

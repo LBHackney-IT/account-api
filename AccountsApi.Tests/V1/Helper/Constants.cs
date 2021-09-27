@@ -24,7 +24,7 @@ namespace AccountsApi.Tests.V1.Helper
         public static DateTime STARTDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
         public static DateTime ENDDATE { get; } = DateTime.Parse("2020-05-05T15:10:37.471Z");
         public const AccountStatus ACCOUNTSTATUS = AccountStatus.Active;
-        public static Guid PARENTACCOUNT { get; } = Guid.NewGuid();
+        public static Guid PARENTACCOUNTID { get; } = Guid.NewGuid();
         public const string PAYMENTREFERENCE = "123234345";
         public static Tenure TENURE { get; } = new Tenure()
         {
@@ -98,7 +98,7 @@ namespace AccountsApi.Tests.V1.Helper
         {
             return new AccountRequest
             {
-                ParentAccount = PARENTACCOUNT,
+                ParentAccountId = PARENTACCOUNTID,
                 PaymentReference = PAYMENTREFERENCE,
                 AccountStatus = ACCOUNTSTATUS,
                 AgreementType = AGREEMENTTYPE,
@@ -117,7 +117,7 @@ namespace AccountsApi.Tests.V1.Helper
             return new AccountResponse
             {
                 Id = ID,
-                ParentAccount = PARENTACCOUNT,
+                ParentAccountId = PARENTACCOUNTID,
                 PaymentReference = PAYMENTREFERENCE,
                 AccountStatus = ACCOUNTSTATUS,
                 AgreementType = AGREEMENTTYPE,
