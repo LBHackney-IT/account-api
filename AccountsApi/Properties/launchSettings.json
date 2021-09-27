@@ -15,8 +15,8 @@
       "launchUrl": "api/v1/healthcheck/ping",
       "environmentVariables": {
         "DynamoDb_LocalServiceUrl": "http://localhost:8000",
+        "Localstack_SnsServiceUrl_dev": "http://somewhereplace",
         "DynamoDb_LocalAccessKey": "vix9vm",
-        "Localstack_SnsServiceUrl99": "http://localhost:9200",
         "DynamoDb_LocalSecretKey": "2rmm3",
         "DynamoDb_LocalMode": "false",
         "ASPNETCORE_ENVIRONMENT": "Development"

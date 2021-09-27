@@ -12,7 +12,7 @@ namespace AccountsApi.V1.Factories
             return new Account
             {
                 Id = databaseEntity.Id,
-                ParentAccount = databaseEntity.ParentAccount,
+                ParentAccountId = databaseEntity.ParentAccountId,
                 PaymentReference = databaseEntity.PaymentReference,
                 AccountBalance = databaseEntity.AccountBalance,
                 TotalBalance = databaseEntity.TotalBalance,
@@ -46,7 +46,7 @@ namespace AccountsApi.V1.Factories
                 AccountType = request.AccountType,
                 AgreementType = request.AgreementType,
                 RentGroupType = request.RentGroupType,
-                ParentAccount = request.ParentAccount,
+                ParentAccountId = request.ParentAccountId,
                 PaymentReference = request.PaymentReference
             };
         }
@@ -69,7 +69,7 @@ namespace AccountsApi.V1.Factories
                 RentGroupType = model.RentGroupType,
                 ConsolidatedCharges = model.ConsolidatedCharges,
                 Tenure = model.Tenure,
-                ParentAccount = model.ParentAccount,
+                ParentAccountId = model.ParentAccountId,
                 PaymentReference = model.PaymentReference
             };
         }
@@ -96,7 +96,7 @@ namespace AccountsApi.V1.Factories
                 ConsolidatedCharges = account.ConsolidatedCharges,
                 Tenure = account.Tenure,
                 PaymentReference = account.PaymentReference,
-                ParentAccount = account.ParentAccount
+                ParentAccountId = account.ParentAccountId
             };
         }
     }

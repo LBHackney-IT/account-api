@@ -33,7 +33,7 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             Assert.IsType<DateTime>(account.EndDate);
             Assert.IsType<string>(account.LastUpdatedBy);
             Assert.IsType<DateTime>(account.LastUpdatedAt);
-            Assert.IsType<Guid>(account.ParentAccount);
+            Assert.IsType<Guid>(account.ParentAccountId);
             Assert.IsType<string>(account.PaymentReference);
             Assert.IsType<RentGroupType>(account.RentGroupType);
             Assert.IsType<DateTime>(account.StartDate);
