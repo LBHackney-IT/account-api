@@ -62,7 +62,7 @@ namespace AccountsApi.V1.Infrastructure
                     EndDate = DateTime.Parse(item["end_date"].S),
                     AccountStatus = Enum.Parse<AccountStatus>(item["account_status"].S),
                     PaymentReference = item["payment_reference"].S,
-                    ParentAccountId = Guid.Parse(item["parent_account"].S)
+                    ParentAccountId = Guid.Parse(item["parent_account_id"].S)
                 });
             }
 
