@@ -264,14 +264,14 @@ namespace AccountsApi.Tests.V1.Controllers
                 .ReturnsAsync(responseModel);
 
             responseModel.AccountBalance = 120;
-            responseModel.TotalBalance = 365;
+            responseModel.ConsolidatedBalance = 365;
 
             _updateUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<AccountResponse>()))
                 .ReturnsAsync(responseModel);
 
             var patchDoc = new JsonPatchDocument<AccountUpdate>();
             patchDoc.Add(_ => _.AccountBalance, 120);
-            patchDoc.Add(_ => _.TotalBalance, 365);
+            patchDoc.Add(_ => _.ConsolidatedBalance, 365);
 
             var result = await _sut.Patch(guid, patchDoc).ConfigureAwait(false);
 

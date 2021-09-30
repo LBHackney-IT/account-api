@@ -27,7 +27,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     278.05
         /// </example>
-        public decimal TotalBalance { get; set; } = 0;
+        public decimal ConsolidatedBalance { get; set; } = 0;
 
         [NotNull]
         public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }

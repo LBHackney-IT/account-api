@@ -43,7 +43,7 @@ namespace AccountsApi.Tests.V1.Domain
             Assert.IsType<AccountStatus>(account.AccountStatus);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
             Assert.IsType<Tenure>(account.Tenure);
-            Assert.IsType<decimal>(account.TotalBalance);
+            Assert.IsType<decimal>(account.ConsolidatedBalance);
             #endregion
 
             #region ConsolidatedCharge

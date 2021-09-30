@@ -13,7 +13,7 @@ namespace AccountsApi.V1.Factories
             return new AccountResponse()
             {
                 AccountBalance = domain.AccountBalance,
-                TotalBalance = domain.TotalBalance,
+                ConsolidatedBalance = domain.ConsolidatedBalance,
                 AccountStatus = domain.AccountStatus,
                 EndDate = domain.EndDate,
                 LastUpdatedAt = domain.LastUpdatedAt,
@@ -39,7 +39,7 @@ namespace AccountsApi.V1.Factories
             return new AccountResponse()
             {
                 AccountBalance = domain.AccountBalance,
-                TotalBalance = domain.TotalBalance,
+                ConsolidatedBalance = domain.ConsolidatedBalance,
                 AccountStatus = domain.AccountStatus,
                 EndDate = domain.EndDate,
                 LastUpdatedBy = domain.LastUpdatedBy,
@@ -62,7 +62,7 @@ namespace AccountsApi.V1.Factories
             return new AccountUpdate()
             {
                 AccountBalance = response.AccountBalance,
-                TotalBalance = response.TotalBalance,
+                ConsolidatedBalance = response.ConsolidatedBalance,
                 AccountStatus = response.AccountStatus,
                 EndDate = response.EndDate,
                 LastUpdatedBy = response.LastUpdatedBy,

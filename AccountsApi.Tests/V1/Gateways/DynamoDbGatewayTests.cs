@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Boundary.Response;
+using AccountsApi.V1.Factories;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
 using Microsoft.OpenApi.Writers;
@@ -142,14 +143,22 @@ namespace AccountsApi.Tests.V1.Gateways
         [Fact]
         public async Task Update_WithValidModel_WorksOnce()
         {
+            var domain = _fixture.Create<Account>();
+
             _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            var domain = _fixture.Create<Account>();
+            _dynamoDb.Setup(_ => _.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(domain.ToDatabase());
 
             await _gateway.UpdateAsync(domain).ConfigureAwait(false);
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Once);
+            var updatedDomain = await _gateway.GetByIdAsync(domain.Id).ConfigureAwait(false);
+            updatedDomain.Should().NotBeNull();
+            updatedDomain.Should().BeEquivalentTo(domain,
+                opt => opt.Excluding(f => f.LastUpdatedAt));
+            updatedDomain.LastUpdatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-1));
         }
 
         [Fact]

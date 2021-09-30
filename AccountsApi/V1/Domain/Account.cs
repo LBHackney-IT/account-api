@@ -14,7 +14,7 @@ namespace AccountsApi.V1.Domain
         public RentGroupType RentGroupType { get; set; }
         public string AgreementType { get; set; }
         public decimal AccountBalance { get; set; } = 0;
-        public decimal TotalBalance { get; set; } = 0;
+        public decimal ConsolidatedBalance { get; set; } = 0;
         public string CreatedBy { get; set; }
         public string LastUpdatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
