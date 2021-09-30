@@ -9,7 +9,7 @@ namespace AccountsApi.V1.Domain
 {
     public class Person
     {
-        [Required]
+        [NonEmptyGuid]
         public Guid Id { get; set; }
         [Required]
         public string FullName { get; set; }
