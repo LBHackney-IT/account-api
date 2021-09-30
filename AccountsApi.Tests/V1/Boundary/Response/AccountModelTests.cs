@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AutoFixture;
@@ -63,15 +64,15 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             Assert.IsType<string>(tenure.FullAddress);
             Assert.IsType<string>(tenure.TenancyId);
             Assert.IsType<string>(tenure.TenancyType);
-            Assert.IsAssignableFrom<IEnumerable<PrimaryTenant>>(tenure.PrimaryTenants);
+            Assert.IsAssignableFrom<IEnumerable<PrimaryTenants>>(tenure.PrimaryTenants);
             #endregion
 
             #region PrimaryTenant
-            var entityPrimaryTenant = typeof(PrimaryTenant);
+            var entityPrimaryTenant = typeof(PrimaryTenants);
             entityPrimaryTenant.GetProperties().Length.Should().Be(1);
 
-            PrimaryTenant primaryTenant = _fixture.Create<PrimaryTenant>();
-            Assert.IsType<string>(primaryTenant.FullName);
+            PrimaryTenants primaryTenant = _fixture.Create<PrimaryTenants>();
+            Assert.IsType<string>(primaryTenant.Persons.ToList()[0].FullName);
             #endregion
         }
     }

@@ -6,6 +6,7 @@ using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Infrastructure;
 using Amazon.DynamoDBv2.Model;
+using Amazon.Runtime.Internal;
 using AutoFixture;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -65,7 +66,7 @@ namespace AccountsApi.Tests.V1.Helper
                 new Dictionary<string, AttributeValue>()
                     {
                         { "id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
-                        { "parent_account", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
+                        { "parent_account_id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
                         { "payment_reference", new AttributeValue { S = _fixture.Create<string>() } },
                         { "target_type", new AttributeValue { S = _fixture.Create<TargetType>().ToString() } },
                         { "target_id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
@@ -132,7 +133,7 @@ namespace AccountsApi.Tests.V1.Helper
                 new Dictionary<string, AttributeValue>()
                     {
                         { "id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
-                        { "parent_account", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
+                        { "parent_account_id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
                         { "payment_reference", new AttributeValue { S = _fixture.Create<string>() } },
                         { "target_type", new AttributeValue { S = _fixture.Create<TargetType>().ToString() } },
                         { "target_id", new AttributeValue { S = _fixture.Create<Guid>().ToString() } },
@@ -155,7 +156,15 @@ namespace AccountsApi.Tests.V1.Helper
                                 {
                                     { "fullAddress", new AttributeValue { S = _fixture.Create<string>() } },
                                     { "tenancyId", new AttributeValue { S = _fixture.Create<string>() } },
-                                    { "tenancyType", new AttributeValue { S = _fixture.Create<string>() } }
+                                    { "tenancyType", new AttributeValue { S = _fixture.Create<string>() } },
+                                    {"primaryTenats", new AttributeValue
+                                    {
+                                        M = new Dictionary<string, AttributeValue>
+                                        {
+                                            {"id",new AttributeValue{S = _fixture.Create<Guid>().ToString()}},
+                                            {"fullName",new AttributeValue{S = _fixture.Create<string>().ToString()}}
+                                        }
+                                    }}
                                 }
                             }
                         }

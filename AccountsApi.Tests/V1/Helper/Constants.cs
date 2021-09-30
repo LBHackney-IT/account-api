@@ -33,8 +33,22 @@ namespace AccountsApi.Tests.V1.Helper
             TenancyId = "123456",
             PrimaryTenants = new[]
             {
-                new PrimaryTenant{FullName = "John"},
-                new PrimaryTenant{FullName = "Fredrick"}
+                new PrimaryTenants()
+                {
+                    Persons = new List<Person>
+                    {
+                        new Person(){Id = Guid.NewGuid(),FullName = "John"},
+                        new Person(){Id = Guid.NewGuid(),FullName = "Jenny"}
+                    }
+                },
+                new PrimaryTenants()
+                {
+                    Persons = new List<Person>
+                    {
+                        new Person(){Id = Guid.NewGuid(),FullName = "John"},
+                        new Person(){Id = Guid.NewGuid(),FullName = "Jenny"}
+                    }
+                }
             }
         };
         #endregion

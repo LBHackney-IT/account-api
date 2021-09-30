@@ -2,6 +2,7 @@ using AccountsApi.V1.Domain;
 using Amazon.DynamoDBv2.DataModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AccountsApi.V1.Infrastructure;
 using AutoFixture;
@@ -69,15 +70,16 @@ namespace AccountsApi.Tests.V1.Infrastructure
             Assert.IsType<string>(tenure.FullAddress);
             Assert.IsType<string>(tenure.TenancyId);
             Assert.IsType<string>(tenure.TenancyType);
-            Assert.IsAssignableFrom<IEnumerable<PrimaryTenant>>(tenure.PrimaryTenants);
+            Assert.IsAssignableFrom<IEnumerable<PrimaryTenants>>(tenure.PrimaryTenants);
             #endregion
 
             #region PrimaryTenant
-            var entityPrimaryTenant = typeof(PrimaryTenant);
+            var entityPrimaryTenant = typeof(PrimaryTenants);
             entityPrimaryTenant.GetProperties().Length.Should().Be(1);
 
-            PrimaryTenant primaryTenant = _fixture.Create<PrimaryTenant>();
-            Assert.IsType<string>(primaryTenant.FullName);
+            PrimaryTenants primaryTenant = _fixture.Create<PrimaryTenants>();
+            Assert.IsType<string>(primaryTenant.Persons.First().FullName);
+            Assert.IsType<Guid>(primaryTenant.Persons.First().Id);
             #endregion
         }
     }

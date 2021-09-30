@@ -22,11 +22,9 @@ namespace AccountsApi.V1.Infrastructure
         public TargetType TargetType { get; set; }
 
         [DynamoDBProperty(AttributeName = "target_id")]
-        [DynamoDBGlobalSecondaryIndexHashKey("target_id_dx")]
         public Guid TargetId { get; set; }
 
         [DynamoDBProperty(AttributeName = "account_type", Converter = typeof(DynamoDbEnumConverter<AccountType>))]
-        [DynamoDBGlobalSecondaryIndexHashKey("target_id_dx")]
         public AccountType AccountType { get; set; }
 
         [DynamoDBProperty(AttributeName = "rent_group_type", Converter = typeof(DynamoDbEnumConverter<RentGroupType>))]
