@@ -148,7 +148,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            _dynamoDb.Setup(_=>_.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(),It.IsAny<CancellationToken>()))
+            _dynamoDb.Setup(_ => _.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(domain.ToDatabase());
 
             await _gateway.UpdateAsync(domain).ConfigureAwait(false);
@@ -157,7 +157,7 @@ namespace AccountsApi.Tests.V1.Gateways
             var updatedDomain = await _gateway.GetByIdAsync(domain.Id).ConfigureAwait(false);
             updatedDomain.Should().NotBeNull();
             updatedDomain.Should().BeEquivalentTo(domain,
-                opt=>opt.Excluding(f=>f.LastUpdatedAt));
+                opt => opt.Excluding(f => f.LastUpdatedAt));
             updatedDomain.LastUpdatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-1));
         }
 
