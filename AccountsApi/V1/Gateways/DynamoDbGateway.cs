@@ -93,6 +93,7 @@ namespace AccountsApi.V1.Gateways
         {
             if (account == null)
                 throw new ArgumentNullException($"{nameof(account).ToString()} ModelStateExtension shouldn't be null");
+            account.LastUpdatedAt = DateTime.Now;
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
     }
