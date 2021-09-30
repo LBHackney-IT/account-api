@@ -15,7 +15,7 @@ namespace AccountsApi.V1.Factories
                 ParentAccountId = databaseEntity.ParentAccountId,
                 PaymentReference = databaseEntity.PaymentReference,
                 AccountBalance = databaseEntity.AccountBalance,
-                TotalBalance = databaseEntity.TotalBalance,
+                ConsolidatedBalance = databaseEntity.ConsolidatedBalance,
                 AccountStatus = databaseEntity.AccountStatus,
                 EndDate = databaseEntity.EndDate,
                 CreatedBy = databaseEntity.CreatedBy,
@@ -57,7 +57,7 @@ namespace AccountsApi.V1.Factories
             {
                 Id = model.Id,
                 AccountBalance = model.AccountBalance,
-                TotalBalance = model.TotalBalance,
+                ConsolidatedBalance = model.ConsolidatedBalance,
                 AccountStatus = model.AccountStatus,
                 EndDate = model.EndDate,
                 LastUpdatedBy = model.LastUpdatedBy,
@@ -80,7 +80,7 @@ namespace AccountsApi.V1.Factories
             {
                 Id = account.Id,
                 AccountBalance = account.AccountBalance,
-                TotalBalance = account.TotalBalance,
+                ConsolidatedBalance = account.ConsolidatedBalance,
                 AccountStatus = account.AccountStatus,
                 EndDate = account.EndDate,
                 CreatedBy = account.CreatedBy,

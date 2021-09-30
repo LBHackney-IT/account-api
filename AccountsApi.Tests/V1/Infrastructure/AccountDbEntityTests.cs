@@ -48,7 +48,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
             Assert.IsType<AccountStatus>(entity.AccountStatus);
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(entity.ConsolidatedCharges);
             Assert.IsType<Tenure>(entity.Tenure);
-            Assert.IsType<decimal>(entity.TotalBalance);
+            Assert.IsType<decimal>(entity.ConsolidatedBalance);
             #endregion
 
             #region ConsolidatedCharge
