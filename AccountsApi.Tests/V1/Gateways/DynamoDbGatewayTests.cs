@@ -158,7 +158,7 @@ namespace AccountsApi.Tests.V1.Gateways
             updatedDomain.Should().NotBeNull();
             updatedDomain.Should().BeEquivalentTo(domain,
                 opt => opt.Excluding(f => f.LastUpdatedAt));
-            updatedDomain.LastUpdatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-1));
+            updatedDomain.LastUpdatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-5));
         }
 
         [Fact]

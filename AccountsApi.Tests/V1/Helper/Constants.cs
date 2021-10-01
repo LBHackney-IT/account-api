@@ -35,19 +35,13 @@ namespace AccountsApi.Tests.V1.Helper
             {
                 new PrimaryTenants()
                 {
-                    Persons = new List<Person>
-                    {
-                        new Person(){Id = Guid.NewGuid(),FullName = "John"},
-                        new Person(){Id = Guid.NewGuid(),FullName = "Jenny"}
-                    }
+                    Id = Guid.NewGuid(),
+                    FullName = "John"
                 },
                 new PrimaryTenants()
                 {
-                    Persons = new List<Person>
-                    {
-                        new Person(){Id = Guid.NewGuid(),FullName = "John"},
-                        new Person(){Id = Guid.NewGuid(),FullName = "Jenny"}
-                    }
+                    Id = Guid.NewGuid(),
+                    FullName = "Jenny"
                 }
             }
         };

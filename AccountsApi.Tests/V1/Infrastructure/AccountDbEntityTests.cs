@@ -75,11 +75,11 @@ namespace AccountsApi.Tests.V1.Infrastructure
 
             #region PrimaryTenant
             var entityPrimaryTenant = typeof(PrimaryTenants);
-            entityPrimaryTenant.GetProperties().Length.Should().Be(1);
+            entityPrimaryTenant.GetProperties().Length.Should().Be(2);
 
             PrimaryTenants primaryTenant = _fixture.Create<PrimaryTenants>();
-            Assert.IsType<string>(primaryTenant.Persons.First().FullName);
-            Assert.IsType<Guid>(primaryTenant.Persons.First().Id);
+            Assert.IsType<string>(primaryTenant.FullName);
+            Assert.IsType<Guid>(primaryTenant.Id);
             #endregion
         }
     }
