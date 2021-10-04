@@ -2,15 +2,12 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
 using Amazon.DynamoDBv2.DataModel;
-using Amazon.DynamoDBv2.DocumentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Policy;
 using System.Threading.Tasks;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
-using Amazon.Runtime;
 
 namespace AccountsApi.V1.Gateways
 {
@@ -85,15 +82,15 @@ namespace AccountsApi.V1.Gateways
         public async Task RemoveAsync(Account account)
         {
             if (account == null)
-                throw new ArgumentNullException($"{nameof(account).ToString()} ModelStateExtension shouldn't be null");
+                throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null");
             await _dynamoDbContext.DeleteAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
         public async Task UpdateAsync(Account account)
         {
             if (account == null)
-                throw new ArgumentNullException($"{nameof(account).ToString()} ModelStateExtension shouldn't be null");
-            account.LastUpdatedAt = DateTime.Now;
+                throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null");
+            account.LastUpdatedAt = DateTime.UtcNow;
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
     }

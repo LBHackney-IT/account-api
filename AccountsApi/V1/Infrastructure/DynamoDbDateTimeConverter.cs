@@ -18,7 +18,7 @@ namespace AccountsApi.V1.Infrastructure
         {
             if (null == value) return new DynamoDBNull();
 
-            return new Primitive { Value = ((DateTime) value).ToString(DATEFORMAT) };
+            return new Primitive { Value = ((DateTime) value).ToUniversalTime().ToString(DATEFORMAT) };
         }
 
         public object FromEntry(DynamoDBEntry entry)
@@ -27,7 +27,7 @@ namespace AccountsApi.V1.Infrastructure
             if (null == primitive) return (DateTime?) null;
 
             var dtString = primitive.Value.ToString();
-            return DateTime.Parse(dtString, null, System.Globalization.DateTimeStyles.RoundtripKind);
+            return DateTime.Parse(dtString, null, System.Globalization.DateTimeStyles.RoundtripKind).ToLocalTime().ToString(DATEFORMAT);
         }
     }
 }

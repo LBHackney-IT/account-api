@@ -55,8 +55,8 @@ namespace AccountsApi.Tests.V1.UseCase
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(accountRequest);
             result.Id.Should().NotBeEmpty();
-            result.CreatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-1));
-            result.LastUpdatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-1));
+            result.CreatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-5));
+            result.LastUpdatedAt.Should().BeAfter(DateTime.Now.AddMinutes(-5));
         }
 
         [Fact]
