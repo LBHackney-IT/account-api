@@ -54,6 +54,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         ///     Master Account
         /// </example>
         [Required]
+        [NotNull]
         public string AgreementType { get; set; }
 
         /// <example>
@@ -80,6 +81,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         ///     Introductory
         ///     285 Avenue, 315 Amsterdam
         /// </example>
+        [Required]
         [NotNull]
         public Tenure Tenure { get; set; }
     }
