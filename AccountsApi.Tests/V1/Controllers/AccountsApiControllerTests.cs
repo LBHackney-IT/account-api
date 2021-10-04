@@ -1,9 +1,7 @@
 using AccountsApi.Tests.V1.Helper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Security;
 using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
@@ -206,7 +204,7 @@ namespace AccountsApi.Tests.V1.Controllers
             result.Should().BeOfType<BadRequestObjectResult>();
         }
         #endregion
-
+         
         #region Post
 
         [Fact]
@@ -221,7 +219,7 @@ namespace AccountsApi.Tests.V1.Controllers
             await func.Should().ThrowAsync<Exception>().ConfigureAwait(false);
         }
 
-        [Fact]
+        [Fact]00       
         public async Task PostSuccessfullReturnsAccountModel()
         {
             // Arrange
