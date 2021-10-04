@@ -27,7 +27,7 @@ namespace AccountsApi.V1.Infrastructure
             if (null == primitive) return (DateTime?) null;
 
             var dtString = primitive.Value.ToString();
-            return DateTime.Parse(dtString, null, System.Globalization.DateTimeStyles.RoundtripKind).ToLocalTime().ToString(DATEFORMAT);
+            return DateTime.Parse(dtString, null, System.Globalization.DateTimeStyles.RoundtripKind).ToLocalTime();
         }
     }
 }

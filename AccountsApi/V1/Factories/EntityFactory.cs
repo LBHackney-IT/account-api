@@ -47,7 +47,8 @@ namespace AccountsApi.V1.Factories
                 AgreementType = request.AgreementType,
                 RentGroupType = request.RentGroupType,
                 ParentAccountId = request.ParentAccountId,
-                PaymentReference = request.PaymentReference
+                PaymentReference = request.PaymentReference,
+                Tenure = request.Tenure
             };
         }
 
