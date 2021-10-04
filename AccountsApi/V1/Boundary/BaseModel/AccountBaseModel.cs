@@ -59,16 +59,28 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     2021-03-29T15:10:37.471Z
         /// </example>
+        [RequiredDateTime]
         public DateTime StartDate { get; set; }
 
         /// <example>
         ///     2021-03-29T15:10:37.471Z
         /// </example>
+        [RequiredDateTime]
         public DateTime EndDate { get; set; }
 
         /// <example>
         ///     Active
         /// </example>
+        [Required]
+        [AllowedValues(typeof(AccountStatus))]
         public AccountStatus AccountStatus { get; set; }
+
+        /// <example>
+        ///     31245
+        ///     Introductory
+        ///     285 Avenue, 315 Amsterdam
+        /// </example>
+        [NotNull]
+        public Tenure Tenure { get; set; }
     }
 }

@@ -32,8 +32,5 @@ namespace AccountsApi.V1.Boundary.BaseModel
         [NotNull]
         public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
 
-        [NotNull]
-        public Tenure Tenure { get; set; }
-
     }
 }

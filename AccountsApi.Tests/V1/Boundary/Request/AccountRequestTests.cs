@@ -3,6 +3,8 @@ using AccountsApi.V1.Domain;
 using AutoFixture;
 using FluentAssertions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Boundary.Request
@@ -18,8 +20,14 @@ namespace AccountsApi.Tests.V1.Boundary.Request
         [Fact]
         public void AccountRequestHasPropertiesSet()
         {
-            var request = typeof(AccountRequest);
-            request.GetProperties().Length.Should().Be(11);
+            var accountRequest = typeof(AccountRequest);
+            accountRequest.GetProperties().Length.Should().Be(12);
+
+            var tenureRequest = typeof(Tenure);
+            tenureRequest.GetProperties().Length.Should().Be(4);
+
+            var primaryTenantsRequest = typeof(PrimaryTenants);
+            primaryTenantsRequest.GetProperties().Length.Should().Be(2);
 
             AccountRequest account = _fixture.Create<AccountRequest>();
 
@@ -34,6 +42,15 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             Assert.IsType<DateTime>(account.StartDate);
             Assert.IsType<Guid>(account.TargetId);
             Assert.IsType<TargetType>(account.TargetType);
+            Assert.IsType<Tenure>(account.Tenure);
+
+            Assert.IsType<string>(account.Tenure.FullAddress);
+            Assert.All(account.Tenure.PrimaryTenants,item=>Assert.IsType<PrimaryTenants>(item));
+            Assert.All(account.Tenure.PrimaryTenants,item=>Assert.IsType<Guid>(item.Id));
+            Assert.All(account.Tenure.PrimaryTenants,item=>Assert.IsType<string>(item.FullName));
+
+            Assert.IsType<string>(account.Tenure.TenancyType);
+            Assert.IsType<string>(account.Tenure.TenancyId);
         }
     }
 }
