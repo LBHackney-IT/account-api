@@ -1,7 +1,9 @@
 using AccountsApi.Tests.V1.Helper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Security;
 using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
@@ -206,6 +208,19 @@ namespace AccountsApi.Tests.V1.Controllers
         #endregion
 
         #region Post
+
+        [Fact]
+        public async Task PostWithoutTenureReturnsException()
+        {
+            AccountRequest request = _fixture.Build<AccountRequest>().Without(s => s.Tenure).Create();
+            _addUseCase.Setup(_ => _.ExecuteAsync(It.IsAny<AccountRequest>()))
+                .ReturnsAsync(It.IsAny<AccountResponse>());
+
+            Func<Task<IActionResult>> func = async () => await _sut.Post(request).ConfigureAwait(false);
+
+            await func.Should().ThrowAsync<Exception>().ConfigureAwait(false);
+        }
+
         [Fact]
         public async Task PostSuccessfullReturnsAccountModel()
         {
