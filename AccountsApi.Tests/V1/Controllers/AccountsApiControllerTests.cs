@@ -219,7 +219,7 @@ namespace AccountsApi.Tests.V1.Controllers
             await func.Should().ThrowAsync<Exception>().ConfigureAwait(false);
         }
 
-        [Fact]00       
+        [Fact]
         public async Task PostSuccessfullReturnsAccountModel()
         {
             // Arrange
