@@ -204,7 +204,7 @@ namespace AccountsApi.Tests.V1.Controllers
             result.Should().BeOfType<BadRequestObjectResult>();
         }
         #endregion
-         
+
         #region Post
 
         [Fact]
