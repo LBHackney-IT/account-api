@@ -32,7 +32,8 @@ namespace AccountsApi.V1.Gateways
         public async Task AddAsync(Account account)
         {
             if (account == null)
-                throw new ArgumentNullException($"{nameof(account).ToString()} model shouldn't be null");
+                throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null!");
+
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
@@ -79,18 +80,10 @@ namespace AccountsApi.V1.Gateways
             return response.ToAccounts();
         }
 
-        public async Task RemoveAsync(Account account)
-        {
-            if (account == null)
-                throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null");
-            await _dynamoDbContext.DeleteAsync(account.ToDatabase()).ConfigureAwait(false);
-        }
-
         public async Task UpdateAsync(Account account)
         {
             if (account == null)
                 throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null");
-            account.LastUpdatedAt = DateTime.UtcNow;
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
     }

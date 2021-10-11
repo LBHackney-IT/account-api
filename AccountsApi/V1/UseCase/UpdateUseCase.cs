@@ -1,3 +1,4 @@
+using System;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways;
@@ -21,6 +22,7 @@ namespace AccountsApi.V1.UseCase
 
         public async Task<AccountResponse> ExecuteAsync(AccountResponse account)
         {
+            account.LastUpdatedAt = DateTime.UtcNow;
             await _gateway.UpdateAsync(account.ToDomain()).ConfigureAwait(false);
             var accountSnsMessage = _snsFactory.Update(account.ToDomain());
             await _snsGateway.Publish(accountSnsMessage).ConfigureAwait(false);

@@ -203,32 +203,5 @@ namespace AccountsApi.Tests.V1.Gateways
             Assert.All(result, item => item.Should().NotBeNull());
         }
         #endregion
-
-        #region Remove
-        [Fact]
-        public async Task RemoveAsync_WithValidEntry_WorksOnce()
-        {
-            _dynamoDb.Setup(x => x.DeleteAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.CompletedTask);
-
-            Account account = new Account();
-
-            await _gateway.RemoveAsync(account).ConfigureAwait(false);
-
-            _dynamoDb.Verify(x => x.DeleteAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()), Times.Once());
-        }
-
-        [Fact]
-        public async Task RemoveAsync_WithInValidEntry_WorksOnce()
-        {
-            _dynamoDb.Setup(x => x.DeleteAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
-                .Returns(Task.CompletedTask);
-
-            async Task Func() => await _gateway.RemoveAsync((Account) null).ConfigureAwait(false);
-
-            ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
-            _dynamoDb.Verify(x => x.DeleteAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()), Times.Never());
-        }
-        #endregion
     }
 }

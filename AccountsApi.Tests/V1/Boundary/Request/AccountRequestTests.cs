@@ -21,7 +21,7 @@ namespace AccountsApi.Tests.V1.Boundary.Request
         public void AccountRequestHasPropertiesSet()
         {
             var accountRequest = typeof(AccountRequest);
-            accountRequest.GetProperties().Length.Should().Be(12);
+            accountRequest.GetProperties().Length.Should().Be(10);
 
             var tenureRequest = typeof(Tenure);
             tenureRequest.GetProperties().Length.Should().Be(4);
@@ -35,11 +35,9 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             Assert.IsType<AccountType>(account.AccountType);
             Assert.IsType<string>(account.AgreementType);
             Assert.IsType<string>(account.CreatedBy);
-            Assert.IsType<DateTime>(account.EndDate);
             Assert.IsType<Guid>(account.ParentAccountId);
             Assert.IsType<string>(account.PaymentReference);
             Assert.IsType<RentGroupType>(account.RentGroupType);
-            Assert.IsType<DateTime>(account.StartDate);
             Assert.IsType<Guid>(account.TargetId);
             Assert.IsType<TargetType>(account.TargetType);
             Assert.IsType<Tenure>(account.Tenure);
