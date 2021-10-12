@@ -58,18 +58,6 @@ namespace AccountsApi.V1.Boundary.BaseModel
         public string AgreementType { get; set; }
 
         /// <example>
-        ///     2021-03-29T15:10:37.471Z
-        /// </example>
-        [RequiredDateTime]
-        public DateTime StartDate { get; set; }
-
-        /// <example>
-        ///     2021-03-29T15:10:37.471Z
-        /// </example>
-        [RequiredDateTime]
-        public DateTime EndDate { get; set; }
-
-        /// <example>
         ///     Active
         /// </example>
         [Required]

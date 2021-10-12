@@ -112,9 +112,7 @@ namespace AccountsApi.Tests.V1.Helper
                 AgreementType = AGREEMENTTYPE,
                 AccountType = ACCOUNTTYPE,
                 CreatedBy = CREATEDBY,
-                EndDate = ENDDATE,
                 RentGroupType = RENTGROUPTYPE,
-                StartDate = STARTDATE,
                 TargetId = TARGETID,
                 TargetType = TARGETTYPE
             };

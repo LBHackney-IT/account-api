@@ -38,9 +38,7 @@ namespace AccountsApi.V1.Factories
             return new Account
             {
                 AccountStatus = request.AccountStatus,
-                EndDate = request.EndDate,
                 CreatedBy = request.CreatedBy,
-                StartDate = request.StartDate,
                 TargetId = request.TargetId,
                 TargetType = request.TargetType,
                 AccountType = request.AccountType,

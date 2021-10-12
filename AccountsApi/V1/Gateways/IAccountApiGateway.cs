@@ -12,7 +12,6 @@ namespace AccountsApi.V1.Gateways
         public Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction);
 
         public Task AddAsync(Account account);
-        public Task RemoveAsync(Account account);
         public Task UpdateAsync(Account account);
     }
 }
