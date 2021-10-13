@@ -9,7 +9,7 @@ namespace AccountsApi.V1.Factories
     {
         public static Account ToDomain(this AccountDbEntity databaseEntity)
         {
-            Account account =  new Account
+            Account account = new Account
             {
                 Id = databaseEntity.Id,
                 ParentAccountId = databaseEntity.ParentAccountId,
