@@ -39,8 +39,12 @@ namespace AccountsApi.V1.Infrastructure
                     var _tenure = item["tenure"].M;
                     tenure = new Tenure();
                     tenure.FullAddress = _tenure["fullAddress"].S;
-                    tenure.TenureId = _tenure["tenancyId"].S;
-                    tenure.TenureType = _tenure["tenancyType"].S;
+                    tenure.TenureId = _tenure["tenureId"].S;
+                    tenure.TenureType = new TenureType
+                    {
+                        Code = _tenure["tenureType"].M["code"].S,
+                        Description = _tenure["tenureType"].M["description"].S
+                    };
                 }
 
                 accounts.Add(new Account

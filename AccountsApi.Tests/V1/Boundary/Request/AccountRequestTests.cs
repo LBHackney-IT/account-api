@@ -47,7 +47,7 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             Assert.All(account.Tenure.PrimaryTenants, item => Assert.IsType<Guid>(item.Id));
             Assert.All(account.Tenure.PrimaryTenants, item => Assert.IsType<string>(item.FullName));
 
-            Assert.IsType<string>(account.Tenure.TenureType);
+            Assert.IsType<TenureType>(account.Tenure.TenureType);
             Assert.IsType<string>(account.Tenure.TenureId);
         }
     }
