@@ -9,7 +9,7 @@ namespace AccountsApi.V1.Factories
     {
         public static Account ToDomain(this AccountDbEntity databaseEntity)
         {
-            return new Account
+            Account account = new Account
             {
                 Id = databaseEntity.Id,
                 ParentAccountId = databaseEntity.ParentAccountId,
@@ -31,6 +31,7 @@ namespace AccountsApi.V1.Factories
                 ConsolidatedCharges = databaseEntity.ConsolidatedCharges,
                 Tenure = databaseEntity.Tenure
             };
+            return account;
         }
 
         public static Account ToDomain(this AccountRequest request)
