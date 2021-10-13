@@ -10,6 +10,9 @@
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
         <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     </PropertyGroup>
+    <ItemGroup>
+      <None Remove="V1\Boundary\BaseModel\AccountBaseModel.cs~RF1647c7f.TMP" />
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.AspNetCoreServer" Version="5.1.1" />

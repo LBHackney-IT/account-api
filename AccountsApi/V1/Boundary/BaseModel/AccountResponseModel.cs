@@ -27,7 +27,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     2021-03-29T15:10:37.471Z
         /// </example>
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         /// <example>
         ///     123.01

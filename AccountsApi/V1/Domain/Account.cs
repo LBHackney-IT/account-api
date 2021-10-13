@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace AccountsApi.V1.Domain
 {
@@ -20,7 +21,7 @@ namespace AccountsApi.V1.Domain
         public DateTime CreatedAt { get; set; }
         public DateTime LastUpdatedAt { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public AccountStatus AccountStatus { get; set; }
         public IEnumerable<ConsolidatedCharge> ConsolidatedCharges { get; set; }
         public Tenure Tenure { get; set; }
