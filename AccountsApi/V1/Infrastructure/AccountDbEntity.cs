@@ -55,7 +55,7 @@ namespace AccountsApi.V1.Infrastructure
         public DateTime StartDate { get; set; }
 
         [DynamoDBProperty(AttributeName = "end_date", Converter = typeof(DynamoDbDateTimeConverter))]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [DynamoDBProperty(AttributeName = "account_status", Converter = typeof(DynamoDbEnumConverter<AccountStatus>))]
         public AccountStatus AccountStatus { get; set; }
