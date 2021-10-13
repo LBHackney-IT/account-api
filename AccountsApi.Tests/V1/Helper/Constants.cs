@@ -29,7 +29,11 @@ namespace AccountsApi.Tests.V1.Helper
         public static Tenure TENURE { get; } = new Tenure()
         {
             FullAddress = "Hamilton Avenue 12",
-            TenureType = "Introductory",
+            TenureType = new TenureType
+            {
+                Code = "PVG",
+                Description = "Private Garage"
+            },
             TenureId = "123456",
             PrimaryTenants = new[]
             {

@@ -2,13 +2,9 @@ using AccountsApi.V1.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
-using AccountsApi.V1.Infrastructure;
 using Amazon.DynamoDBv2.Model;
-using Amazon.Runtime.Internal;
 using AutoFixture;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace AccountsApi.Tests.V1.Helper
 {
@@ -115,8 +111,16 @@ namespace AccountsApi.Tests.V1.Helper
                                 M = new Dictionary<string, AttributeValue>
                                 {
                                     { "fullAddress", new AttributeValue { S = _fixture.Create<string>() } },
-                                    { "tenancyId", new AttributeValue { S = _fixture.Create<string>() } },
-                                    { "tenancyType", new AttributeValue { S = _fixture.Create<string>() } }
+                                    { "tenureId", new AttributeValue { S = _fixture.Create<string>() } },
+                                    { "tenureType", new AttributeValue
+                                        {
+                                            M = new Dictionary<string, AttributeValue>
+                                            {
+                                                {"code",new AttributeValue{S= _fixture.Create<string>()} },
+                                                {"description",new AttributeValue{S=_fixture.Create<string>()} }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -157,16 +161,25 @@ namespace AccountsApi.Tests.V1.Helper
                                 M = new Dictionary<string, AttributeValue>
                                 {
                                     { "fullAddress", new AttributeValue { S = _fixture.Create<string>() } },
-                                    { "tenancyId", new AttributeValue { S = _fixture.Create<string>() } },
-                                    { "tenancyType", new AttributeValue { S = _fixture.Create<string>() } },
-                                    {"primaryTenats", new AttributeValue
-                                    {
-                                        M = new Dictionary<string, AttributeValue>
+                                    { "tenureId", new AttributeValue { S = _fixture.Create<string>() } },
+                                    { "tenureType", new AttributeValue
                                         {
-                                            {"id",new AttributeValue{S = _fixture.Create<Guid>().ToString()}},
-                                            {"fullName",new AttributeValue{S = _fixture.Create<string>().ToString()}}
+                                            M = new Dictionary<string, AttributeValue>
+                                            {
+                                                {"code",new AttributeValue{S= _fixture.Create<string>()} },
+                                                {"description",new AttributeValue{S=_fixture.Create<string>()} }
+                                            }
                                         }
-                                    }}
+                                    },
+                                    {"primaryTenants", new AttributeValue
+                                        {
+                                            M = new Dictionary<string, AttributeValue>
+                                            {
+                                                {"id",new AttributeValue{S = _fixture.Create<Guid>().ToString()}},
+                                                {"fullName",new AttributeValue{S = _fixture.Create<string>().ToString()}}
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
