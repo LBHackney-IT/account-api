@@ -10,7 +10,7 @@ namespace AccountsApi.V1.Factories
     {
         public static AccountResponse ToResponse(this Account domain)
         {
-            return new AccountResponse()
+            AccountResponse response = new AccountResponse()
             {
                 AccountBalance = domain.AccountBalance,
                 ConsolidatedBalance = domain.ConsolidatedBalance,
@@ -32,6 +32,7 @@ namespace AccountsApi.V1.Factories
                 PaymentReference = domain.PaymentReference,
                 ParentAccountId = domain.ParentAccountId
             };
+            return response;
         }
 
         public static AccountResponse ToResponse(this AccountUpdate domain)
