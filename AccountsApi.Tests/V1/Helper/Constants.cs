@@ -29,8 +29,8 @@ namespace AccountsApi.Tests.V1.Helper
         public static Tenure TENURE { get; } = new Tenure()
         {
             FullAddress = "Hamilton Avenue 12",
-            TenancyType = "Introductory",
-            TenancyId = "123456",
+            TenureType = "Introductory",
+            TenureId = "123456",
             PrimaryTenants = new[]
             {
                 new PrimaryTenants()
@@ -87,8 +87,8 @@ namespace AccountsApi.Tests.V1.Helper
                 Tenure = new Tenure
                 {
                     FullAddress = TENURE.FullAddress,
-                    TenancyType = TENURE.TenancyType,
-                    TenancyId = TENURE.TenancyId
+                    TenureType = TENURE.TenureType,
+                    TenureId = TENURE.TenureId
                 },
                 CreatedBy = CREATEDBY,
                 LastUpdatedBy = LASTUPDATEDBY,

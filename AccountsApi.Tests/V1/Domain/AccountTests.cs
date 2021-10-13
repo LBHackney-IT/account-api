@@ -63,8 +63,8 @@ namespace AccountsApi.Tests.V1.Domain
 
             Tenure tenure = _fixture.Create<Tenure>();
             Assert.IsType<string>(tenure.FullAddress);
-            Assert.IsType<string>(tenure.TenancyId);
-            Assert.IsType<string>(tenure.TenancyType);
+            Assert.IsType<string>(tenure.TenureId);
+            Assert.IsType<string>(tenure.TenureType);
             Assert.IsAssignableFrom<IEnumerable<PrimaryTenants>>(tenure.PrimaryTenants);
             #endregion
 

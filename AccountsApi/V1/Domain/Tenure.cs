@@ -11,13 +11,13 @@ namespace AccountsApi.V1.Domain
         ///     31245
         /// </example>
         [NotNull]
-        public string TenancyId { get; set; }
+        public string TenureId { get; set; }
 
         /// <example>
         ///     Introductory
         /// </example>
         [NotNull]
-        public string TenancyType { get; set; }
+        public string TenureType { get; set; }
 
         /// <example>
         ///     285 Avenue, 315 Amsterdam
