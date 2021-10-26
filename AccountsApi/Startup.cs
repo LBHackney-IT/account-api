@@ -8,6 +8,7 @@ using AccountsApi.V1.Controllers;
 using AccountsApi.V1.Factories;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AccountsApi.V1.Gateways;
+using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase;
 using AccountsApi.V1.UseCase.Interfaces;

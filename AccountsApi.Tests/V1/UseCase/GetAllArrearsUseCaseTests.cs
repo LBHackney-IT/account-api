@@ -7,6 +7,7 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountsApi.V1.Gateways.Interfaces;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase

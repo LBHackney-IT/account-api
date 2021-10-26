@@ -7,6 +7,7 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using AccountsApi.V1.Factories;
+using AccountsApi.V1.Gateways.Interfaces;
 using AutoFixture;
 using Xunit;
 

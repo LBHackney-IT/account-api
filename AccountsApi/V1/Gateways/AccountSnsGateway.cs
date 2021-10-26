@@ -6,6 +6,7 @@ using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using AccountsApi.V1.Gateways.Interfaces;
 
 
 namespace AccountsApi.V1.Gateways
