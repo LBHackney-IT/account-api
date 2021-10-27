@@ -11,6 +11,9 @@
         <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
     </PropertyGroup>
     <ItemGroup>
+      <Compile Remove="V1\Gateways\Model\QueryableAccount.cs" />
+    </ItemGroup>
+    <ItemGroup>
       <None Remove="V1\Boundary\BaseModel\AccountBaseModel.cs~RF1647c7f.TMP" />
     </ItemGroup>
 
@@ -37,6 +40,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.4.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="V1\Gateways\Model\" />
   </ItemGroup>
 
 </Project>
