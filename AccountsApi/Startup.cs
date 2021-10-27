@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AccountsApi.V1;
-using AccountsApi.V1.Controllers;
 using AccountsApi.V1.Factories;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.Infrastructure;
+using AccountsApi.V1.Infrastructure.Extensions;
 using AccountsApi.V1.UseCase;
 using AccountsApi.V1.UseCase.Interfaces;
 using AccountsApi.Versioning;
@@ -117,12 +117,13 @@ namespace AccountsApi
             });
 
             ConfigureLogging(services, Configuration);
-
             services.ConfigureAws();
             services.ConfigureDynamoDB();
 
             RegisterGateways(services);
             RegisterUseCases(services);
+            services.ConfigureElasticSearch(Configuration);
+            services.AddElasticSearchHealthCheck();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -163,6 +164,7 @@ namespace AccountsApi
             services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
             services.AddScoped<ISnsGateway, AccountSnsGateway>();
             services.AddScoped<ISnsFactory, AccountSnsFactory>();
+            services.AddScoped<IAccountElasticSearchGateway, AccountElasticSearchGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
