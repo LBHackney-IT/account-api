@@ -1,5 +1,8 @@
 using AccountsApi.V1.Infrastructure;
+using AccountsApi.V1.Infrastructure.Sorting.Enum;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace AccountsApi.V1.Boundary.Request
 {
@@ -15,7 +18,8 @@ namespace AccountsApi.V1.Boundary.Request
         public int PageNumber { get; set; }
 
         [FromQuery(Name = "sortBy")]
-        public string SortBy { get; set; }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public SortBy SortBy { get; set; }
 
         [FromQuery(Name = "isDesc")]
         public bool IsDesc { get; set; }

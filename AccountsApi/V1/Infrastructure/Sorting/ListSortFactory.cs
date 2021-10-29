@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Domain.QueryableModels;
+using AccountsApi.V1.Infrastructure.Sorting.Enum;
 using AccountsApi.V1.Infrastructure.Sorting.Interfaces;
 using Nest;
 
@@ -14,20 +15,38 @@ namespace AccountsApi.V1.Infrastructure.Sorting
     {
         public SortDescriptor<QueryableAccount> DynamicSort(SortDescriptor<QueryableAccount> sortDescriptor, AccountSearchRequest request)
         {
-            var propertyInfo = typeof(QueryableAccount).GetProperties();
-            var sortByName = propertyInfo.ToList().FirstOrDefault(p => p.Name == request.SortBy);
-            var name = nameof(sortByName);
-
             if (request.IsDesc)
-            { 
-                return sortDescriptor
-                    .Ascending(f => f.AccountBalance);
+            {
+                switch (request.SortBy)
+                {
+                    case SortBy.Address:
+                        return sortDescriptor
+                            .Descending(f => f.Tenure.FullAddress);
+                    case SortBy.Name:
+                        return sortDescriptor
+                            .Descending(f => f.Tenure.PrimaryTenants.Select(r => r.FullNameName));
+                    case SortBy.Prn:
+                        return sortDescriptor
+                            .Descending(f => f.PaymentReference);
+                }
             }
             else
             {
-                return sortDescriptor
-                    .Descending(f => f.AccountBalance);
+                switch (request.SortBy)
+                {
+                    case SortBy.Address:
+                        return sortDescriptor
+                            .Ascending(f => f.Tenure.FullAddress);
+                    case SortBy.Name:
+                        return sortDescriptor
+                            .Ascending(f => f.Tenure.PrimaryTenants.Select(r => r.FullNameName));
+                    case SortBy.Prn:
+                        return sortDescriptor
+                            .Ascending(f => f.PaymentReference);
+                }
             }
+
+            return null;
         }
     }
 }
