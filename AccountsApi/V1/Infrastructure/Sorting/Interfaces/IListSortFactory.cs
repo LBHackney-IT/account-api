@@ -1,11 +1,11 @@
+using AccountsApi.V1.Boundary.Request;
+using AccountsApi.V1.Domain.QueryableModels;
 using Nest;
 
 namespace AccountsApi.V1.Infrastructure.Sorting.Interfaces
 {
-    public interface IListSortFactory<TRequest, TQueryable>
-        where TRequest : class
-        where TQueryable : class
+    public interface IListSortFactory
     {
-        SortDescriptor<TQueryable> DynamicSort(SortDescriptor<TQueryable> sortDescriptor, TRequest request);
+        SortDescriptor<QueryableAccount> DynamicSort(SortDescriptor<QueryableAccount> sortDescriptor, AccountSearchRequest request);
     }
 }

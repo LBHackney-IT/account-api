@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.UseCase;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using AccountsApi.V1.UseCase.Interfaces;
 
 namespace AccountsApi.V1.Controllers
 {
@@ -16,14 +13,14 @@ namespace AccountsApi.V1.Controllers
     [ApiVersion("1.0")]
     public class AccountSearchController : Controller
     {
-        private readonly SearchUseCase _searchUseCase;
+        private readonly ISearchUseCase _searchUseCase;
 
-        public AccountSearchController(SearchUseCase searchUseCase)
+        public AccountSearchController(ISearchUseCase searchUseCase)
         {
             _searchUseCase = searchUseCase;
         }
         [HttpGet]
-        public async Task<IActionResult> Get(AccountSearchRequest request)
+        public async Task<IActionResult> Get([FromQuery] AccountSearchRequest request)
         {
             var result = await _searchUseCase.ExecuteAsync(request).ConfigureAwait(false);
             if (result.Count == 0)

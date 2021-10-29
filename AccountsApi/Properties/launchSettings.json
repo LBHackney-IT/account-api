@@ -22,6 +22,21 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "applicationUrl": "http://localhost:5000"
+    },
+    "WSL 2": {
+      "commandName": "WSL2",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000/swagger/index.html",
+      "environmentVariables": {
+        "DynamoDb_LocalServiceUrl": "http://localhost:8000",
+        "Localstack_SnsServiceUrl_dev": "http://somewhereplace",
+        "DynamoDb_LocalAccessKey": "vix9vm",
+        "ASPNETCORE_URLS": "http://localhost:5000",
+        "DynamoDb_LocalSecretKey": "2rmm3",
+        "DynamoDb_LocalMode": "false",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "distributionName": ""
     }
   }
 }

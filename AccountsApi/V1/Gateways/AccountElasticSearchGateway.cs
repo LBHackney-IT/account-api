@@ -13,13 +13,13 @@ namespace AccountsApi.V1.Gateways
 {
     public class AccountElasticSearchGateway : IAccountElasticSearchGateway
     {
-        private readonly ISearchElasticSearchHelper<AccountSearchRequest, QueryableAccount> _elasticClient;
-        private readonly ILogger<IAccountElasticSearchGateway> _logger;
+        private readonly ISearchElasticSearchHelper _elasticClient;
+        /*private readonly ILogger<IAccountElasticSearchGateway> _logger;*/
 
-        public AccountElasticSearchGateway(ISearchElasticSearchHelper<AccountSearchRequest, QueryableAccount> elasticClient, ILogger<IAccountElasticSearchGateway> logger)
+        public AccountElasticSearchGateway(ISearchElasticSearchHelper elasticClient/*, ILogger<IAccountElasticSearchGateway> logger*/)
         {
             _elasticClient = elasticClient;
-            _logger = logger;
+            /*_logger = logger;*/
         }
 
         public async Task<List<AccountResponse>> Search(AccountSearchRequest searchRequest)

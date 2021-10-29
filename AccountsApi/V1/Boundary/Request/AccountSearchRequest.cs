@@ -11,8 +11,8 @@ namespace AccountsApi.V1.Boundary.Request
         [FromQuery(Name = "pageSize")]
         public int PageSize { get; set; } = Constants.DefaultPageSize;
 
-        [FromQuery(Name = "page")]
-        public int Page { get; set; }
+        [FromQuery(Name = "pageNumber")]
+        public int PageNumber { get; set; }
 
         [FromQuery(Name = "sortBy")]
         public string SortBy { get; set; }

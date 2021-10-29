@@ -1,11 +1,11 @@
+using AccountsApi.V1.Boundary.Request;
+using AccountsApi.V1.Domain.QueryableModels;
 using Nest;
 
 namespace AccountsApi.V1.Infrastructure.Interfaces
 {
-    public interface ISearchQueryContainerOrchestrator<TRequest, TQueryable>
-        where TRequest : class
-        where TQueryable : class
+    public interface ISearchQueryContainerOrchestrator
     {
-        QueryContainer Create(TRequest request, QueryContainerDescriptor<TQueryable> q);
+        QueryContainer Create(AccountSearchRequest request, QueryContainerDescriptor<QueryableAccount> q);
     }
 }

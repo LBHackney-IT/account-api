@@ -2,16 +2,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
-using AccountsApi.V1.Gateways;
+using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.UseCase.Interfaces;
 
 namespace AccountsApi.V1.UseCase
 {
-    public class SearchUseCase:ISearchUseCase
+    public class SearchUseCase : ISearchUseCase
     {
-        private readonly AccountElasticSearchGateway _gateway;
+        private readonly IAccountElasticSearchGateway _gateway;
 
-        public SearchUseCase(AccountElasticSearchGateway gateway)
+        public SearchUseCase(IAccountElasticSearchGateway gateway)
         {
             _gateway = gateway;
         }
