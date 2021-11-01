@@ -1,9 +1,9 @@
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Factories;
-using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase.Interfaces;
 using System;
 using System.Threading.Tasks;
+using AccountsApi.V1.Gateways.Interfaces;
 
 namespace AccountsApi.V1.UseCase
 {

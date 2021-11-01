@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace AccountsApi.V1.Gateways
+namespace AccountsApi.V1.Gateways.Interfaces
 {
     public interface IAccountApiGateway
     {
