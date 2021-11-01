@@ -21,11 +21,12 @@ namespace AccountsApi.V1.Infrastructure
             if (request == null)
                 throw new ArgumentNullException($"{nameof(request).ToString()} shouldn't be null.");
 
-            _builder
-                .WithWildstarQuery(request.SearchText,
-                    new List<string> { "paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName" })
-                .WithExactQuery(request.SearchText,
-                    new List<string> { "paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName" });
+            if (!string.IsNullOrEmpty(request.SearchText))
+                _builder
+                    .WithWildstarQuery(request.SearchText,
+                        new List<string> { "paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName" })
+                    .WithExactQuery(request.SearchText,
+                        new List<string> { "paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName" });
 
             return _builder.Build(q);
         }
