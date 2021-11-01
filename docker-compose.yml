@@ -7,7 +7,7 @@ services:
       context: AccountsApi/
       dockerfile: ./Dockerfile
       args:
-        - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
+      - LBHPACKAGESTOKEN=${LBHPACKAGESTOKEN}
     ports:
       - 3000:3000
     environment:
