@@ -190,10 +190,10 @@ namespace AccountsApi
         private static void RegisterElasticRequirements(IServiceCollection services)
         {
             //services.AddScoped<IElasticClient, ElasticClient>();
-            services.AddScoped<ISearchQueryContainerOrchestrator,SearchQueryContainerOrchestrator>();
+            services.AddScoped<ISearchQueryContainerOrchestrator, SearchQueryContainerOrchestrator>();
             services.AddScoped<IPagingHelper, PagingHelper>();
             services.AddScoped<IListSortFactory, ListSortFactory>();
-            services.AddScoped<ISearchElasticSearchHelper,SearchElasticSearchHelper>();
+            services.AddScoped<ISearchElasticSearchHelper, SearchElasticSearchHelper>();
             services.AddScoped(typeof(IQueryBuilder<>), typeof(QueryBuilder<>));
             services.AddScoped<IWildCardAppenderAndPrepender, WildCardAppenderAndPrepender>();
         }

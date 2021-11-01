@@ -19,7 +19,7 @@ namespace AccountsApi.V1.Infrastructure.Sorting
             var name = nameof(sortByName);
 
             if (request.IsDesc)
-            { 
+            {
                 return sortDescriptor
                     .Ascending(f => f.AccountBalance);
             }

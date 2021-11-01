@@ -8,7 +8,7 @@ using Nest;
 
 namespace AccountsApi.V1.Infrastructure
 {
-    public class SearchQueryContainerOrchestrator: ISearchQueryContainerOrchestrator
+    public class SearchQueryContainerOrchestrator : ISearchQueryContainerOrchestrator
     {
         private readonly IQueryBuilder<QueryableAccount> _builder;
 
@@ -18,14 +18,14 @@ namespace AccountsApi.V1.Infrastructure
         }
         public QueryContainer Create(AccountSearchRequest request, QueryContainerDescriptor<QueryableAccount> q)
         {
-            if(request ==null)
+            if (request == null)
                 throw new ArgumentNullException($"{nameof(request).ToString()} shouldn't be null.");
 
             _builder
                 .WithWildstarQuery(request.SearchText,
-                    new List<string> {"paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName"})
+                    new List<string> { "paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName" })
                 .WithExactQuery(request.SearchText,
-                    new List<string> {"paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName"});
+                    new List<string> { "paymentReference", "tenure.fullAddress", "tenure.primaryTenants.fullName" });
 
             return _builder.Build(q);
         }
