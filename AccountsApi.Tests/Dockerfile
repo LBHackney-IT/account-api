@@ -11,6 +11,7 @@ WORKDIR /app
 COPY ./AccountsApi.sln ./
 COPY ./AccountsApi/AccountsApi.csproj ./AccountsApi/
 COPY ./AccountsApi.Tests/AccountsApi.Tests.csproj ./AccountsApi.Tests/
+COPY /NuGet.Config /root/.nuget/NuGet/NuGet.Config
 
 RUN dotnet restore ./AccountsApi/AccountsApi.csproj
 RUN dotnet restore ./AccountsApi.Tests/AccountsApi.Tests.csproj
