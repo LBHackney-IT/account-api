@@ -7,6 +7,6 @@ namespace AccountsApi.V1.UseCase.Interfaces
 {
     public interface ISearchUseCase
     {
-        Task<List<AccountResponse>> ExecuteAsync(AccountSearchRequest accountSearchRequest);
+        Task<APIResponse<AccountResponse>> ExecuteAsync(AccountSearchRequest accountSearchRequest);
     }
 }

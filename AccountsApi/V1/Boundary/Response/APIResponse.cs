@@ -24,7 +24,6 @@ namespace AccountsApi.V1.Boundary.Response
         public APIResponse(List<T> result)
         {
             Results = result;
-            Total = result.Count;
         }
     }
 }
