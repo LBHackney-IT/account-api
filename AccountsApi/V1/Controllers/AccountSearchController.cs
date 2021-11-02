@@ -23,11 +23,10 @@ namespace AccountsApi.V1.Controllers
         public async Task<IActionResult> Get([FromQuery] AccountSearchRequest request)
         {
             var result = await _searchUseCase.ExecuteAsync(request).ConfigureAwait(false);
-            if (result.Count == 0)
+            if (result.Total == 0)
                 return NotFound();
 
-            var apiResponse = new APIResponse<AccountResponse>(result);
-            return Ok(apiResponse);
+            return Ok(result);
         }
     }
 }

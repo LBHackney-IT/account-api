@@ -15,10 +15,9 @@ namespace AccountsApi.V1.UseCase
         {
             _gateway = gateway;
         }
-        public async Task<List<AccountResponse>> ExecuteAsync(AccountSearchRequest accountSearchRequest)
+        public async Task<APIResponse<AccountResponse>> ExecuteAsync(AccountSearchRequest accountSearchRequest)
         {
-            var result = await _gateway.Search(accountSearchRequest).ConfigureAwait(false);
-            return result;
+            return await _gateway.Search(accountSearchRequest).ConfigureAwait(false);
         }
     }
 }
