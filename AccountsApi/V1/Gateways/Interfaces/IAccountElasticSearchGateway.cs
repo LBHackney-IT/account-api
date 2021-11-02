@@ -7,6 +7,6 @@ namespace AccountsApi.V1.Gateways.Interfaces
 {
     public interface IAccountElasticSearchGateway
     {
-        public Task<List<AccountResponse>> Search(AccountSearchRequest searchRequest);
+        public Task<APIResponse<AccountResponse>> Search(AccountSearchRequest searchRequest);
     }
 }

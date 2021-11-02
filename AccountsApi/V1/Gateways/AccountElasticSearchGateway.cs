@@ -7,6 +7,7 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Domain.QueryableModels;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.Infrastructure.Helpers.Interfaces;
+using Elasticsearch.Net;
 using Microsoft.Extensions.Logging;
 
 namespace AccountsApi.V1.Gateways
@@ -22,7 +23,7 @@ namespace AccountsApi.V1.Gateways
             /*_logger = logger;*/
         }
 
-        public async Task<List<AccountResponse>> Search(AccountSearchRequest searchRequest)
+        public async Task<APIResponse<AccountResponse>> Search(AccountSearchRequest searchRequest)
         {
             var searchResponse = await _elasticClient.Search(searchRequest).ConfigureAwait(false);
 
@@ -63,7 +64,7 @@ namespace AccountsApi.V1.Gateways
                     TargetType = p.TargetType
                 }).ToList();
 
-            return responses;
+            return new APIResponse<AccountResponse>(responses) { Total = searchResponse.Total };
         }
     }
 }
