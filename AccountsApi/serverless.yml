@@ -21,6 +21,7 @@ functions:
     role: lambdaExecutionRole
     environment:
       ACCOUNTS_SNS_ARN: ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
+     ELASTICSEARCH_DOMAIN_URL: ${ssm:/housing-search-api/${self:provider.stage}/elasticsearch-domain}
     events:
       - http:
           path: /{proxy+}
