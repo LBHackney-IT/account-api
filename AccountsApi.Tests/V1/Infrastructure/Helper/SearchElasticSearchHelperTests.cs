@@ -20,18 +20,18 @@ namespace AccountsApi.Tests.V1.Infrastructure.Helper
 {
     public class SearchElasticSearchHelperTests
     {
-        private readonly Mock<IElasticClient> _esClient;
+        /*private readonly Mock<IElasticClient> _esClient;
         private readonly Mock<ISearchQueryContainerOrchestrator> _containerOrchestrator;
         private readonly Mock<IPagingHelper> _pagingHelper;
         private readonly Mock<IListSortFactory> _listSortFactory;
         private readonly Mock<ILogger<SearchElasticSearchHelper>> _logger;
         private readonly Mock<Indices.ManyIndices> _indices;
         private readonly Fixture _fixture = new Fixture();
-        private SearchElasticSearchHelper _sutHelper;
+        private SearchElasticSearchHelper _sutHelper;*/
 
         public SearchElasticSearchHelperTests()
         {
-            _esClient = new Mock<IElasticClient>();
+            /*_esClient = new Mock<IElasticClient>();
             _containerOrchestrator = new Mock<ISearchQueryContainerOrchestrator>();
             _pagingHelper = new Mock<IPagingHelper>();
             _listSortFactory = new Mock<IListSortFactory>();
@@ -41,10 +41,10 @@ namespace AccountsApi.Tests.V1.Infrastructure.Helper
                 _containerOrchestrator.Object,
                 _pagingHelper.Object,
                 _listSortFactory.Object,
-                _logger.Object);
+                _logger.Object);*/
         }
 
-        [Fact]
+        /*[Fact]
         public async Task SearchExistenceDataReturnsResult()
         {
             var response = new SearchResponse<QueryableAccount>()
@@ -59,7 +59,7 @@ namespace AccountsApi.Tests.V1.Infrastructure.Helper
 
             var result = await _sutHelper.Search(accountSearchRequest).ConfigureAwait(false);
             result.Should().NotBeNull();
-        }
+        }*/
 
     }
 }
