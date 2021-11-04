@@ -21,7 +21,7 @@ namespace AccountsApi.Tests.V1.Boundary.Response
         {
             #region AccountModel
             var model = typeof(AccountResponse);
-            model.GetProperties().Length.Should().Be(19);
+            model.GetProperties().Length.Should().Be(20);
 
             AccountResponse account = _fixture.Create<AccountResponse>();
 
@@ -43,6 +43,7 @@ namespace AccountsApi.Tests.V1.Boundary.Response
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
             Assert.IsType<Tenure>(account.Tenure);
             Assert.IsType<decimal>(account.ConsolidatedBalance);
+            Assert.IsType<string>(account.EndReasonCode);
             #endregion
 
             #region ConsolidatedCharge

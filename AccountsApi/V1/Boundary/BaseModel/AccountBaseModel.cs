@@ -24,6 +24,11 @@ namespace AccountsApi.V1.Boundary.BaseModel
         public string PaymentReference { get; set; }
 
         /// <example>
+        ///     End reason code
+        /// </example>
+        public string EndReasonCode { get; set; }
+
+        /// <example>
         ///     Estate
         /// </example>
         [AllowedValues(typeof(TargetType))]

@@ -9,6 +9,7 @@ namespace AccountsApi.V1.Domain
         public Guid Id { get; set; }
         public Guid ParentAccountId { get; set; }
         public string PaymentReference { get; set; }
+        public string EndReasonCode { get; set; }
         public TargetType TargetType { get; set; }
         public Guid TargetId { get; set; }
         public AccountType AccountType { get; set; }
