@@ -1,7 +1,6 @@
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
-using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase;
 using AutoFixture;
 using FluentAssertions;
@@ -9,6 +8,7 @@ using Moq;
 using System;
 using System.Threading.Tasks;
 using AccountsApi.V1.Factories;
+using AccountsApi.V1.Gateways.Interfaces;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
