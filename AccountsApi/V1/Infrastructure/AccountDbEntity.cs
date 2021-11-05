@@ -18,6 +18,9 @@ namespace AccountsApi.V1.Infrastructure
         [DynamoDBProperty(AttributeName = "payment_reference")]
         public string PaymentReference { get; set; }
 
+        [DynamoDBProperty(AttributeName = "end_reason_code")]
+        public string EndReasonCode { get; set; }
+
         [DynamoDBProperty(AttributeName = "target_type", Converter = typeof(DynamoDbEnumConverter<TargetType>))]
         public TargetType TargetType { get; set; }
 

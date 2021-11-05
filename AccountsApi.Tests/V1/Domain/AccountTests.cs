@@ -21,7 +21,7 @@ namespace AccountsApi.Tests.V1.Domain
         {
 
             var entityType = typeof(Account);
-            entityType.GetProperties().Length.Should().Be(19);
+            entityType.GetProperties().Length.Should().Be(20);
             Account account = _fixture.Create<Account>();
 
             #region Account
@@ -44,6 +44,7 @@ namespace AccountsApi.Tests.V1.Domain
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(account.ConsolidatedCharges);
             Assert.IsType<Tenure>(account.Tenure);
             Assert.IsType<decimal>(account.ConsolidatedBalance);
+            Assert.IsType<string>(account.EndReasonCode);
             #endregion
 
             #region ConsolidatedCharge

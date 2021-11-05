@@ -27,6 +27,10 @@ namespace AccountsApi.V1.Boundary.BaseModel
         public string PaymentReference { get; set; }
 
         /// <example>
+        ///     End reason code
+        /// </example>
+        public string EndReasonCode { get; set; }
+
         ///     74c5fbc4-2fc8-40dc-896a-0cfa671fc832
         /// </example>
         [NonEmptyGuid]

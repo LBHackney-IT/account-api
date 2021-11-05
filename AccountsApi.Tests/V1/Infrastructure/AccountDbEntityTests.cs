@@ -24,7 +24,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
         public void AccountDbEntityHasPropertiesSet()
         {
             var entityType = typeof(AccountDbEntity);
-            entityType.GetProperties().Length.Should().Be(19);
+            entityType.GetProperties().Length.Should().Be(20);
 
             AccountDbEntity entity = _fixture.Create<AccountDbEntity>();
 
@@ -49,6 +49,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
             Assert.IsAssignableFrom<IEnumerable<ConsolidatedCharge>>(entity.ConsolidatedCharges);
             Assert.IsType<Tenure>(entity.Tenure);
             Assert.IsType<decimal>(entity.ConsolidatedBalance);
+            Assert.IsType<string>(entity.EndReasonCode);
             #endregion
 
             #region ConsolidatedCharge
