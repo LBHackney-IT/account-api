@@ -10,16 +10,9 @@ using AccountsApi.V1.Gateways;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.Infrastructure.Extensions;
-using AccountsApi.V1.Infrastructure.Helpers;
-using AccountsApi.V1.Infrastructure.Helpers.Interfaces;
-using AccountsApi.V1.Infrastructure.Interfaces;
-using AccountsApi.V1.Infrastructure.Sorting;
-using AccountsApi.V1.Infrastructure.Sorting.Interfaces;
 using AccountsApi.V1.UseCase;
 using AccountsApi.V1.UseCase.Interfaces;
 using AccountsApi.Versioning;
-using Hackney.Core.ElasticSearch;
-using Hackney.Core.ElasticSearch.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +24,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Nest;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -129,7 +121,6 @@ namespace AccountsApi
             services.ConfigureDynamoDB();
             services.ConfigureElasticSearch(Configuration);
 
-            RegisterElasticRequirements(services);
             RegisterGateways(services);
             RegisterUseCases(services);
 
@@ -174,7 +165,6 @@ namespace AccountsApi
             services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
             services.AddScoped<ISnsGateway, AccountSnsGateway>();
             services.AddScoped<ISnsFactory, AccountSnsFactory>();
-            services.AddScoped<IAccountElasticSearchGateway, AccountElasticSearchGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
@@ -184,18 +174,6 @@ namespace AccountsApi
             services.AddScoped<IAddUseCase, AddUseCase>();
             services.AddScoped<IUpdateUseCase, UpdateUseCase>();
             services.AddScoped<IGetAllArrearsUseCase, GetAllArrearsUseCase>();
-            services.AddScoped<ISearchUseCase, SearchUseCase>();
-        }
-
-        private static void RegisterElasticRequirements(IServiceCollection services)
-        {
-            //services.AddScoped<IElasticClient, ElasticClient>();
-            services.AddScoped<ISearchQueryContainerOrchestrator, SearchQueryContainerOrchestrator>();
-            services.AddScoped<IPagingHelper, PagingHelper>();
-            services.AddScoped<IListSortFactory, ListSortFactory>();
-            services.AddScoped<ISearchElasticSearchHelper, SearchElasticSearchHelper>();
-            services.AddScoped(typeof(IQueryBuilder<>), typeof(QueryBuilder<>));
-            services.AddScoped<IWildCardAppenderAndPrepender, WildCardAppenderAndPrepender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
