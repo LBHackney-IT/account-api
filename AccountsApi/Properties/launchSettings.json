@@ -18,7 +18,7 @@
         "DynamoDb_LocalAccessKey": "vix9vm",
         "Localstack_SnsServiceUrl": "http://localhost:9911",
         "DynamoDb_LocalAccessKey": "vix9vm",
-        "ACCOUNTS_SNS_ARN": "http://localhost:5050",
+        "ACCOUNTS_SNS_ARN": "arn:aws:sns:eu-west-2:123450000001:test-topic",
         "DynamoDb_LocalSecretKey": "2rmm3",
         "DynamoDb_LocalMode": "true",
         "ASPNETCORE_ENVIRONMENT": "Development"
@@ -31,7 +31,7 @@
       "launchUrl": "http://localhost:5000/swagger/index.html",
       "environmentVariables": {
         "DynamoDb_LocalServiceUrl": "http://localhost:8000",
-        "Localstack_SnsServiceUrl_dev": "http://localhost:5050",
+        "Localstack_SnsServiceUrl": "http://localhost:9911",
         "DynamoDb_LocalAccessKey": "vix9vm",
         "ASPNETCORE_URLS": "http://localhost:5000",
         "DynamoDb_LocalSecretKey": "2rmm3",
