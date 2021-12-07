@@ -67,5 +67,9 @@ namespace AccountsApi.V1.Gateways
             _accountDbContext.Entry<Account>(account).State = EntityState.Modified;
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
         }
+        public Task<bool> AddBatchAsync(List<Account> accounts)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

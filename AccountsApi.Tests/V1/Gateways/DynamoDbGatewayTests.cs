@@ -15,6 +15,7 @@ using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Factories;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Writers;
 using Moq.Protected;
 using Xunit;
@@ -27,12 +28,14 @@ namespace AccountsApi.Tests.V1.Gateways
         private readonly Mock<IDynamoDBContext> _dynamoDb;
         private readonly DynamoDbGateway _gateway;
         private readonly Mock<IAmazonDynamoDB> _amazonDynamoDb;
+        private readonly Mock<IConfiguration> _mockConfig;
 
         public DynamoDbGatewayTests()
         {
             _dynamoDb = new Mock<IDynamoDBContext>();
             _amazonDynamoDb = new Mock<IAmazonDynamoDB>();
-            _gateway = new DynamoDbGateway(_dynamoDb.Object, _amazonDynamoDb.Object);
+            _mockConfig = new Mock<IConfiguration>();
+            _gateway = new DynamoDbGateway(_dynamoDb.Object, _amazonDynamoDb.Object, _mockConfig.Object);
         }
 
         #region GetById
