@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AccountsApi.V1.Gateways.Interfaces;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
+using Microsoft.Extensions.Configuration;
 
 namespace AccountsApi.V1.Gateways
 {
@@ -16,11 +17,13 @@ namespace AccountsApi.V1.Gateways
     {
         private readonly IDynamoDBContext _dynamoDbContext;
         private readonly IAmazonDynamoDB _amazonDynamoDb;
+        private readonly IConfiguration _configuration;
 
-        public DynamoDbGateway(IDynamoDBContext dynamoDbContext, IAmazonDynamoDB amazonDynamoDb)
+        public DynamoDbGateway(IDynamoDBContext dynamoDbContext, IAmazonDynamoDB amazonDynamoDb, IConfiguration configuration)
         {
             _dynamoDbContext = dynamoDbContext;
-            this._amazonDynamoDb = amazonDynamoDb;
+            _amazonDynamoDb = amazonDynamoDb;
+            _configuration = configuration;
         }
 
         public async Task<Account> GetByIdAsync(Guid id)
@@ -86,6 +89,29 @@ namespace AccountsApi.V1.Gateways
             if (account == null)
                 throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null");
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
+        }
+        public async Task<bool> AddBatchAsync(List<Account> accounts)
+        {
+            var accountsBatch = _dynamoDbContext.CreateBatchWrite<AccountDbEntity>();
+
+            var items = accounts.ToDatabaseList();
+            var maxBatchCount = _configuration.GetValue<int>("BatchProcessing:PerBatchCount");
+            if (items.Count > maxBatchCount)
+            {
+                var loopCount = (items.Count / maxBatchCount) + 1;
+                for (var start = 0; start < loopCount; start++)
+                {
+                    var itemsToWrite = items.Skip(start * maxBatchCount).Take(maxBatchCount);
+                    accountsBatch.AddPutItems(itemsToWrite);
+                    await accountsBatch.ExecuteAsync().ConfigureAwait(false);
+                }
+            }
+            else
+            {
+                accountsBatch.AddPutItems(items);
+                await accountsBatch.ExecuteAsync().ConfigureAwait(false);
+            }
+            return true;
         }
     }
 }

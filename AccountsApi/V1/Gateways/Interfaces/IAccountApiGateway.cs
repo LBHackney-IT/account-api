@@ -13,5 +13,7 @@ namespace AccountsApi.V1.Gateways.Interfaces
 
         public Task AddAsync(Account account);
         public Task UpdateAsync(Account account);
+
+        public Task<bool> AddBatchAsync(List<Account> accounts);
     }
 }

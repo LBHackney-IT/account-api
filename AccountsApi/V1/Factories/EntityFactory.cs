@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
@@ -102,6 +104,15 @@ namespace AccountsApi.V1.Factories
                 EndReasonCode = account.EndReasonCode,
                 ParentAccountId = account.ParentAccountId
             };
+        }
+        public static List<AccountDbEntity> ToDatabaseList(this List<Account> accounts)
+        {
+            return accounts.Select(item => item.ToDatabase()).ToList();
+        }
+
+        public static List<Account> ToDomainList(this List<AccountRequest> accounts)
+        {
+            return accounts.Select(item => item.ToDomain()).ToList();
         }
     }
 }
