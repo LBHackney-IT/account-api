@@ -9,10 +9,12 @@ using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.Infrastructure;
-using AccountsApi.V1.Infrastructure.Extensions;
 using AccountsApi.V1.UseCase;
 using AccountsApi.V1.UseCase.Interfaces;
 using AccountsApi.Versioning;
+using Hackney.Core.Authorization;
+using Hackney.Core.DynamoDb;
+using Hackney.Core.JWT;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -119,13 +121,9 @@ namespace AccountsApi
             ConfigureLogging(services, Configuration);
             services.ConfigureAws();
             services.ConfigureDynamoDB();
-            services.ConfigureElasticSearch(Configuration);
-
+            services.AddTokenFactory();
             RegisterGateways(services);
             RegisterUseCases(services);
-
-            services.AddElasticSearchHealthCheck();
-
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -208,6 +206,7 @@ namespace AccountsApi
                         $"{ApiName}-api {apiVersionDescription.GetFormattedApiVersion()}");
                 }
             });
+            app.UseGoogleGroupAuthorization();
             app.UseMiddleware<ExceptionMiddleware>();
             app.UseSwagger();
             app.UseRouting();
