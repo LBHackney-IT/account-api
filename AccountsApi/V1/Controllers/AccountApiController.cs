@@ -142,6 +142,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("process-batch")]
+        [HttpPost]
         public async Task<IActionResult> AddBatch([FromBody] IEnumerable<AccountRequest> accounts)
         {
             if (accounts == null)
