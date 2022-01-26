@@ -32,6 +32,7 @@ namespace AccountsApi.Tests.V1.Controllers
         private readonly Mock<IUpdateUseCase> _updateUseCase;
         private readonly Mock<IGetAllArrearsUseCase> _getAllArrearsUseCase;
         private readonly Mock<IAddBatchUseCase> _addBatchUseCase;
+        private readonly Mock<IGetAccountByPrnUseCase> _getAccountByPrnUseCase;
 
         private readonly Fixture _fixture = new Fixture();
 
@@ -43,11 +44,14 @@ namespace AccountsApi.Tests.V1.Controllers
             _updateUseCase = new Mock<IUpdateUseCase>();
             _getAllArrearsUseCase = new Mock<IGetAllArrearsUseCase>();
             _addBatchUseCase = new Mock<IAddBatchUseCase>();
+            _getAccountByPrnUseCase = new Mock<IGetAccountByPrnUseCase>();
 
             HttpContext httpContext = new DefaultHttpContext();
             var controllerContext = new ControllerContext(new ActionContext(httpContext, new RouteData(), new ControllerActionDescriptor()));
             _sut = new AccountApiController(_getAllUseCase.Object, _getByIdUseCase.Object,
-                _addUseCase.Object, _updateUseCase.Object, _getAllArrearsUseCase.Object, _addBatchUseCase.Object)
+                _addUseCase.Object, _updateUseCase.Object,
+                _getAllArrearsUseCase.Object, _addBatchUseCase.Object,
+                _getAccountByPrnUseCase.Object)
             {
                 ControllerContext = controllerContext
             };

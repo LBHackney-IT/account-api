@@ -175,6 +175,7 @@ namespace AccountsApi
             services.AddScoped<IUpdateUseCase, UpdateUseCase>();
             services.AddScoped<IGetAllArrearsUseCase, GetAllArrearsUseCase>();
             services.AddScoped<IAddBatchUseCase, AddBatchUseCase>();
+            services.AddScoped<IGetAccountByPrnUseCase, GetAccountByPrnUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

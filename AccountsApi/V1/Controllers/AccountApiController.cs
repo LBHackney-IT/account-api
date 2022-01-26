@@ -27,6 +27,7 @@ namespace AccountsApi.V1.Controllers
         private readonly IUpdateUseCase _updateUseCase;
         private readonly IGetAllArrearsUseCase _getAllArrearsUseCase;
         private readonly IAddBatchUseCase _addBatchUseCase;
+        private readonly IGetAccountByPrnUseCase _getAccountByPrnUseCase;
 
         public AccountApiController(
             IGetAllUseCase getAllUseCase,
@@ -34,7 +35,8 @@ namespace AccountsApi.V1.Controllers
             IAddUseCase addUseCase,
             IUpdateUseCase updateUseCase,
             IGetAllArrearsUseCase getAllArrearsUseCase,
-            IAddBatchUseCase addBatchUseCase)
+            IAddBatchUseCase addBatchUseCase,
+            IGetAccountByPrnUseCase getAccountByPrnUseCase)
         {
             _getAllUseCase = getAllUseCase;
             _getByIdUseCase = getByIdUseCase;
@@ -42,6 +44,7 @@ namespace AccountsApi.V1.Controllers
             _updateUseCase = updateUseCase;
             _getAllArrearsUseCase = getAllArrearsUseCase;
             _addBatchUseCase = addBatchUseCase;
+            _getAccountByPrnUseCase = getAccountByPrnUseCase;
         }
 
         /// <summary>
@@ -234,6 +237,22 @@ namespace AccountsApi.V1.Controllers
             var accounts = await _getAllArrearsUseCase.ExecuteAsync(arrearRequest).ConfigureAwait(false);
 
             return Ok(accounts);
+        }
+
+        /// <summary>
+        /// Gets the account model by payment reference number
+        /// </summary>
+        /// <param name="paymentReference">The payment reference number.</param>
+        /// <returns>Account model were received successfully</returns>
+        /// <response code="200">When payment reference number is found</response>
+        /// <response code="404">When payment reference number is not found</response>
+        [HttpGet("prn/{paymentReference}")]
+        [ProducesResponseType(typeof(AccountResponses), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<AccountResponses>> GetAccountByPrn(string paymentReference)
+        {
+            var result = await _getAccountByPrnUseCase.ExecuteAsync(paymentReference).ConfigureAwait(false);
+            return Ok(result);
         }
     }
 }

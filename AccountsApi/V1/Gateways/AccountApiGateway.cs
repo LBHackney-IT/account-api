@@ -71,5 +71,11 @@ namespace AccountsApi.V1.Gateways
         {
             throw new NotImplementedException();
         }
+
+        public async Task<Account> GetByPrnAsync(string paymentReference)
+        {
+            var result = await _accountDbContext.AccountEntities.FirstOrDefaultAsync(a => a.PaymentReference == paymentReference).ConfigureAwait(false);
+            return result?.ToDomain();
+        }
     }
 }

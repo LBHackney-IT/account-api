@@ -113,5 +113,24 @@ namespace AccountsApi.V1.Gateways
             }
             return true;
         }
+
+        public async Task<Account> GetByPrnAsync(string paymentReference)
+        {
+            QueryRequest request = new QueryRequest
+            {
+                TableName = "Accounts",
+                IndexName = "payment_reference_dx",
+                KeyConditionExpression = "payment_reference = :V_payment_reference",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":V_payment_reference",new AttributeValue{S = paymentReference}},
+                },
+                ScanIndexForward = true
+            };
+
+            var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
+
+            return response.ToAccounts().FirstOrDefault();
+        }
     }
 }
