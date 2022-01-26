@@ -247,9 +247,9 @@ namespace AccountsApi.V1.Controllers
         /// <response code="200">When payment reference number is found</response>
         /// <response code="404">When payment reference number is not found</response>
         [HttpGet("prn/{paymentReference}")]
-        [ProducesResponseType(typeof(AccountResponses), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<AccountResponses>> GetAccountByPrn(string paymentReference)
+        public async Task<ActionResult<AccountResponse>> GetAccountByPrn(string paymentReference)
         {
             var result = await _getAccountByPrnUseCase.ExecuteAsync(paymentReference).ConfigureAwait(false);
             return Ok(result);
