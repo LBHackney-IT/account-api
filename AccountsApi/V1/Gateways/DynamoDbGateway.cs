@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AccountsApi.V1.AppConstants;
 using AccountsApi.V1.Gateways.Interfaces;
 using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.Model;
@@ -41,7 +42,7 @@ namespace AccountsApi.V1.Gateways
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
-        public async Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
+        public async Task<IList<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
         {
             QueryRequest request = new QueryRequest
             {
@@ -63,7 +64,7 @@ namespace AccountsApi.V1.Gateways
             return data.Sort(sortBy, direction).ToList();
         }
 
-        public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
+        public async Task<IList<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
             QueryRequest request = new QueryRequest
             {
@@ -118,8 +119,8 @@ namespace AccountsApi.V1.Gateways
         {
             QueryRequest request = new QueryRequest
             {
-                TableName = "Accounts",
-                IndexName = "payment_reference_dx",
+                TableName = EntityQueryConstants.AccountEntity,
+                IndexName = EntityQueryConstants.PaymentReferenceIndex,
                 KeyConditionExpression = "payment_reference = :V_payment_reference",
                 ExpressionAttributeValues = new Dictionary<string, AttributeValue>
                 {
