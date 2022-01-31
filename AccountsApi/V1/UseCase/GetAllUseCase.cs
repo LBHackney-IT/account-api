@@ -22,7 +22,7 @@ namespace AccountsApi.V1.UseCase
         public async Task<AccountResponses> ExecuteAsync(Guid targetId, AccountType accountType)
         {
             AccountResponses accountResponseObjectList = new AccountResponses();
-            List<Account> data = await _gateway.GetAllAsync(targetId, accountType).ConfigureAwait(false);
+            var data = await _gateway.GetAllAsync(targetId, accountType).ConfigureAwait(false);
 
             accountResponseObjectList.AccountResponseList = data?.Select(p => p.ToResponse()).ToList();
 

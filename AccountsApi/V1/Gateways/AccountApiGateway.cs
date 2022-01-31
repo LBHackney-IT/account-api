@@ -24,7 +24,7 @@ namespace AccountsApi.V1.Gateways
             await _accountDbContext.AddAsync(account).ConfigureAwait(false);
         }
 
-        public async Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
+        public async Task<IList<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
         {
             var data = _accountDbContext
                 .AccountEntities
@@ -35,7 +35,7 @@ namespace AccountsApi.V1.Gateways
                 .ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
+        public async Task<IList<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
             if (targetId == null)
                 throw new ArgumentException("Invalid targetId");
