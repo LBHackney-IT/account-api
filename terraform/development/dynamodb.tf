@@ -2,7 +2,7 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
     name                  = "Accounts"
     billing_mode          = "PROVISIONED"
     read_capacity         = 10
-    write_capacity        = 10
+    write_capacity        = 100
     hash_key              = "id"
 
     attribute {
