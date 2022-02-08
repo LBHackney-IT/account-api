@@ -30,7 +30,7 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
     global_secondary_index {
         name               = "account_type_dx"
         hash_key           = "account_type"
-        write_capacity     = 10
+        write_capacity     = 100
         read_capacity      = 10
         projection_type    = "ALL"
     }
@@ -38,7 +38,7 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
     global_secondary_index {
         name               = "target_id_dx"
         hash_key           = "target_id"
-        write_capacity     = 10
+        write_capacity     = 100
         read_capacity      = 10
         projection_type    = "ALL"
     }
