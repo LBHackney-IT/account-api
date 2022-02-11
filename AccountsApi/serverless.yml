@@ -21,6 +21,7 @@ functions:
     environment:
       ACCOUNTS_SNS_ARN: ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
       ELASTICSEARCH_DOMAIN_URL: ${ssm:/housing-search-api/${self:provider.stage}/elasticsearch-domain}
+      REQUIRED_GOOGL_GROUPS: ${ssm:/housing-finance/${self:provider.stage}/authorization/required-google-groups}
     events:
       - http:
           path: /{proxy+}
