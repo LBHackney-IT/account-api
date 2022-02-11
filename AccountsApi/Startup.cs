@@ -26,6 +26,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Hackney.Core.Authorization;
+using Hackney.Core.JWT;
 
 namespace AccountsApi
 {
@@ -120,6 +122,7 @@ namespace AccountsApi
             services.ConfigureAws();
             services.ConfigureDynamoDB();
             services.ConfigureElasticSearch(Configuration);
+            services.AddTokenFactory();
 
             RegisterGateways(services);
             RegisterUseCases(services);
@@ -199,6 +202,7 @@ namespace AccountsApi
             _apiVersions = api.ApiVersionDescriptions.ToList();
 
             //Swagger ui to view the swagger.json file
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 foreach (var apiVersionDescription in _apiVersions)
@@ -208,8 +212,8 @@ namespace AccountsApi
                         $"{ApiName}-api {apiVersionDescription.GetFormattedApiVersion()}");
                 }
             });
+            app.UseGoogleGroupAuthorization();
             app.UseMiddleware<ExceptionMiddleware>();
-            app.UseSwagger();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
