@@ -32,7 +32,24 @@ namespace AccountsApi.V1.Domain
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum RentGroupType
     {
-        Tenant, LeaseHolders, GenFundRents, Garages, HaLeases, HraRents, MajorWorks, TempAcc, Travelers
+        Tenant,
+        LeaseHolders,
+        GenFundRents,
+        Garages,
+        HaLeases,
+        HraRents,
+        MajorWorks,
+        TempAcc,
+        Travelers,
+        GarParkHRA,
+        HousingGenFund,
+        HousingRevenue,
+        LHMajorWorks,
+        LHServCharges,
+        RSLandXBorough,
+        TempAccGenFun,
+        TempAccomHRA,
+        TravelGenFund
     }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
