@@ -131,37 +131,37 @@ namespace AccountsApi.V1.Controllers
             }
         }
 
-        /// <summary>
-        /// Create a List of Account models
-        /// </summary>
-        /// <param name="accounts">Account model to create</param>
-        /// <response code="201">Success. Account models were created successfully</response>
-        /// <response code="400">Bad Request</response>
-        /// <response code="500">Internal Server Error</response>
-        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
-        [Route("process-batch")]
-        public async Task<IActionResult> AddBatch([FromBody] IEnumerable<AccountRequest> accounts)
-        {
-            if (accounts == null)
-            {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "Account models cannot be null!"));
-            }
+        ///// <summary>
+        ///// Create a List of Account models
+        ///// </summary>
+        ///// <param name="accounts">Account model to create</param>
+        ///// <response code="201">Success. Account models were created successfully</response>
+        ///// <response code="400">Bad Request</response>
+        ///// <response code="500">Internal Server Error</response>
+        //[ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+        //[Route("process-batch")]
+        //public async Task<IActionResult> AddBatch([FromBody] IEnumerable<AccountRequest> accounts)
+        //{
+        //    if (accounts == null)
+        //    {
+        //        return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "Account models cannot be null!"));
+        //    }
 
-            if (ModelState.IsValid)
-            {
-                var batchResponse = await _addBatchUseCase.ExecuteAsync(accounts).ConfigureAwait(false);
+        //    if (ModelState.IsValid)
+        //    {
+        //        var batchResponse = await _addBatchUseCase.ExecuteAsync(accounts).ConfigureAwait(false);
 
-                if (batchResponse == accounts.Count())
-                    return Ok($"Total {batchResponse} number of Accounts processed successfully");
-                else return BadRequest("Accounts batch processing failed");
-            }
-            else
-            {
-                return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
-            }
-        }
+        //        if (batchResponse == accounts.Count())
+        //            return Ok($"Total {batchResponse} number of Accounts processed successfully");
+        //        else return BadRequest("Accounts batch processing failed");
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
+        //    }
+        //}
         /// <summary>
         /// Update an account model
         /// </summary>
