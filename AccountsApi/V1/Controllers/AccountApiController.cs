@@ -21,7 +21,7 @@ namespace AccountsApi.V1.Controllers
     [ApiVersion("1.0")]
     public class AccountApiController : BaseController
     {
-        private readonly IGetAllUseCase _getAllUseCase;
+        private readonly IGetByTargetIdUseCase _getAllUseCase;
         private readonly IGetByIdUseCase _getByIdUseCase;
         private readonly IAddUseCase _addUseCase;
         private readonly IUpdateUseCase _updateUseCase;
@@ -29,7 +29,7 @@ namespace AccountsApi.V1.Controllers
         private readonly IAddBatchUseCase _addBatchUseCase;
 
         public AccountApiController(
-            IGetAllUseCase getAllUseCase,
+            IGetByTargetIdUseCase getAllUseCase,
             IGetByIdUseCase getByIdUseCase,
             IAddUseCase addUseCase,
             IUpdateUseCase updateUseCase,
@@ -78,8 +78,7 @@ namespace AccountsApi.V1.Controllers
         /// <summary>
         /// Get a list of Account models
         /// </summary>
-        /// <param name="targetId">The target id by which we are looking for account</param>
-        /// <param name="accountType">The account type by which we are looking for accounts</param>
+        /// <param name="targetId">tenure id which related to the account</param>
         /// <response code="200">Success. Account models was received successfully</response>
         /// <response code="400">Bad Request</response>
         /// <response code="404">Accounts with provided id cannot be found</response>
@@ -89,9 +88,9 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync([FromQuery] Guid targetId, [FromQuery] AccountType accountType)
+        public async Task<IActionResult> GetByTargetIdAsync([FromQuery] Guid targetId)
         {
-            var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);
+            var accounts = await _getAllUseCase.ExecuteAsync(targetId).ConfigureAwait(false);
 
             if (accounts == null)
             {

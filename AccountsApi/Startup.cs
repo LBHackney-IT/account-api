@@ -26,8 +26,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Hackney.Core.Authorization;
-using Hackney.Core.JWT;
 
 namespace AccountsApi
 {
@@ -63,14 +61,13 @@ namespace AccountsApi
 
             services.AddSwaggerGen(c =>
             {
-                c.AddSecurityDefinition("Bearer",
+                c.AddSecurityDefinition("Token",
                     new OpenApiSecurityScheme
                     {
                         In = ParameterLocation.Header,
-                        Description = "Your Hackney Token. Example: \"Authorization: Bearer {token}\"",
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.Http,
-                        Scheme = "bearer"
+                        Description = "Your Hackney API Key",
+                        Name = "X-Api-Key",
+                        Type = SecuritySchemeType.ApiKey
                     });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -78,7 +75,7 @@ namespace AccountsApi
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Token" }
                         },
                         new List<string>()
                     }
@@ -123,7 +120,6 @@ namespace AccountsApi
             services.ConfigureAws();
             services.ConfigureDynamoDB();
             services.ConfigureElasticSearch(Configuration);
-            services.AddTokenFactory();
 
             RegisterGateways(services);
             RegisterUseCases(services);
@@ -166,14 +162,14 @@ namespace AccountsApi
 
         private static void RegisterGateways(IServiceCollection services)
         {
-            services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
+            services.AddScoped<IAccountApiGateway, AccountGateway>();
             services.AddScoped<ISnsGateway, AccountSnsGateway>();
             services.AddScoped<ISnsFactory, AccountSnsFactory>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)
         {
-            services.AddScoped<IGetAllUseCase, GetAllUseCase>();
+            services.AddScoped<IGetByTargetIdUseCase, GetByTargetIdUseCase>();
             services.AddScoped<IGetByIdUseCase, GetByIdUseCase>();
             services.AddScoped<IAddUseCase, AddUseCase>();
             services.AddScoped<IUpdateUseCase, UpdateUseCase>();
@@ -203,7 +199,6 @@ namespace AccountsApi
             _apiVersions = api.ApiVersionDescriptions.ToList();
 
             //Swagger ui to view the swagger.json file
-            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 foreach (var apiVersionDescription in _apiVersions)
@@ -213,8 +208,8 @@ namespace AccountsApi
                         $"{ApiName}-api {apiVersionDescription.GetFormattedApiVersion()}");
                 }
             });
-            app.UseGoogleGroupAuthorization();
             app.UseMiddleware<ExceptionMiddleware>();
+            app.UseSwagger();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

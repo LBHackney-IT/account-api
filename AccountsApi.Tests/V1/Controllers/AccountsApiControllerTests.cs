@@ -26,7 +26,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
         private readonly AccountApiController _sut;
 
-        private readonly Mock<IGetAllUseCase> _getAllUseCase;
+        private readonly Mock<IGetByTargetIdUseCase> _getAllUseCase;
         private readonly Mock<IGetByIdUseCase> _getByIdUseCase;
         private readonly Mock<IAddUseCase> _addUseCase;
         private readonly Mock<IUpdateUseCase> _updateUseCase;
@@ -37,7 +37,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
         public AccountsApiControllerTests()
         {
-            _getAllUseCase = new Mock<IGetAllUseCase>();
+            _getAllUseCase = new Mock<IGetByTargetIdUseCase>();
             _getByIdUseCase = new Mock<IGetByIdUseCase>();
             _addUseCase = new Mock<IAddUseCase>();
             _updateUseCase = new Mock<IUpdateUseCase>();
@@ -66,19 +66,11 @@ namespace AccountsApi.Tests.V1.Controllers
             accountModel1.TargetId = targetId;
             accountModel1.AccountType = accountType;
 
-            var accountModel2 = _fixture.Create<AccountResponse>();
-            accountModel2.TargetId = targetId;
-            accountModel2.AccountType = accountType;
-
-            List<AccountResponse> accountModels = new List<AccountResponse>() { accountModel1, accountModel2 };
-            AccountResponses accountResponses = new AccountResponses { AccountResponseList = accountModels };
-
-            _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(),
-                    It.IsAny<AccountType>()))
-                .ReturnsAsync(accountResponses);
+            _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>()))
+                .ReturnsAsync(accountModel1);
 
             // Action
-            var result = await _sut.GetAllAsync(targetId, AccountType.Recharge).ConfigureAwait(false);
+            var result = await _sut.GetByTargetIdAsync(targetId).ConfigureAwait(false);
 
             // Assert
             result.Should().NotBeNull();
@@ -87,55 +79,40 @@ namespace AccountsApi.Tests.V1.Controllers
 
             okResult.Should().NotBeNull();
 
-            var accounts = okResult?.Value as AccountResponses;
+            var account = okResult?.Value as AccountResponse;
 
-            accounts.Should().NotBeNull();
-            accounts?.AccountResponseList.Should().HaveCount(2);
+            account.Should().NotBeNull();
 
-            accounts.Should().BeEquivalentTo(accountResponses);
+            account.Should().BeEquivalentTo(accountModel1);
 
         }
 
-        [Theory]
-        [MemberData(nameof(MockParametersForNotFound.GetTestData), MemberType = typeof(MockParametersForNotFound))]
-        public async Task GetAllAsyncNotFoundReturnsNotFound(Guid id, AccountType accountType)
+        [Fact]
+        public async Task GetByTargetIdAsyncNotFoundReturnsNotFound()
         {
-            _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
-                .ReturnsAsync((AccountResponses) null);
+            _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>()))
+                .ReturnsAsync((AccountResponse) null);
 
-            var response = await _sut.GetAllAsync(id, accountType).ConfigureAwait(false);
+            var response = await _sut.GetByTargetIdAsync(Guid.NewGuid()).ConfigureAwait(false);
 
             response.Should().NotBeNull();
             response.Should().BeOfType(typeof(NotFoundResult));
         }
 
-        [Theory]
-        [MemberData(nameof(MockParametersForFormatException.GetTestData), MemberType = typeof(MockParametersForFormatException))]
-        public void GetAllAsyncExceptionReturnsFormatException(string gid, string accountType)
+        [Fact]
+        public void GetByTargetIdAsyncExceptionReturnsFormatException()
         {
-            _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
+            _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>()))
                 .ThrowsAsync(new FormatException());
 
             Func<Task<IActionResult>> getAllFunc =
-                async () => await _sut.GetAllAsync(Guid.Parse(gid), Enum.Parse<AccountType>(accountType))
+                async () => await _sut.GetByTargetIdAsync(Guid.Parse(_fixture.Create<string>()))
                     .ConfigureAwait(false);
 
             getAllFunc.Should().Throw<FormatException>();
 
         }
 
-        [Theory]
-        [MemberData(nameof(MockParametersForArgumentNullException.GetTestData), MemberType = typeof(MockParametersForArgumentNullException))]
-        public void GetAllAsyncExceptionReturnsArgumentNullException(string s, string accountType)
-        {
-            _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
-                .ThrowsAsync(new Exception());
-
-            Func<Task<IActionResult>> getAllFunc =
-                async () => await _sut.GetAllAsync(Guid.Parse(s), Enum.Parse<AccountType>(accountType)).ConfigureAwait(false);
-
-            getAllFunc.Should().Throw<ArgumentNullException>();
-        }
         #endregion
 
         #region GetByIdAsync

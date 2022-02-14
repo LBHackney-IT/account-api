@@ -16,15 +16,15 @@ namespace AccountsApi.Tests.V1.UseCase
 {
     public class GetAllUseCaseTests
     {
-        private readonly Fixture _fixture;
+        /*private readonly Fixture _fixture;
         private readonly Mock<IAccountApiGateway> _gateway;
-        private readonly GetAllUseCase _getAllUseCase;
+        private readonly GetByTargetIdUseCase _getAllUseCase;
 
         public GetAllUseCaseTests()
         {
             _fixture = new Fixture();
             _gateway = new Mock<IAccountApiGateway>();
-            _getAllUseCase = new GetAllUseCase(_gateway.Object);
+            _getAllUseCase = new GetByTargetIdUseCase(_gateway.Object);
         }
 
         [Fact]
@@ -66,6 +66,6 @@ namespace AccountsApi.Tests.V1.UseCase
             result.AccountResponseList.Should().HaveCount(20);
             result.AccountResponseList[0].Should().BeEquivalentTo(gatewayResponse[0]);
             result.AccountResponseList[1].Should().BeEquivalentTo(gatewayResponse[1]);
-        }
+        }*/
     }
 }

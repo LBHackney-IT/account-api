@@ -43,9 +43,8 @@ namespace AccountsApi.Tests.V1.Helper
     {
         public static List<object[]> GetTestData { get; } = new List<object[]>
         {
-            new object[] {Guid.NewGuid(), AccountType.Master},
-            new object[] {Guid.NewGuid(), AccountType.Recharge},
-            new object[] {Guid.NewGuid(), AccountType.Sundry}
+            new object[] {Guid.NewGuid()},
+            new object[] {Guid.Empty},
         };
     }
 

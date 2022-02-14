@@ -26,7 +26,7 @@ namespace AccountsApi.Tests.V1.Gateways
     {
         private readonly Fixture _fixture = new Fixture();
         private readonly Mock<IDynamoDBContext> _dynamoDb;
-        private readonly DynamoDbGateway _gateway;
+        private readonly AccountGateway _gateway;
         private readonly Mock<IAmazonDynamoDB> _amazonDynamoDb;
         private readonly Mock<IConfiguration> _mockConfig;
 
@@ -35,7 +35,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb = new Mock<IDynamoDBContext>();
             _amazonDynamoDb = new Mock<IAmazonDynamoDB>();
             _mockConfig = new Mock<IConfiguration>();
-            _gateway = new DynamoDbGateway(_dynamoDb.Object, _amazonDynamoDb.Object, _mockConfig.Object);
+            _gateway = new AccountGateway(_dynamoDb.Object, _amazonDynamoDb.Object, _mockConfig.Object);
         }
 
         #region GetById
@@ -99,18 +99,18 @@ namespace AccountsApi.Tests.V1.Gateways
 
         #endregion
 
-        #region GetAll
+        /*#region GetByTargetIdAsync(
         [Fact]
-        public async Task GetAll_DbReturnsZeroItems_ReturnsEmptyList()
+        public async Task GetAll_DbReturnsZeroItems_ReturnsNull()
         {
             QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
 
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new QueryResponse());
 
-            var result = await _gateway.GetAllAsync(Guid.NewGuid(), AccountType.Master).ConfigureAwait(false);
+            var result = await _gateway.GetByTargetIdAsync(Guid.NewGuid()).ConfigureAwait(false);
             result.Should().NotBeNull();
-            result.Should().HaveCount(0);
+            result.Should().BeNull();
         }
 
         [Fact]
@@ -140,7 +140,7 @@ namespace AccountsApi.Tests.V1.Gateways
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
         }
-        #endregion
+        #endregion*/
 
         #region Update
         [Fact]

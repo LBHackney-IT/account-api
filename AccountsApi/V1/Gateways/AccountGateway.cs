@@ -13,13 +13,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace AccountsApi.V1.Gateways
 {
-    public class DynamoDbGateway : IAccountApiGateway
+    public class AccountGateway : IAccountApiGateway
     {
         private readonly IDynamoDBContext _dynamoDbContext;
         private readonly IAmazonDynamoDB _amazonDynamoDb;
         private readonly IConfiguration _configuration;
 
-        public DynamoDbGateway(IDynamoDBContext dynamoDbContext, IAmazonDynamoDB amazonDynamoDb, IConfiguration configuration)
+        public AccountGateway(IDynamoDBContext dynamoDbContext, IAmazonDynamoDB amazonDynamoDb, IConfiguration configuration)
         {
             _dynamoDbContext = dynamoDbContext;
             _amazonDynamoDb = amazonDynamoDb;
@@ -28,9 +28,38 @@ namespace AccountsApi.V1.Gateways
 
         public async Task<Account> GetByIdAsync(Guid id)
         {
-            var result = await _dynamoDbContext.LoadAsync<AccountDbEntity>(id).ConfigureAwait(false);
+            QueryRequest request = new QueryRequest
+            {
+                TableName = "Accounts",
+                KeyConditionExpression = "id = :V_id",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":V_id",new AttributeValue{S = id.ToString()}}
+                },
+                ScanIndexForward = true
+            };
 
-            return result?.ToDomain();
+            var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
+
+            return response.ToAccount();
+        }
+
+        public async Task<Account> GetByTargetIdAsync(Guid targetId)
+        {
+            QueryRequest request = new QueryRequest
+            {
+                TableName = "Accounts",
+                KeyConditionExpression = "target_id = :V_target_id",
+                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
+                {
+                    {":V_target_id",new AttributeValue{S = targetId.ToString()}}
+                },
+                ScanIndexForward = true
+            };
+
+            var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
+
+            return response.ToAccount();
         }
 
         public async Task AddAsync(Account account)
@@ -61,27 +90,6 @@ namespace AccountsApi.V1.Gateways
             List<Account> data = response.ToAccounts();
 
             return data.Sort(sortBy, direction).ToList();
-        }
-
-        public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
-        {
-            QueryRequest request = new QueryRequest
-            {
-                TableName = "Accounts",
-                IndexName = "target_id_dx",
-                KeyConditionExpression = "target_id = :V_target_id",
-                FilterExpression = "account_type = :V_account_type",
-                ExpressionAttributeValues = new Dictionary<string, AttributeValue>
-                {
-                    {":V_target_id",new AttributeValue{S = targetId.ToString()}},
-                    {":V_account_type",new AttributeValue{S = accountType.ToString()}}
-                },
-                ScanIndexForward = true
-            };
-
-            var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
-
-            return response.ToAccounts();
         }
 
         public async Task UpdateAsync(Account account)

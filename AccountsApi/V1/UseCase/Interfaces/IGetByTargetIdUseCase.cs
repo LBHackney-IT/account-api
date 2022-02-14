@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace AccountsApi.V1.UseCase.Interfaces
 {
-    public interface IGetAllUseCase
+    public interface IGetByTargetIdUseCase
     {
-        public Task<AccountResponses> ExecuteAsync(Guid targetId, AccountType accountType);
+        public Task<AccountResponse> ExecuteAsync(Guid targetId);
     }
 }

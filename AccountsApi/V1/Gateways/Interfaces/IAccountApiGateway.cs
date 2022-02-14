@@ -8,12 +8,10 @@ namespace AccountsApi.V1.Gateways.Interfaces
     public interface IAccountApiGateway
     {
         public Task<Account> GetByIdAsync(Guid id);
-        public Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType);
+        public Task<Account> GetByTargetIdAsync(Guid targetId);
         public Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction);
-
         public Task AddAsync(Account account);
         public Task UpdateAsync(Account account);
-
         public Task<bool> AddBatchAsync(List<Account> accounts);
     }
 }
