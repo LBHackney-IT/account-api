@@ -78,7 +78,9 @@ namespace AccountsApi.V1.Infrastructure
                     EndDate = item.ContainsKey("end_date") ? DateTime.Parse(item["end_date"].S) : (DateTime?) null,
                     AccountStatus = Enum.Parse<AccountStatus>(item["account_status"].S),
                     PaymentReference = item["payment_reference"].S,
-                    ParentAccountId = Guid.Parse(item["parent_account_id"].S)
+                    ParentAccountId = Guid.Parse(item["parent_account_id"].S),
+                    ConsolidatedBalance = decimal.Parse(item["consolidated_balance"].N),
+                    EndReasonCode = item.ContainsKey("end_reason_code") ? item["end_reason_code"].S : null
                 });
             }
 
