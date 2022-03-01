@@ -63,7 +63,7 @@ namespace AccountsApi.V1.Infrastructure
                     CreatedAt = DateTime.Parse(item["created_at"].S),
                     LastUpdatedAt = DateTime.Parse(item["last_updated_at"].S),
                     StartDate = DateTime.Parse(item["start_date"].S),
-                    EndDate = DateTime.Parse(item["end_date"].S),
+                    EndDate = item.ContainsKey("end_date") ? DateTime.Parse(item["end_date"].S) : (DateTime?) null,
                     AccountStatus = Enum.Parse<AccountStatus>(item["account_status"].S),
                     PaymentReference = item["payment_reference"].S,
                     ParentAccountId = Guid.Parse(item["parent_account_id"].S)
