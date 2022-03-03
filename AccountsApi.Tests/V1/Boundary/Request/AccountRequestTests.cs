@@ -21,7 +21,7 @@ namespace AccountsApi.Tests.V1.Boundary.Request
         public void AccountRequestHasPropertiesSet()
         {
             var accountRequest = typeof(AccountRequest);
-            accountRequest.GetProperties().Length.Should().Be(10);
+            accountRequest.GetProperties().Length.Should().Be(11);
 
             var tenureRequest = typeof(Tenure);
             tenureRequest.GetProperties().Length.Should().Be(4);
@@ -41,6 +41,7 @@ namespace AccountsApi.Tests.V1.Boundary.Request
             Assert.IsType<Guid>(account.TargetId);
             Assert.IsType<TargetType>(account.TargetType);
             Assert.IsType<Tenure>(account.Tenure);
+            Assert.IsType<string>(account.EndReasonCode);
 
             Assert.IsType<string>(account.Tenure.FullAddress);
             Assert.All(account.Tenure.PrimaryTenants, item => Assert.IsType<PrimaryTenants>(item));

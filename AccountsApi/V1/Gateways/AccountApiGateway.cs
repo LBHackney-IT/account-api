@@ -5,8 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using AccountsApi.V1.Gateways.Interfaces;
 
 namespace AccountsApi.V1.Gateways
 {
@@ -66,6 +66,10 @@ namespace AccountsApi.V1.Gateways
         {
             _accountDbContext.Entry<Account>(account).State = EntityState.Modified;
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
+        }
+        public Task<bool> AddBatchAsync(List<Account> accounts)
+        {
+            throw new NotImplementedException();
         }
     }
 }

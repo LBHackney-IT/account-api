@@ -30,6 +30,7 @@ namespace AccountsApi.V1.Factories
                 ConsolidatedCharges = domain.ConsolidatedCharges,
                 RentGroupType = domain.RentGroupType,
                 PaymentReference = domain.PaymentReference,
+                EndReasonCode = domain.EndReasonCode,
                 ParentAccountId = domain.ParentAccountId
             };
             return response;
@@ -54,6 +55,7 @@ namespace AccountsApi.V1.Factories
                 ConsolidatedCharges = domain.ConsolidatedCharges,
                 RentGroupType = domain.RentGroupType,
                 PaymentReference = domain.PaymentReference,
+                EndReasonCode = domain.EndReasonCode,
                 ParentAccountId = domain.ParentAccountId
             };
         }
@@ -77,6 +79,7 @@ namespace AccountsApi.V1.Factories
                 ConsolidatedCharges = response.ConsolidatedCharges,
                 RentGroupType = response.RentGroupType,
                 PaymentReference = response.PaymentReference,
+                EndReasonCode = response.EndReasonCode,
                 ParentAccountId = response.ParentAccountId
             };
         }

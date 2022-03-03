@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AccountsApi.V1.Factories;
@@ -24,19 +26,22 @@ namespace AccountsApi.V1.Controllers
         private readonly IAddUseCase _addUseCase;
         private readonly IUpdateUseCase _updateUseCase;
         private readonly IGetAllArrearsUseCase _getAllArrearsUseCase;
+        private readonly IAddBatchUseCase _addBatchUseCase;
 
         public AccountApiController(
             IGetAllUseCase getAllUseCase,
             IGetByIdUseCase getByIdUseCase,
             IAddUseCase addUseCase,
             IUpdateUseCase updateUseCase,
-            IGetAllArrearsUseCase getAllArrearsUseCase)
+            IGetAllArrearsUseCase getAllArrearsUseCase,
+            IAddBatchUseCase addBatchUseCase)
         {
             _getAllUseCase = getAllUseCase;
             _getByIdUseCase = getByIdUseCase;
             _addUseCase = addUseCase;
             _updateUseCase = updateUseCase;
             _getAllArrearsUseCase = getAllArrearsUseCase;
+            _addBatchUseCase = addBatchUseCase;
         }
 
         /// <summary>
@@ -126,6 +131,37 @@ namespace AccountsApi.V1.Controllers
             }
         }
 
+        ///// <summary>
+        ///// Create a List of Account models
+        ///// </summary>
+        ///// <param name="accounts">Account model to create</param>
+        ///// <response code="201">Success. Account models were created successfully</response>
+        ///// <response code="400">Bad Request</response>
+        ///// <response code="500">Internal Server Error</response>
+        //[ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
+        //[Route("process-batch")]
+        //public async Task<IActionResult> AddBatch([FromBody] IEnumerable<AccountRequest> accounts)
+        //{
+        //    if (accounts == null)
+        //    {
+        //        return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, "Account models cannot be null!"));
+        //    }
+
+        //    if (ModelState.IsValid)
+        //    {
+        //        var batchResponse = await _addBatchUseCase.ExecuteAsync(accounts).ConfigureAwait(false);
+
+        //        if (batchResponse == accounts.Count())
+        //            return Ok($"Total {batchResponse} number of Accounts processed successfully");
+        //        else return BadRequest("Accounts batch processing failed");
+        //    }
+        //    else
+        //    {
+        //        return BadRequest(new BaseErrorResponse((int) HttpStatusCode.BadRequest, ModelState.GetErrorMessages()));
+        //    }
+        //}
         /// <summary>
         /// Update an account model
         /// </summary>

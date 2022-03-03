@@ -4,11 +4,12 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using AccountsApi.V1;
-using AccountsApi.V1.Controllers;
 using AccountsApi.V1.Factories;
 using Amazon.XRay.Recorder.Handlers.AwsSdk;
 using AccountsApi.V1.Gateways;
+using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.Infrastructure;
+using AccountsApi.V1.Infrastructure.Extensions;
 using AccountsApi.V1.UseCase;
 using AccountsApi.V1.UseCase.Interfaces;
 using AccountsApi.Versioning;
@@ -25,6 +26,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Hackney.Core.Authorization;
+using Hackney.Core.JWT;
 
 namespace AccountsApi
 {
@@ -60,13 +63,14 @@ namespace AccountsApi
 
             services.AddSwaggerGen(c =>
             {
-                c.AddSecurityDefinition("Token",
+                c.AddSecurityDefinition("Bearer",
                     new OpenApiSecurityScheme
                     {
                         In = ParameterLocation.Header,
-                        Description = "Your Hackney API Key",
-                        Name = "X-Api-Key",
-                        Type = SecuritySchemeType.ApiKey
+                        Description = "Your Hackney Token. Example: \"Authorization: Bearer {token}\"",
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer"
                     });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -74,7 +78,7 @@ namespace AccountsApi
                     {
                         new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Token" }
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
                         },
                         new List<string>()
                     }
@@ -116,12 +120,15 @@ namespace AccountsApi
             });
 
             ConfigureLogging(services, Configuration);
-
             services.ConfigureAws();
             services.ConfigureDynamoDB();
+            services.ConfigureElasticSearch(Configuration);
+            services.AddTokenFactory();
 
             RegisterGateways(services);
             RegisterUseCases(services);
+
+            services.AddElasticSearchHealthCheck();
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -171,6 +178,7 @@ namespace AccountsApi
             services.AddScoped<IAddUseCase, AddUseCase>();
             services.AddScoped<IUpdateUseCase, UpdateUseCase>();
             services.AddScoped<IGetAllArrearsUseCase, GetAllArrearsUseCase>();
+            services.AddScoped<IAddBatchUseCase, AddBatchUseCase>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -195,6 +203,7 @@ namespace AccountsApi
             _apiVersions = api.ApiVersionDescriptions.ToList();
 
             //Swagger ui to view the swagger.json file
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 foreach (var apiVersionDescription in _apiVersions)
@@ -204,8 +213,8 @@ namespace AccountsApi
                         $"{ApiName}-api {apiVersionDescription.GetFormattedApiVersion()}");
                 }
             });
+            app.UseGoogleGroupAuthorization();
             app.UseMiddleware<ExceptionMiddleware>();
-            app.UseSwagger();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {

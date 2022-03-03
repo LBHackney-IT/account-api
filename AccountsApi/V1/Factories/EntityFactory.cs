@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
@@ -14,6 +16,7 @@ namespace AccountsApi.V1.Factories
                 Id = databaseEntity.Id,
                 ParentAccountId = databaseEntity.ParentAccountId,
                 PaymentReference = databaseEntity.PaymentReference,
+                EndReasonCode = databaseEntity.EndReasonCode,
                 AccountBalance = databaseEntity.AccountBalance,
                 ConsolidatedBalance = databaseEntity.ConsolidatedBalance,
                 AccountStatus = databaseEntity.AccountStatus,
@@ -47,6 +50,7 @@ namespace AccountsApi.V1.Factories
                 RentGroupType = request.RentGroupType,
                 ParentAccountId = request.ParentAccountId,
                 PaymentReference = request.PaymentReference,
+                EndReasonCode = request.EndReasonCode,
                 Tenure = request.Tenure
             };
         }
@@ -70,7 +74,8 @@ namespace AccountsApi.V1.Factories
                 ConsolidatedCharges = model.ConsolidatedCharges,
                 Tenure = model.Tenure,
                 ParentAccountId = model.ParentAccountId,
-                PaymentReference = model.PaymentReference
+                PaymentReference = model.PaymentReference,
+                EndReasonCode = model.EndReasonCode
             };
         }
 
@@ -96,8 +101,18 @@ namespace AccountsApi.V1.Factories
                 ConsolidatedCharges = account.ConsolidatedCharges,
                 Tenure = account.Tenure,
                 PaymentReference = account.PaymentReference,
+                EndReasonCode = account.EndReasonCode,
                 ParentAccountId = account.ParentAccountId
             };
+        }
+        public static List<AccountDbEntity> ToDatabaseList(this List<Account> accounts)
+        {
+            return accounts.Select(item => item.ToDatabase()).ToList();
+        }
+
+        public static List<Account> ToDomainList(this List<AccountRequest> accounts)
+        {
+            return accounts.Select(item => item.ToDomain()).ToList();
         }
     }
 }

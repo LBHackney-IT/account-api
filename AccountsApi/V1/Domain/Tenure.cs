@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 
 namespace AccountsApi.V1.Domain
 {
@@ -17,6 +16,6 @@ namespace AccountsApi.V1.Domain
         /// </example>
         public string FullAddress { get; set; }
 
-        public IEnumerable<PrimaryTenants> PrimaryTenants { get; set; }
+        public List<PrimaryTenants> PrimaryTenants { get; set; }
     }
 }

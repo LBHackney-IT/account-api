@@ -35,7 +35,7 @@ namespace AccountsApi.Tests.V1.Helper
                 Description = "Private Garage"
             },
             TenureId = "123456",
-            PrimaryTenants = new[]
+            PrimaryTenants = new List<PrimaryTenants>()
             {
                 new PrimaryTenants()
                 {
