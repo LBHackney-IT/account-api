@@ -164,7 +164,6 @@ workflows:
       - assume-role-development:
           context: api-assume-role-housing-development-context
           requires:
-            - check-code-formatting
             - build-and-test
           filters:
             branches:
@@ -203,19 +202,20 @@ workflows:
             branches:
               only: master
       - deploy-to-staging:
+          context: api-nuget-token-context
           requires:
             - terraform-init-and-apply-to-staging
           filters:
             branches:
               only: master
-      - permit-production-release:
+      - permit-production-terraform-release:
           type: approval
           requires:
             - deploy-to-staging
       - assume-role-production:
           context: api-assume-role-housing-production-context
           requires:
-              - permit-production-release
+              - permit-production-terraform-release
           filters:
              branches:
                only: master
@@ -225,8 +225,17 @@ workflows:
           filters:
             branches:
               only: master
-      - deploy-to-production:
+      - permit-production-release:
+          type: approval
           requires:
+            - deploy-to-staging
+          filters:
+            branches:
+              only: master
+      - deploy-to-production:
+          context: api-nuget-token-context
+          requires:
+            - permit-production-release
             - terraform-init-and-apply-to-production
           filters:
             branches:
