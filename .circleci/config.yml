@@ -255,7 +255,7 @@ workflows:
             - terraform-apply-development
           filters:
             branches:
-              only: master
+              only: development
   check-and-deploy-staging-and-production:
     jobs:
       - build-and-test:
