@@ -240,7 +240,7 @@ workflows:
           context: api-assume-role-housing-development-context
           requires:
             - build-and-test
-    - terraform-init-and-plan-development:
+      - terraform-init-and-plan-development:
           requires:
             - assume-role-development
       - terraform-compliance-development:
