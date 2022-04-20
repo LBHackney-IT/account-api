@@ -25,6 +25,7 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
         Environment       = var.environment_name
         terraform-managed = true
         project_name      = var.project_name
+        BackupPolicy      = "Stg"        
     }
 
     global_secondary_index {
