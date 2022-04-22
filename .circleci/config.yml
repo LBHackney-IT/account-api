@@ -148,7 +148,6 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - sonarcloud/scan
       - run:
           name: build
           command: docker-compose build accounts-api-test
