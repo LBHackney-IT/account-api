@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y openjdk-11-jdk
 RUN dotnet tool install --global dotnet-sonarscanner
 ENV PATH="$PATH:/root/.dotnet/tools"
 
-RUN dotnet sonarscanner begin /k:"LBHackney-IT_accounts-api" /o:"lbhackney-it" /d:sonar.host.url=https://sonarcloud.io /d:sonar.login="${SONAR_TOKEN}"
+RUN dotnet sonarscanner begin /k:"LBHackney-IT_accounts-api" /o:"lbhackney-it" /d:sonar.host.url=https://sonarcloud.io /d:sonar.login="66901e1b183c00ee887e3e86b4f82d775a9515d8"
 
 # Copy csproj and restore as distinct layers
 COPY ./AccountsApi.sln ./
@@ -34,4 +34,4 @@ RUN dotnet build -c Release -o out AccountsApi/AccountsApi.csproj
 RUN dotnet build -c debug -o out AccountsApi.Tests/AccountsApi.Tests.csproj
 
 CMD dotnet test
-RUN dotnet sonarscanner end /d:sonar.login="${SONAR_TOKEN}"
+RUN dotnet sonarscanner end /d:sonar.login="66901e1b183c00ee887e3e86b4f82d775a9515d8"
