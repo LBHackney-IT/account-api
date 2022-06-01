@@ -72,11 +72,3 @@ resource "aws_appautoscaling_policy" "dynamodb_table_write_policy" {
     target_value = 70
   }
 }
-
-resource "aws_appautoscaling_target" "dynamodb_index_write_target" {
-  max_capacity       = 600
-  min_capacity       = 100
-  resource_id        = "table/${aws_dynamodb_table.accountsapi_dynamodb_table.name}/index/account_type_dx"
-  scalable_dimension = "dynamodb:table:WriteCapacityUnits"
-  service_namespace  = "dynamodb"
-}
