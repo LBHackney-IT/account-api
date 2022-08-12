@@ -28,9 +28,7 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
             write_max_capacity = 30
             write_min_capacity = 10
         }
-    }
 
-    autoscaling_indexes = {
         target_id_dx = {
             read_max_capacity  = 30
             read_min_capacity  = 10
