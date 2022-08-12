@@ -6,21 +6,21 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
     hash_key              = "id"
     autoscaling_enabled = true
 
-    autoscaling_read = {
+    autoscaling_read {
         scale_in_cooldown  = 50
         scale_out_cooldown = 40
         target_value       = 45
         max_capacity       = 10
     }
 
-    autoscaling_write = {
+    autoscaling_write {
         scale_in_cooldown  = 50
         scale_out_cooldown = 40
         target_value       = 45
         max_capacity       = 10
     }
 
-    autoscaling_indexes = {
+    autoscaling_indexes {
         account_type_dx = {
             read_max_capacity  = 30
             read_min_capacity  = 10
