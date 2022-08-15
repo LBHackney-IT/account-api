@@ -155,55 +155,31 @@ jobs:
           stage: "production"
 
 workflows:
-  check-and-deploy-development:
-    jobs:
-      - check-code-formatting
-      - build-and-test
-      - assume-role-development:
-          context: api-assume-role-housing-development-context
-          requires:
-            - check-code-formatting
-            - build-and-test
-          filters:
-            branches:
-              only: development
-      - terraform-init-and-apply-to-development:
-          requires:
-            - assume-role-development
-          filters:
-            branches:
-              only: development
-      - deploy-to-development:
-          requires:
-            - terraform-init-and-apply-to-development
-          filters:
-            branches:
-              only: development
   check-and-deploy-staging-and-production:
     jobs:
       - build-and-test:
           filters:
             branches:
-              only: master
+              only: restore-point-pr80-hotfix
       - assume-role-staging:
           context: api-assume-role-housing-staging-context
           requires:
               - build-and-test
           filters:
              branches:
-               only: master
+               only: restore-point-pr80-hotfix
       - terraform-init-and-apply-to-staging:
           requires:
             - assume-role-staging
           filters:
             branches:
-              only: master
+              only: restore-point-pr80-hotfix
       - deploy-to-staging:
           requires:
             - terraform-init-and-apply-to-staging
           filters:
             branches:
-              only: master
+              only: restore-point-pr80-hotfix
       - permit-production-release:
           type: approval
           requires:
@@ -214,16 +190,16 @@ workflows:
               - permit-production-release
           filters:
              branches:
-               only: master
+               only: restore-point-pr80-hotfix
       - terraform-init-and-apply-to-production:
           requires:
             - assume-role-production
           filters:
             branches:
-              only: master
+              only: restore-point-pr80-hotfix
       - deploy-to-production:
           requires:
             - terraform-init-and-apply-to-production
           filters:
             branches:
-              only: master
+              only: restore-point-pr80-hotfix
