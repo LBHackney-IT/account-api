@@ -17,5 +17,11 @@ namespace AccountsApi.systemTests.StepDefinitions
         {
             _settings.AccessToken = Access_Token;
         }
+
+        [Given(@"I don't get JWT authentication as a finance user")]
+        public void GivenIDontGetJWTAuthenticationAsAFinanceUser()
+        {
+            _settings.AccessToken = String.Empty;
+        }
     }
 }

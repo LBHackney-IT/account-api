@@ -42,10 +42,8 @@ namespace AccountsApi.systemTests.Utilities
         public async Task<RestResponse> ExecuteRequest(string url, RestRequest restRequest, HttpStatusCode statusCode)
         {
                 var getResponse = await _restClient.ExecuteAsync(restRequest);
-                Console.WriteLine("Stepping into for loop....");
                 for (var i = 0; i <= TimesToRetryRequests; i++)
                 {
-                    Console.WriteLine("In for loop....");
                     if (getResponse.StatusCode == statusCode &&
                         !string.IsNullOrWhiteSpace(getResponse.Content) &&
                         !getResponse.Content.Contains("\":\"Error"))

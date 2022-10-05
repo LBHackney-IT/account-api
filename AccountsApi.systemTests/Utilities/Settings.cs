@@ -12,5 +12,7 @@ namespace AccountsApi.systemTests.Utilities
         public RestResponse RestResponse { get; set; }
         public string RestPingResponse { get; set; }
         public AccountApiModel GetAccountApiRestResponse { get; set; }
+        public AccountApiByIdModel GetAccountApiByIdRestResponse { get; set; }
+        public GetAccountUnauthorizedModel GetAccountApiInvalidResponse { get; set; }
     }
 }

@@ -12,3 +12,12 @@ Examples:
     | c91be1b2-1e81-600d-65b0-d00775501a6b | Master      |
  #   |                                      | Recharge    |
  #   |                                      | Sundry      |
+
+ @smoke
+Scenario Outline: Get an error when no authentication is passed for Accounts API
+    Given I don't get JWT authentication as a finance user
+    When I request a GET request on accounts api for '<targetId>' and '<accountType>'
+    Then I am returned an invalid response
+Examples:
+    | targetId                             | accountType |
+    | c91be1b2-1e81-600d-65b0-d00775501a6b | Master      |
