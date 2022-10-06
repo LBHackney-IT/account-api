@@ -1,0 +1,10 @@
+{
+  "ENVIRONMENT": "development",
+  "ApplicationUrl": "https://culd0aqcj0.execute-api.eu-west-2.amazonaws.com/development/",
+  "TimesToRetryRequests": 1,
+  "E2E_ACCESS_TOKEN_LOCAL": "",
+  "E2E_ACCESS_TOKEN_DEV": "",
+  "AWS_ACCESS_KEY_ID": "",
+  "AWS_SECRET_ACCESS_KEY": "",
+  "AWS_SESSION_TOKEN": ""
+}
