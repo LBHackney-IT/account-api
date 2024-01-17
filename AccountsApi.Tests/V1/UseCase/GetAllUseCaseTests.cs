@@ -1,19 +1,18 @@
-using AccountsApi.V1.Boundary.Response;
-using AccountsApi.V1.Domain;
-using AccountsApi.V1.Gateways;
-using AccountsApi.V1.UseCase;
-using AutoFixture;
-using FluentAssertions;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AccountsApi.V1.Domain;
 using AccountsApi.V1.Gateways.Interfaces;
+using AccountsApi.V1.UseCase;
+using AutoFixture;
+using FluentAssertions;
+using Moq;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
 {
+    [Collection("LogCall collection")]
     public class GetAllUseCaseTests
     {
         private readonly Fixture _fixture;
@@ -28,7 +27,7 @@ namespace AccountsApi.Tests.V1.UseCase
         }
 
         [Fact]
-        public async Task ExecuteAsyncNoneExistIDReturnsEmpryAccountList()
+        public async Task ExecuteAsyncNoneExistIdReturnsEmptyAccountList()
         {
             // Arrange
             _gateway.Setup(_ => _.GetAllAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))

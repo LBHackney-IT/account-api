@@ -13,6 +13,9 @@ using AccountsApi.V1.Infrastructure.Extensions;
 using AccountsApi.V1.UseCase;
 using AccountsApi.V1.UseCase.Interfaces;
 using AccountsApi.Versioning;
+using Amazon;
+using Amazon.XRay.Recorder.Core;
+using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -116,8 +119,12 @@ namespace AccountsApi
                     c.IncludeXmlComments(xmlPath);
             });
 
-            ConfigureLogging(services, Configuration);
-            services.ConfigureAws();
+            services.ConfigureLambdaLogging(Configuration);
+
+            AWSXRayRecorder.InitializeInstance(Configuration);
+            AWSXRayRecorder.RegisterLogger(LoggingOptions.SystemDiagnostics);
+
+            services.AddLogCallAspect();
             services.ConfigureDynamoDB();
             services.ConfigureElasticSearch(Configuration);
 
@@ -138,26 +145,6 @@ namespace AccountsApi
 
             services.AddDbContext<AccountContext>(
                 opt => opt.UseNpgsql(connectionString).AddXRayInterceptor(true));
-        }
-
-        private static void ConfigureLogging(IServiceCollection services, IConfiguration configuration)
-        {
-            // We rebuild the logging stack so as to ensure the console logger is not used in production.
-            // See here: https://weblog.west-wind.com/posts/2018/Dec/31/Dont-let-ASPNET-Core-Default-Console-Logging-Slow-your-App-down
-            services.AddLogging(config =>
-            {
-                // clear out default configuration
-                config.ClearProviders();
-
-                config.AddConfiguration(configuration.GetSection("Logging"));
-                config.AddDebug();
-                config.AddEventSourceLogger();
-
-                if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == Environments.Development)
-                {
-                    config.AddConsole();
-                }
-            });
         }
 
         private static void RegisterGateways(IServiceCollection services)
@@ -181,6 +168,7 @@ namespace AccountsApi
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseCorrelation();
+            app.UseLogCall();
 
             if (env.IsDevelopment())
             {

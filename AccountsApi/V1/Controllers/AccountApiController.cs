@@ -1,17 +1,17 @@
+using System;
+using System.Net;
+using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
+using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase.Interfaces;
+using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using AccountsApi.V1.Factories;
+using Microsoft.Extensions.Logging;
 
 namespace AccountsApi.V1.Controllers
 {
@@ -89,6 +89,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> GetAllAsync([FromQuery] Guid targetId, [FromQuery] AccountType accountType)
         {
             var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);

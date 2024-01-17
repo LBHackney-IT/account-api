@@ -1,15 +1,17 @@
-using AccountsApi.V1.Domain;
-using AccountsApi.V1.Factories;
-using AccountsApi.V1.Infrastructure;
-using Amazon.DynamoDBv2.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AccountsApi.V1.Domain;
+using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways.Interfaces;
+using AccountsApi.V1.Infrastructure;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
+using Hackney.Core.Logging;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace AccountsApi.V1.Gateways
 {
@@ -18,12 +20,14 @@ namespace AccountsApi.V1.Gateways
         private readonly IDynamoDBContext _dynamoDbContext;
         private readonly IAmazonDynamoDB _amazonDynamoDb;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<DynamoDbGateway> _logger;
 
-        public DynamoDbGateway(IDynamoDBContext dynamoDbContext, IAmazonDynamoDB amazonDynamoDb, IConfiguration configuration)
+        public DynamoDbGateway(IDynamoDBContext dynamoDbContext, IAmazonDynamoDB amazonDynamoDb, IConfiguration configuration, ILogger<DynamoDbGateway> logger)
         {
             _dynamoDbContext = dynamoDbContext;
             _amazonDynamoDb = amazonDynamoDb;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task<Account> GetByIdAsync(Guid id)
@@ -63,8 +67,10 @@ namespace AccountsApi.V1.Gateways
             return data.Sort(sortBy, direction).ToList();
         }
 
+        [LogCall]
         public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
+            _logger.LogDebug($"Calling _amazonDynamoDb.QueryAsync for targetId {targetId} and accountType {accountType}");
             QueryRequest request = new QueryRequest
             {
                 TableName = "Accounts",

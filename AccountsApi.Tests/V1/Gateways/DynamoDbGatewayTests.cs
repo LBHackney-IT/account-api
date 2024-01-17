@@ -1,41 +1,42 @@
-using AccountsApi.V1.Domain;
-using AccountsApi.V1.Gateways;
-using AccountsApi.V1.Infrastructure;
-using Amazon.DynamoDBv2.DataModel;
-using AutoFixture;
-using FluentAssertions;
-using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Boundary.Response;
+using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
+using AccountsApi.V1.Gateways;
+using AccountsApi.V1.Infrastructure;
 using Amazon.DynamoDBv2;
+using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
+using AutoFixture;
+using FluentAssertions;
+using Hackney.Core.Testing.Shared;
 using Microsoft.Extensions.Configuration;
-using Microsoft.OpenApi.Writers;
-using Moq.Protected;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Gateways
 {
+    [Collection("LogCall collection")]
     public class DynamoDbGatewayTests
     {
         private readonly Fixture _fixture = new Fixture();
         private readonly Mock<IDynamoDBContext> _dynamoDb;
-        private readonly DynamoDbGateway _gateway;
         private readonly Mock<IAmazonDynamoDB> _amazonDynamoDb;
         private readonly Mock<IConfiguration> _mockConfig;
+        private readonly Mock<ILogger<DynamoDbGateway>> _logger;
+        private readonly DynamoDbGateway _classUnderTest;
 
         public DynamoDbGatewayTests()
         {
             _dynamoDb = new Mock<IDynamoDBContext>();
             _amazonDynamoDb = new Mock<IAmazonDynamoDB>();
             _mockConfig = new Mock<IConfiguration>();
-            _gateway = new DynamoDbGateway(_dynamoDb.Object, _amazonDynamoDb.Object, _mockConfig.Object);
+            _logger = new Mock<ILogger<DynamoDbGateway>>();
+            _classUnderTest = new DynamoDbGateway(_dynamoDb.Object, _amazonDynamoDb.Object, _mockConfig.Object, _logger.Object);
         }
 
         #region GetById
@@ -45,7 +46,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(_ => _.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync((AccountDbEntity) null);
 
-            var response = await _gateway.GetByIdAsync(Guid.NewGuid()).ConfigureAwait(false);
+            var response = await _classUnderTest.GetByIdAsync(Guid.NewGuid()).ConfigureAwait(false);
 
             response.Should().BeNull();
         }
@@ -61,7 +62,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(x => x.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(), default))
                      .ReturnsAsync(dbEntity);
 
-            var response = await _gateway.GetByIdAsync(id).ConfigureAwait(false);
+            var response = await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
 
             _dynamoDb.Verify(x => x.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(), default), Times.Once);
 
@@ -80,7 +81,7 @@ namespace AccountsApi.Tests.V1.Gateways
 
             var domain = _fixture.Create<Account>();
 
-            await _gateway.AddAsync(domain).ConfigureAwait(false);
+            await _classUnderTest.AddAsync(domain).ConfigureAwait(false);
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Once);
         }
@@ -91,7 +92,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            async Task Func() => await _gateway.AddAsync((Account) null).ConfigureAwait(false);
+            async Task Func() => await _classUnderTest.AddAsync((Account) null).ConfigureAwait(false);
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Never);
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
@@ -108,9 +109,14 @@ namespace AccountsApi.Tests.V1.Gateways
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new QueryResponse());
 
-            var result = await _gateway.GetAllAsync(Guid.NewGuid(), AccountType.Master).ConfigureAwait(false);
+            var targetId = Guid.NewGuid();
+            var accountType = AccountType.Master;
+
+            var result = await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
             result.Should().NotBeNull();
             result.Should().HaveCount(0);
+
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId {targetId} and accountType {accountType}", Times.Once());
         }
 
         [Fact]
@@ -121,10 +127,15 @@ namespace AccountsApi.Tests.V1.Gateways
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
-            var result = await _gateway.GetAllAsync(Guid.NewGuid(), AccountType.Master).ConfigureAwait(false);
+            var targetId = Guid.NewGuid();
+            var accountType = AccountType.Master;
+
+            var result = await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
             _amazonDynamoDb.Verify(x => x.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()), Times.Once);
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
+
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId {targetId} and accountType {accountType}", Times.Once());
         }
 
         [Fact]
@@ -135,10 +146,15 @@ namespace AccountsApi.Tests.V1.Gateways
             _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
-            var result = await _gateway.GetAllAsync(Guid.NewGuid(), AccountType.Master).ConfigureAwait(false);
+            var targetId = Guid.NewGuid();
+            var accountType = AccountType.Master;
+
+            var result = await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
             _amazonDynamoDb.Verify(x => x.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()), Times.Once);
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
+
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId {targetId} and accountType {accountType}", Times.Once());
         }
         #endregion
 
@@ -154,10 +170,10 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(_ => _.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(domain.ToDatabase());
 
-            await _gateway.UpdateAsync(domain).ConfigureAwait(false);
+            await _classUnderTest.UpdateAsync(domain).ConfigureAwait(false);
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Once);
-            var updatedDomain = await _gateway.GetByIdAsync(domain.Id).ConfigureAwait(false);
+            var updatedDomain = await _classUnderTest.GetByIdAsync(domain.Id).ConfigureAwait(false);
             updatedDomain.Should().NotBeNull();
             updatedDomain.Should().BeEquivalentTo(domain,
                 opt => opt.Excluding(f => f.LastUpdatedAt));
@@ -169,7 +185,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
                 .Returns(Task.CompletedTask);
 
-            async Task Func() => await _gateway.UpdateAsync((Account) null).ConfigureAwait(false);
+            async Task Func() => await _classUnderTest.UpdateAsync((Account) null).ConfigureAwait(false);
 
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
 
@@ -184,7 +200,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _amazonDynamoDb.Setup(_ => _.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(new QueryResponse());
 
-            var result = await _gateway.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
+            var result = await _classUnderTest.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
 
             Assert.NotNull(result);
             Assert.Empty(result);
@@ -199,7 +215,7 @@ namespace AccountsApi.Tests.V1.Gateways
             _amazonDynamoDb.Setup(_ => _.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
                 .ReturnsAsync(response);
 
-            var result = await _gateway.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
+            var result = await _classUnderTest.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
 
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
