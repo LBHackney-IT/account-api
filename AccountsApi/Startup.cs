@@ -16,6 +16,7 @@ using AccountsApi.Versioning;
 using Amazon;
 using Amazon.XRay.Recorder.Core;
 using Hackney.Core.Logging;
+using Hackney.Core.Sns;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Converters;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -49,6 +49,7 @@ namespace AccountsApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services
                 .AddMvc()
                 .AddNewtonsoftJson(opts => opts.SerializerSettings.Converters.Add(new StringEnumConverter()));
@@ -125,6 +126,7 @@ namespace AccountsApi
             AWSXRayRecorder.RegisterLogger(LoggingOptions.SystemDiagnostics);
 
             services.AddLogCallAspect();
+            services.ConfigureSns();
             services.ConfigureDynamoDB();
             services.ConfigureElasticSearch(Configuration);
 
