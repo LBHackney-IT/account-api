@@ -127,6 +127,7 @@ namespace AccountsApi
 
             services.AddLogCallAspect();
             services.ConfigureSns();
+            services.AddSnsGateway();
             services.ConfigureDynamoDB();
             services.ConfigureElasticSearch(Configuration);
 
