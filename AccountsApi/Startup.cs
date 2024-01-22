@@ -152,7 +152,6 @@ namespace AccountsApi
         private static void RegisterGateways(IServiceCollection services)
         {
             services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
-            services.AddScoped<ISnsGateway, AccountSnsGateway>();
             services.AddScoped<ISnsFactory, AccountSnsFactory>();
         }
 
