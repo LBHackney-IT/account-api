@@ -12,6 +12,7 @@ using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
 {
+    [Collection("LogCall collection")]
     public class GetAllArrearsUseCaseTests
     {
         private readonly Mock<IAccountApiGateway> _gateway;

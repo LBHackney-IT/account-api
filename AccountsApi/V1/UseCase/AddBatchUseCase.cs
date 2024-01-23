@@ -7,6 +7,7 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.UseCase.Interfaces;
+using Hackney.Core.Logging;
 using Hackney.Core.Sns;
 
 namespace AccountsApi.V1.UseCase
@@ -23,6 +24,8 @@ namespace AccountsApi.V1.UseCase
             _snsGateway = snsGateway;
             _snsFactory = snsFactory;
         }
+
+        [LogCall]
         public async Task<int> ExecuteAsync(IEnumerable<AccountRequest> accounts)
         {
             var accountsList = new List<Account>();

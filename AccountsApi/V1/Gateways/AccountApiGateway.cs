@@ -23,13 +23,17 @@ namespace AccountsApi.V1.Gateways
             _logger = logger;
         }
 
+        [LogCall]
         public async Task AddAsync(Account account)
         {
+            _logger.LogDebug($"Calling AccountApiGateway.AddAsync for account: {account}");
             await _accountDbContext.AddAsync(account).ConfigureAwait(false);
         }
 
+        [LogCall]
         public async Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
         {
+            _logger.LogDebug($"Calling AccountApiGateway.GetAllArrearsAsync for accountType: {accountType}, sortBy: {sortBy} and direction: {direction}");
             var data = _accountDbContext
                 .AccountEntities
                 .Where(x => x.AccountType == accountType);
@@ -42,7 +46,7 @@ namespace AccountsApi.V1.Gateways
         [LogCall]
         public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
-            _logger.LogDebug($"Calling AccountApiGateway.GetAllAsync for targetId {targetId} and accountType {accountType}");
+            _logger.LogDebug($"Calling AccountApiGateway.GetAllAsync for targetId: {targetId} and accountType: {accountType}");
 
             var data = _accountDbContext
                 .AccountEntities
@@ -52,25 +56,33 @@ namespace AccountsApi.V1.Gateways
                 .ConfigureAwait(false);
         }
 
+        [LogCall]
         public async Task<Account> GetByIdAsync(Guid id)
         {
+            _logger.LogDebug($"Calling AccountApiGateway.GetByIdAsync for id: {id}");
             if (id == null)
                 throw new ArgumentException("Invalid Id");
             var result = await _accountDbContext.AccountEntities.FindAsync(id).ConfigureAwait(false);
             return result?.ToDomain();
         }
 
+        [LogCall]
         public async Task RemoveAsync(Account account)
         {
+            _logger.LogDebug($"Calling AccountApiGateway.RemoveAsync for account: {account}");
             _accountDbContext.Remove(account);
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
         }
 
+        [LogCall]
         public async Task UpdateAsync(Account account)
         {
+            _logger.LogDebug($"Calling AccountApiGateway.UpdateAsync for account: {account}");
             _accountDbContext.Entry<Account>(account).State = EntityState.Modified;
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
         }
+
+        [LogCall]
         public Task<bool> AddBatchAsync(List<Account> accounts)
         {
             throw new NotImplementedException();

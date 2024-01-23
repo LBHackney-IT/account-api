@@ -4,6 +4,7 @@ using AccountsApi.V1.Factories;
 using AccountsApi.V1.UseCase.Interfaces;
 using System.Threading.Tasks;
 using AccountsApi.V1.Gateways.Interfaces;
+using Hackney.Core.Logging;
 using Hackney.Core.Sns;
 
 namespace AccountsApi.V1.UseCase
@@ -21,6 +22,7 @@ namespace AccountsApi.V1.UseCase
             _snsFactory = snsFactory;
         }
 
+        [LogCall]
         public async Task<AccountResponse> ExecuteAsync(AccountResponse account)
         {
             account.LastUpdatedAt = DateTime.UtcNow;

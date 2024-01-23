@@ -14,6 +14,7 @@ using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
 {
+    [Collection("LogCall collection")]
     public class AddUseCaseTests : IDisposable
     {
         private readonly Fixture _fixture = new Fixture();

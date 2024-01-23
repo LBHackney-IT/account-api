@@ -58,6 +58,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
         [Route("{id}")]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
@@ -113,6 +114,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> Post(AccountRequest account)
         {
             if (account == null)
@@ -178,6 +180,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
         [HttpPatch]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<AccountUpdate> patchDoc)
         {
             if (patchDoc == null)
@@ -220,6 +223,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("arrears")]
         [HttpGet]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> GetArrears([FromQuery] ArrearRequest arrearRequest)
         {
             if (arrearRequest == null)
