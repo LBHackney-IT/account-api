@@ -69,6 +69,29 @@ namespace AccountsApi.Tests.V1.Gateways
 
             dbEntity.Should().NotBeNull();
             dbEntity.Id.Should().Be(id);
+        }
+
+        [Fact]
+        public async Task GetById_DbCallIsLogged_WhenDbCallSucceeds()
+        {
+            var id = Guid.NewGuid();
+            var dbEntity = _fixture.Create<AccountDbEntity>();
+            _dynamoDb.Setup(x => x.LoadAsync<AccountDbEntity>(id, default))
+                     .ReturnsAsync(dbEntity);
+
+            await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for id: {id}", Times.Once());
+        }
+
+        [Fact]
+        public async Task GetById_DbCallIsLogged_WhenDbCallFails()
+        {
+            var id = Guid.NewGuid();
+            _dynamoDb.Setup(x => x.LoadAsync<AccountDbEntity>(id, default))
+                     .ThrowsAsync(new Exception("Test exception"));
+
+            async Task Func() => await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
+            await Assert.ThrowsAsync<Exception>(Func).ConfigureAwait(false);
             _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for id: {id}", Times.Once());
         }
         #endregion
@@ -86,7 +109,6 @@ namespace AccountsApi.Tests.V1.Gateways
             await _classUnderTest.AddAsync(domain).ConfigureAwait(false);
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Once);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account ID: {domain.Id}", Times.Once());
         }
 
         [Fact]
@@ -99,6 +121,30 @@ namespace AccountsApi.Tests.V1.Gateways
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Never);
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
+        }
+
+        [Fact]
+        public async Task Add_WithValidModel_LogsDbTransaction()
+        {
+            _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            var domain = _fixture.Create<Account>();
+            await _classUnderTest.AddAsync(domain).ConfigureAwait(false);
+
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account ID: {domain.Id}", Times.Once());
+        }
+
+        [Fact]
+        public async Task Add_WithInvalidModel_DoesNotLogDbTranscation()
+        {
+            _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            async Task Func() => await _classUnderTest.AddAsync((Account) null).ConfigureAwait(false);
+
+            ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account ID: {It.IsAny<Guid>()}", Times.Never());
         }
 
         #endregion
@@ -118,8 +164,6 @@ namespace AccountsApi.Tests.V1.Gateways
             var result = await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
             result.Should().NotBeNull();
             result.Should().HaveCount(0);
-
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
         }
 
         [Fact]
@@ -137,8 +181,6 @@ namespace AccountsApi.Tests.V1.Gateways
             _amazonDynamoDb.Verify(x => x.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()), Times.Once);
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
-
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
         }
 
         [Fact]
@@ -156,7 +198,35 @@ namespace AccountsApi.Tests.V1.Gateways
             _amazonDynamoDb.Verify(x => x.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()), Times.Once);
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
+        }
 
+        [Fact]
+        public async Task GetAll_DbCallIsLogged_WhenDbCallSucceeds()
+        {
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
+            _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            var targetId = Guid.NewGuid();
+            var accountType = AccountType.Master;
+
+            await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
+        }
+
+        [Fact]
+        public async Task GetAll_DbCallIsLogged_WhenDbCallFails()
+        {
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
+
+            _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new Exception("Test exception"));
+
+            var targetId = Guid.NewGuid();
+            var accountType = AccountType.Master;
+
+            async Task Func() => await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
+            await Assert.ThrowsAsync<Exception>(Func).ConfigureAwait(false);
             _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
         }
         #endregion
@@ -196,6 +266,33 @@ namespace AccountsApi.Tests.V1.Gateways
 
             _dynamoDb.Verify(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), default), Times.Never);
         }
+
+        [Fact]
+        public async Task Update_WithValidModel_LogsDbTransaction()
+        {
+            var domain = _fixture.Create<Account>();
+
+            _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            _dynamoDb.Setup(_ => _.LoadAsync<AccountDbEntity>(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(domain.ToDatabase());
+
+            await _classUnderTest.UpdateAsync(domain).ConfigureAwait(false);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account: {domain}", Times.Once());
+        }
+
+        [Fact]
+        public async Task Update_WithInvalidModel_DoesNotLogDbTranscation()
+        {
+            _dynamoDb.Setup(_ => _.SaveAsync(It.IsAny<AccountDbEntity>(), It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            async Task Func() => await _classUnderTest.UpdateAsync((Account) null).ConfigureAwait(false);
+
+            ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account: {It.IsAny<Account>()}", Times.Never());
+        }
         #endregion
 
         #region GetAllArrears
@@ -226,6 +323,30 @@ namespace AccountsApi.Tests.V1.Gateways
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
             Assert.All(result, item => item.Should().NotBeNull());
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
+        }
+
+        [Fact]
+        public async Task GetAllArrears_DbCallIsLogged_WhenDbCallSucceeds()
+        {
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
+            _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
+                .ReturnsAsync(response);
+
+            await _classUnderTest.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
+        }
+
+        [Fact]
+        public async Task GetAllArrears_DbCallIsLogged_WhenDbCallFails()
+        {
+            QueryResponse response = FakeDataHelper.MockQueryResponse<AccountResponse>();
+
+            _amazonDynamoDb.Setup(p => p.QueryAsync(It.IsAny<QueryRequest>(), It.IsAny<CancellationToken>()))
+                .ThrowsAsync(new Exception("Test exception"));
+
+            async Task Func() => await _classUnderTest.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
+            await Assert.ThrowsAsync<Exception>(Func).ConfigureAwait(false);
             _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
         }
         #endregion
