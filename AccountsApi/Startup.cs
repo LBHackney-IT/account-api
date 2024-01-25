@@ -16,6 +16,7 @@ using AccountsApi.Versioning;
 using Amazon;
 using Amazon.XRay.Recorder.Core;
 using Hackney.Core.Logging;
+using Hackney.Core.Sns;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -120,12 +121,13 @@ namespace AccountsApi
             });
 
             services.ConfigureLambdaLogging(Configuration);
-            services.ConfigureAws();
 
             AWSXRayRecorder.InitializeInstance(Configuration);
             AWSXRayRecorder.RegisterLogger(LoggingOptions.SystemDiagnostics);
 
             services.AddLogCallAspect();
+            services.ConfigureSns();
+            services.AddSnsGateway();
             services.ConfigureDynamoDB();
             services.ConfigureElasticSearch(Configuration);
 
@@ -152,7 +154,6 @@ namespace AccountsApi
         {
             services.AddScoped<IAccountApiGateway, DynamoDbGateway>();
             services.AddScoped<ISnsFactory, AccountSnsFactory>();
-            services.AddScoped<ISnsGateway, AccountSnsGateway>();
         }
 
         private static void RegisterUseCases(IServiceCollection services)

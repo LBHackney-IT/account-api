@@ -8,6 +8,7 @@ using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.UseCase.Interfaces;
 using Hackney.Core.Logging;
+using Hackney.Core.Sns;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -45,7 +46,8 @@ namespace AccountsApi.V1.UseCase
             var processingCount = 0;
             foreach (var accountSnsMessage in accountsList.Select(item => _snsFactory.Create(item)))
             {
-                await _snsGateway.Publish(accountSnsMessage).ConfigureAwait(false);
+                var accountTopicArn = Environment.GetEnvironmentVariable("ACCOUNTS_SNS_ARN");
+                await _snsGateway.Publish(accountSnsMessage, accountTopicArn).ConfigureAwait(false);
                 processingCount++;
             }
             return accountsList.Count == processingCount ? accountsList.Count : 0;

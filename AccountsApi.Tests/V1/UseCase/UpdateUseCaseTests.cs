@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways.Interfaces;
 using AutoFixture;
+using Hackney.Core.Sns;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
@@ -22,12 +23,15 @@ namespace AccountsApi.Tests.V1.UseCase
         private readonly Mock<ISnsGateway> _snsGateway;
         private readonly ISnsFactory _snsFactory;
 
+        private const string SnsArn = "some_arn";
+
         public UpdateUseCaseTests()
         {
             _gateway = new Mock<IAccountApiGateway>();
             _snsGateway = new Mock<ISnsGateway>();
             _snsFactory = new AccountSnsFactory();
             _updateUseCase = new UpdateUseCase(_gateway.Object, _snsGateway.Object, _snsFactory);
+            Environment.SetEnvironmentVariable("ACCOUNTS_SNS_ARN", SnsArn);
         }
 
         [Fact]
@@ -76,7 +80,7 @@ namespace AccountsApi.Tests.V1.UseCase
             var result = await _updateUseCase.ExecuteAsync(account).ConfigureAwait(false);
 
             // Assert
-            _snsGateway.Verify(x => x.Publish(It.IsAny<AccountSns>()), Times.Exactly(1));
+            _snsGateway.Verify(x => x.Publish(It.IsAny<AccountSns>(), SnsArn, "fake"), Times.Exactly(1));
         }
     }
 }
