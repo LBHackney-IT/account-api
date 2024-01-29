@@ -7,6 +7,7 @@ using AccountsApi.V1.UseCase.Interfaces;
 using System;
 using System.Threading.Tasks;
 using AccountsApi.V1.Gateways.Interfaces;
+using Hackney.Core.Logging;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -22,6 +23,9 @@ namespace AccountsApi.V1.UseCase
             _snsGateway = snsGateway;
             _snsFactory = snsFactory;
         }
+
+
+        [LogCall]
         public async Task<AccountResponse> ExecuteAsync(AccountRequest account)
         {
             if (account == null)
@@ -40,6 +44,7 @@ namespace AccountsApi.V1.UseCase
             domain.LastUpdatedBy = account.CreatedBy;
 
             await _gateway.AddAsync(domain).ConfigureAwait(false);
+
             var accountSnsMessage = _snsFactory.Create(domain);
             await _snsGateway.Publish(accountSnsMessage).ConfigureAwait(false);
             return domain.ToResponse();

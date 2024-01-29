@@ -1,8 +1,8 @@
-using AccountsApi.Tests.V1.Helper;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using AccountsApi.Tests.V1.Helper;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Controllers;
@@ -12,15 +12,16 @@ using AccountsApi.V1.UseCase.Interfaces;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Routing;
 using Moq;
 using Xunit;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace AccountsApi.Tests.V1.Controllers
 {
+    [Collection("LogCall collection")]
     public class AccountsApiControllerTests
     {
 

@@ -13,6 +13,7 @@ using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
 {
+    [Collection("LogCall collection")]
     public class UpdateUseCaseTests
     {
         private readonly Mock<IAccountApiGateway> _gateway;
