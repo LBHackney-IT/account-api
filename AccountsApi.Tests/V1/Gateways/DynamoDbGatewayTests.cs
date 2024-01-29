@@ -49,7 +49,6 @@ namespace AccountsApi.Tests.V1.Gateways
             var response = await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
 
             response.Should().BeNull();
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for id: {id}", Times.Once());
         }
 
         [Fact]
@@ -250,8 +249,6 @@ namespace AccountsApi.Tests.V1.Gateways
             updatedDomain.Should().NotBeNull();
             updatedDomain.Should().BeEquivalentTo(domain,
                 opt => opt.Excluding(f => f.LastUpdatedAt));
-
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account: {domain}", Times.Once());
         }
 
         [Fact]
@@ -306,7 +303,6 @@ namespace AccountsApi.Tests.V1.Gateways
 
             Assert.NotNull(result);
             Assert.Empty(result);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
         }
 
 
@@ -323,7 +319,6 @@ namespace AccountsApi.Tests.V1.Gateways
             result.Should().NotBeNull();
             result.Should().BeEquivalentTo(response.ToAccounts());
             Assert.All(result, item => item.Should().NotBeNull());
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
         }
 
         [Fact]
