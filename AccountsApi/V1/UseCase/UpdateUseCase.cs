@@ -4,6 +4,7 @@ using AccountsApi.V1.Factories;
 using AccountsApi.V1.UseCase.Interfaces;
 using System.Threading.Tasks;
 using AccountsApi.V1.Gateways.Interfaces;
+using Hackney.Core.Logging;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -20,12 +21,15 @@ namespace AccountsApi.V1.UseCase
             _snsFactory = snsFactory;
         }
 
+        [LogCall]
         public async Task<AccountResponse> ExecuteAsync(AccountResponse account)
         {
             account.LastUpdatedAt = DateTime.UtcNow;
             await _gateway.UpdateAsync(account.ToDomain()).ConfigureAwait(false);
+
             var accountSnsMessage = _snsFactory.Update(account.ToDomain());
             await _snsGateway.Publish(accountSnsMessage).ConfigureAwait(false);
+
             return account;
         }
     }

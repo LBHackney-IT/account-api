@@ -1,17 +1,17 @@
+using System;
+using System.Net;
+using System.Threading.Tasks;
 using AccountsApi.V1.Boundary.Request;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
+using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase.Interfaces;
+using Hackney.Core.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using AccountsApi.V1.Factories;
+using Microsoft.Extensions.Logging;
 
 namespace AccountsApi.V1.Controllers
 {
@@ -58,6 +58,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
         [Route("{id}")]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             if (id == Guid.Empty)
@@ -89,6 +90,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpGet]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> GetAllAsync([FromQuery] Guid targetId, [FromQuery] AccountType accountType)
         {
             var accounts = await _getAllUseCase.ExecuteAsync(targetId, accountType).ConfigureAwait(false);
@@ -112,6 +114,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [HttpPost]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> Post(AccountRequest account)
         {
             if (account == null)
@@ -177,6 +180,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("{id}")]
         [HttpPatch]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> Patch([FromRoute] Guid id, [FromBody] JsonPatchDocument<AccountUpdate> patchDoc)
         {
             if (patchDoc == null)
@@ -219,6 +223,7 @@ namespace AccountsApi.V1.Controllers
         [ProducesResponseType(typeof(BaseErrorResponse), StatusCodes.Status500InternalServerError)]
         [Route("arrears")]
         [HttpGet]
+        [LogCall(LogLevel.Information)]
         public async Task<IActionResult> GetArrears([FromQuery] ArrearRequest arrearRequest)
         {
             if (arrearRequest == null)
