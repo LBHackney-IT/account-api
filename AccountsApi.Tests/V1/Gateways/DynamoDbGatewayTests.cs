@@ -79,7 +79,7 @@ namespace AccountsApi.Tests.V1.Gateways
                      .ReturnsAsync(dbEntity);
 
             await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for id: {id}", Times.Once());
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for ID: {id}", Times.Once());
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace AccountsApi.Tests.V1.Gateways
 
             async Task Func() => await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
             await Assert.ThrowsAsync<Exception>(Func).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for id: {id}", Times.Once());
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for ID: {id}", Times.Once());
         }
         #endregion
 
@@ -276,7 +276,7 @@ namespace AccountsApi.Tests.V1.Gateways
                 .ReturnsAsync(domain.ToDatabase());
 
             await _classUnderTest.UpdateAsync(domain).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account: {domain}", Times.Once());
+            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account ID: {domain.Id}", Times.Once());
         }
 
         [Fact]

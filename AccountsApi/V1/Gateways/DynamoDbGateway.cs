@@ -33,7 +33,7 @@ namespace AccountsApi.V1.Gateways
         [LogCall]
         public async Task<Account> GetByIdAsync(Guid id)
         {
-            _logger.LogDebug($"Calling _dynamoDbContext.LoadAsync for id: {id}");
+            _logger.LogDebug($"Calling _dynamoDbContext.LoadAsync for ID: {id}");
             var result = await _dynamoDbContext.LoadAsync<AccountDbEntity>(id).ConfigureAwait(false);
 
             return result?.ToDomain();
@@ -101,7 +101,7 @@ namespace AccountsApi.V1.Gateways
         {
             if (account == null)
                 throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null");
-            _logger.LogDebug($"Calling _dynamoDbContext.SaveAsync for account: {account}");
+            _logger.LogDebug($"Calling _dynamoDbContext.SaveAsync for account ID: {account.Id}");
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
