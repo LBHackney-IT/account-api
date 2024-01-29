@@ -26,7 +26,7 @@ namespace AccountsApi.V1.Gateways
         [LogCall]
         public async Task AddAsync(Account account)
         {
-            _logger.LogDebug($"Calling AccountApiGateway.AddAsync for account: {account}");
+            _logger.LogDebug($"Calling AccountApiGateway.AddAsync for account ID: {account.Id}");
             await _accountDbContext.AddAsync(account).ConfigureAwait(false);
         }
 
@@ -59,7 +59,7 @@ namespace AccountsApi.V1.Gateways
         [LogCall]
         public async Task<Account> GetByIdAsync(Guid id)
         {
-            _logger.LogDebug($"Calling AccountApiGateway.GetByIdAsync for id: {id}");
+            _logger.LogDebug($"Calling AccountApiGateway.GetByIdAsync for ID: {id}");
             if (id == null)
                 throw new ArgumentException("Invalid Id");
             var result = await _accountDbContext.AccountEntities.FindAsync(id).ConfigureAwait(false);
@@ -69,7 +69,7 @@ namespace AccountsApi.V1.Gateways
         [LogCall]
         public async Task RemoveAsync(Account account)
         {
-            _logger.LogDebug($"Calling AccountApiGateway.RemoveAsync for account: {account}");
+            _logger.LogDebug($"Calling AccountApiGateway.RemoveAsync for account ID: {account.Id}");
             _accountDbContext.Remove(account);
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
         }
@@ -77,7 +77,7 @@ namespace AccountsApi.V1.Gateways
         [LogCall]
         public async Task UpdateAsync(Account account)
         {
-            _logger.LogDebug($"Calling AccountApiGateway.UpdateAsync for account: {account}");
+            _logger.LogDebug($"Calling AccountApiGateway.UpdateAsync for account ID: {account.Id}");
             _accountDbContext.Entry<Account>(account).State = EntityState.Modified;
             await _accountDbContext.SaveChangesAsync().ConfigureAwait(false);
         }
