@@ -79,7 +79,7 @@ namespace AccountsApi.Tests.V1.Gateways
                      .ReturnsAsync(dbEntity);
 
             await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for ID: {id}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _dynamoDbContext.LoadAsync for ID: {id}", Times.Once());
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace AccountsApi.Tests.V1.Gateways
 
             async Task Func() => await _classUnderTest.GetByIdAsync(id).ConfigureAwait(false);
             await Assert.ThrowsAsync<Exception>(Func).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.LoadAsync for ID: {id}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _dynamoDbContext.LoadAsync for ID: {id}", Times.Once());
         }
         #endregion
 
@@ -131,7 +131,7 @@ namespace AccountsApi.Tests.V1.Gateways
             var domain = _fixture.Create<Account>();
             await _classUnderTest.AddAsync(domain).ConfigureAwait(false);
 
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account ID: {domain.Id}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _dynamoDbContext.SaveAsync for account ID: {domain.Id}", Times.Once());
         }
 
         [Fact]
@@ -143,7 +143,7 @@ namespace AccountsApi.Tests.V1.Gateways
             async Task Func() => await _classUnderTest.AddAsync((Account) null).ConfigureAwait(false);
 
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account ID: {It.IsAny<Guid>()}", Times.Never());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _dynamoDbContext.SaveAsync for account ID: {It.IsAny<Guid>()}", Times.Never());
         }
 
         #endregion
@@ -210,7 +210,7 @@ namespace AccountsApi.Tests.V1.Gateways
             var accountType = AccountType.Master;
 
             await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
         }
 
         [Fact]
@@ -226,7 +226,7 @@ namespace AccountsApi.Tests.V1.Gateways
 
             async Task Func() => await _classUnderTest.GetAllAsync(targetId, accountType).ConfigureAwait(false);
             await Assert.ThrowsAsync<Exception>(Func).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}", Times.Once());
         }
         #endregion
 
@@ -276,7 +276,7 @@ namespace AccountsApi.Tests.V1.Gateways
                 .ReturnsAsync(domain.ToDatabase());
 
             await _classUnderTest.UpdateAsync(domain).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account ID: {domain.Id}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _dynamoDbContext.SaveAsync for account ID: {domain.Id}", Times.Once());
         }
 
         [Fact]
@@ -288,7 +288,7 @@ namespace AccountsApi.Tests.V1.Gateways
             async Task Func() => await _classUnderTest.UpdateAsync((Account) null).ConfigureAwait(false);
 
             ArgumentNullException exception = await Assert.ThrowsAsync<ArgumentNullException>(Func).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _dynamoDbContext.SaveAsync for account: {It.IsAny<Account>()}", Times.Never());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _dynamoDbContext.SaveAsync for account: {It.IsAny<Account>()}", Times.Never());
         }
         #endregion
 
@@ -329,7 +329,7 @@ namespace AccountsApi.Tests.V1.Gateways
                 .ReturnsAsync(response);
 
             await _classUnderTest.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
         }
 
         [Fact]
@@ -342,7 +342,7 @@ namespace AccountsApi.Tests.V1.Gateways
 
             async Task Func() => await _classUnderTest.GetAllArrearsAsync(AccountType.Master, "Field", Direction.Asc).ConfigureAwait(false);
             await Assert.ThrowsAsync<Exception>(Func).ConfigureAwait(false);
-            _logger.VerifyExact(LogLevel.Debug, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
+            _logger.VerifyExact(LogLevel.Information, $"Calling _amazonDynamoDb.QueryAsync for accountType: {AccountType.Master}", Times.Once());
         }
         #endregion
     }

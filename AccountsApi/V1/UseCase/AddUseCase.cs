@@ -8,6 +8,7 @@ using System;
 using System.Threading.Tasks;
 using AccountsApi.V1.Gateways.Interfaces;
 using Hackney.Core.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -25,7 +26,7 @@ namespace AccountsApi.V1.UseCase
         }
 
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task<AccountResponse> ExecuteAsync(AccountRequest account)
         {
             if (account == null)
