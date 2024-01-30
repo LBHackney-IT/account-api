@@ -6,6 +6,7 @@ using AccountsApi.V1.UseCase.Interfaces;
 using System.Threading.Tasks;
 using AccountsApi.V1.Gateways.Interfaces;
 using Hackney.Core.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -18,7 +19,7 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task<AccountResponses> ExecuteAsync(ArrearRequest arrearRequest)
         {
             var response = await _gateway.GetAllArrearsAsync(arrearRequest.Type, arrearRequest.SortBy, arrearRequest.Direction)

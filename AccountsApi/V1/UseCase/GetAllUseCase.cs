@@ -8,6 +8,7 @@ using AccountsApi.V1.Factories;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.UseCase.Interfaces;
 using Hackney.Core.Logging;
+using Microsoft.Extensions.Logging;
 
 namespace AccountsApi.V1.UseCase
 {
@@ -19,7 +20,7 @@ namespace AccountsApi.V1.UseCase
             _gateway = gateway;
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task<AccountResponses> ExecuteAsync(Guid targetId, AccountType accountType)
         {
             AccountResponses accountResponseObjectList = new AccountResponses();
