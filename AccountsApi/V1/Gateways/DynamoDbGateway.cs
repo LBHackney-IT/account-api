@@ -30,26 +30,26 @@ namespace AccountsApi.V1.Gateways
             _logger = logger;
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task<Account> GetByIdAsync(Guid id)
         {
-            _logger.LogDebug($"Calling _dynamoDbContext.LoadAsync for ID: {id}");
+            _logger.LogInformation($"Calling _dynamoDbContext.LoadAsync for ID: {id}");
             var result = await _dynamoDbContext.LoadAsync<AccountDbEntity>(id).ConfigureAwait(false);
 
             return result?.ToDomain();
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task AddAsync(Account account)
         {
             if (account == null)
                 throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null!");
 
-            _logger.LogDebug($"Calling _dynamoDbContext.SaveAsync for account ID: {account.Id}");
+            _logger.LogInformation($"Calling _dynamoDbContext.SaveAsync for account ID: {account.Id}");
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task<List<Account>> GetAllArrearsAsync(AccountType accountType, string sortBy, Direction direction)
         {
             QueryRequest request = new QueryRequest
@@ -66,14 +66,14 @@ namespace AccountsApi.V1.Gateways
                 ScanIndexForward = true
             };
 
-            _logger.LogDebug($"Calling _amazonDynamoDb.QueryAsync for accountType: {accountType}");
+            _logger.LogInformation($"Calling _amazonDynamoDb.QueryAsync for accountType: {accountType}");
             var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
             List<Account> data = response.ToAccounts();
 
             return data.Sort(sortBy, direction).ToList();
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task<List<Account>> GetAllAsync(Guid targetId, AccountType accountType)
         {
             QueryRequest request = new QueryRequest
@@ -90,22 +90,22 @@ namespace AccountsApi.V1.Gateways
                 ScanIndexForward = true
             };
 
-            _logger.LogDebug($"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}");
+            _logger.LogInformation($"Calling _amazonDynamoDb.QueryAsync for targetId: {targetId} and accountType: {accountType}");
             var response = await _amazonDynamoDb.QueryAsync(request).ConfigureAwait(false);
 
             return response.ToAccounts();
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task UpdateAsync(Account account)
         {
             if (account == null)
                 throw new ArgumentNullException($"{nameof(account).ToString()} shouldn't be null");
-            _logger.LogDebug($"Calling _dynamoDbContext.SaveAsync for account ID: {account.Id}");
+            _logger.LogInformation($"Calling _dynamoDbContext.SaveAsync for account ID: {account.Id}");
             await _dynamoDbContext.SaveAsync(account.ToDatabase()).ConfigureAwait(false);
         }
 
-        [LogCall]
+        [LogCall(LogLevel.Information)]
         public async Task<bool> AddBatchAsync(List<Account> accounts)
         {
             var accountsBatch = _dynamoDbContext.CreateBatchWrite<AccountDbEntity>();
@@ -119,14 +119,14 @@ namespace AccountsApi.V1.Gateways
                 {
                     var itemsToWrite = items.Skip(start * maxBatchCount).Take(maxBatchCount);
                     accountsBatch.AddPutItems(itemsToWrite);
-                    _logger.LogDebug($"Calling _dynamoDbContext.ExecuteAsync for {itemsToWrite.Count()} accounts");
+                    _logger.LogInformation($"Calling _dynamoDbContext.ExecuteAsync for {itemsToWrite.Count()} accounts");
                     await accountsBatch.ExecuteAsync().ConfigureAwait(false);
                 }
             }
             else
             {
                 accountsBatch.AddPutItems(items);
-                _logger.LogDebug($"Calling _dynamoDbContext.ExecuteAsync for {items.Count} accounts");
+                _logger.LogInformation($"Calling _dynamoDbContext.ExecuteAsync for {items.Count} accounts");
                 await accountsBatch.ExecuteAsync().ConfigureAwait(false);
             }
             return true;
