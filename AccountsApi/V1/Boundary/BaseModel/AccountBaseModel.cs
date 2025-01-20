@@ -40,7 +40,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     Estate
         /// </example>
-        [AllowedValues(typeof(TargetType))]
+        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(TargetType))]
         [Required]
         [JsonProperty(Order = 3)]
         public TargetType TargetType { get; set; }
@@ -48,7 +48,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     Master
         /// </example>
-        [AllowedValues(typeof(AccountType))]
+        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(AccountType))]
         [Required]
         [JsonProperty(Order = 6)]
         public AccountType AccountType { get; set; }
@@ -56,7 +56,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     MajorWorks
         /// </example>
-        [AllowedValues(typeof(RentGroupType))]
+        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(RentGroupType))]
         [Required]
         [JsonProperty(Order = 7)]
         public RentGroupType RentGroupType { get; set; }
@@ -73,7 +73,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         ///     Active
         /// </example>
         [Required]
-        [AllowedValues(typeof(AccountStatus))]
+        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(AccountStatus))]
         [JsonProperty(Order = 9)]
         public AccountStatus AccountStatus { get; set; }
 

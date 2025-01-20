@@ -14,7 +14,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
 {
     public class AllowedValuesAttributeTests
     {
-        private AllowedValuesAttribute _allowedValues;
+        private System.ComponentModel.DataAnnotations.AllowedValuesAttribute _allowedValues;
         /*private readonly Fixture _fixture = new Fixture();*/
         public AllowedValuesAttributeTests()
         {
@@ -26,7 +26,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
         [InlineData(TargetType.Tenure)]
         public void IsValidEnumTypeEntryReturnsSuccess<T>(T enmType)
         {
-            _allowedValues = new AllowedValuesAttribute(typeof(T));
+            _allowedValues = new System.ComponentModel.DataAnnotations.AllowedValuesAttribute(typeof(T));
             _allowedValues.GetValidationResult(enmType, new ValidationContext(this)).Should().BeEquivalentTo(ValidationResult.Success);
         }
 
@@ -41,7 +41,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
             var result = _allowedValues.IsValid(data);*/
 
 
-            _allowedValues = new AllowedValuesAttribute(typeof(T));
+            _allowedValues = new System.ComponentModel.DataAnnotations.AllowedValuesAttribute(typeof(T));
             void Func() => _allowedValues.Validate(data, new ValidationContext(this));
 
             Assert.Throws<ValidationException>(Func);
