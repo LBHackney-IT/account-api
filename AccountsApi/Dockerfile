@@ -1,5 +1,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0
 
+# Install git and openssh-client
+RUN apt-get update && apt-get install -y git openssh-client
+
 ARG LBHPACKAGESTOKEN
 ENV LBHPACKAGESTOKEN=$LBHPACKAGESTOKEN
 WORKDIR /app
