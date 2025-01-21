@@ -1,13 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using AccountsApi.V1.Domain;
-using AccountsApi.V1.Infrastructure;
-using AutoFixture;
 using FluentAssertions;
-using FluentAssertions.Common;
+using System.ComponentModel.DataAnnotations;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Infrastructure
