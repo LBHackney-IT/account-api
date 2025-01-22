@@ -310,6 +310,14 @@ workflows:
               ignore:
                 - development
                 - master
+      - preview-production-terraform:
+          requires:
+            - assume-role-production
+          filters:
+            branches:
+              ignore:
+                - development
+                - master
   development:
     jobs:
       - check-code-formatting:
