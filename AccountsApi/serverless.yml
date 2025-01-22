@@ -13,7 +13,7 @@ provider:
 package:
   artifact: ./bin/release/net8.0/accounts-api.zip
 
-  plugins:
+plugins:
   - serverless-associate-waf  
 
 functions:
