@@ -61,6 +61,21 @@ commands:
           paths:
             - .aws
             - project/*
+  terraform-preview:
+    description: "Gives a preview for Terraform configuration changes."
+    parameters:
+      environment:
+        type: string
+    steps:
+      - *attach_workspace
+      - checkout
+      - run:
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform get -update=true
+            terraform init
+            terraform plan
+          name: terraform preview
   terraform-compliance:
     description: "Run Terraform Compliance checks"
     parameters:
