@@ -105,7 +105,7 @@ commands:
         type: string
     steps:
       - *attach_workspace
-      - checkout          
+      - checkout
       - run:
           name: apply
           command: |
@@ -265,7 +265,7 @@ workflows:
                 - development
                 - master
       - build-and-test:
-          context: 
+          context:
             - api-nuget-token-context
             - SonarCloud
           filters:
@@ -320,7 +320,7 @@ workflows:
       - build-and-test:
           context:
             - api-nuget-token-context
-            - SonarCloud          
+            - SonarCloud
           filters:
             branches:
               only: development
@@ -363,7 +363,7 @@ workflows:
       - build-and-test:
           context:
             - api-nuget-token-context
-            - SonarCloud          
+            - SonarCloud
           filters:
             branches:
               only: master
@@ -391,7 +391,7 @@ workflows:
             - terraform-compliance-staging
           filters:
             branches:
-              only: master              
+              only: master
       - deploy-to-staging:
           context:
             - api-nuget-token-context
@@ -429,7 +429,7 @@ workflows:
             - terraform-compliance-production
           filters:
             branches:
-              only: master              
+              only: master
       - permit-production-release:
           type: approval
           requires:
