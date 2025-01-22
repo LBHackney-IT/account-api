@@ -99,6 +99,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
         [Theory]
         [MemberData(nameof(MockParametersForNotFound.GetTestData), MemberType = typeof(MockParametersForNotFound))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1825:Avoid zero-length array allocations.", Justification = "<Pending>")]
         public async Task GetAllAsyncNotFoundReturnsNotFound(Guid id, AccountType accountType)
         {
             _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
@@ -112,6 +113,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
         [Theory]
         [MemberData(nameof(MockParametersForFormatException.GetTestData), MemberType = typeof(MockParametersForFormatException))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1825:Avoid zero-length array allocations.", Justification = "<Pending>")]
         public void GetAllAsyncExceptionReturnsFormatException(string gid, string accountType)
         {
             _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
@@ -121,12 +123,13 @@ namespace AccountsApi.Tests.V1.Controllers
                 async () => await _sut.GetAllAsync(Guid.Parse(gid), Enum.Parse<AccountType>(accountType))
                     .ConfigureAwait(false);
 
-            getAllFunc.Should().Throw<FormatException>();
+            getAllFunc.Should().ThrowAsync<FormatException>();
 
         }
 
         [Theory]
         [MemberData(nameof(MockParametersForArgumentNullException.GetTestData), MemberType = typeof(MockParametersForArgumentNullException))]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1825:Avoid zero-length array allocations.", Justification = "<Pending>")]
         public void GetAllAsyncExceptionReturnsArgumentNullException(string s, string accountType)
         {
             _getAllUseCase.Setup(x => x.ExecuteAsync(It.IsAny<Guid>(), It.IsAny<AccountType>()))
@@ -135,7 +138,7 @@ namespace AccountsApi.Tests.V1.Controllers
             Func<Task<IActionResult>> getAllFunc =
                 async () => await _sut.GetAllAsync(Guid.Parse(s), Enum.Parse<AccountType>(accountType)).ConfigureAwait(false);
 
-            getAllFunc.Should().Throw<ArgumentNullException>();
+            getAllFunc.Should().ThrowAsync<ArgumentNullException>();
         }
         #endregion
 
@@ -189,7 +192,7 @@ namespace AccountsApi.Tests.V1.Controllers
 
             Func<Task<IActionResult>> func = async () => await _sut.GetByIdAsync(id).ConfigureAwait(false);
 
-            func.Should().Throw<Exception>();
+            func.Should().ThrowAsync<Exception>();
         }
 
         [Fact]

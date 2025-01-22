@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 using AccountsApi.V1.Domain;
-using AccountsApi.V1.Infrastructure;
-using AutoFixture;
 using FluentAssertions;
-using FluentAssertions.Common;
+using System.ComponentModel.DataAnnotations;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Infrastructure
 {
     public class AllowedValuesAttributeTests
     {
-        private AllowedValuesAttribute _allowedValues;
-        /*private readonly Fixture _fixture = new Fixture();*/
+        private AccountsApi.V1.Infrastructure.AllowedValuesAttribute _allowedValues;
+
         public AllowedValuesAttributeTests()
         {
 
@@ -26,7 +19,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
         [InlineData(TargetType.Tenure)]
         public void IsValidEnumTypeEntryReturnsSuccess<T>(T enmType)
         {
-            _allowedValues = new AllowedValuesAttribute(typeof(T));
+            _allowedValues = new AccountsApi.V1.Infrastructure.AllowedValuesAttribute(typeof(T));
             _allowedValues.GetValidationResult(enmType, new ValidationContext(this)).Should().BeEquivalentTo(ValidationResult.Success);
         }
 
@@ -41,7 +34,7 @@ namespace AccountsApi.Tests.V1.Infrastructure
             var result = _allowedValues.IsValid(data);*/
 
 
-            _allowedValues = new AllowedValuesAttribute(typeof(T));
+            _allowedValues = new AccountsApi.V1.Infrastructure.AllowedValuesAttribute(typeof(T));
             void Func() => _allowedValues.Validate(data, new ValidationContext(this));
 
             Assert.Throws<ValidationException>(Func);
