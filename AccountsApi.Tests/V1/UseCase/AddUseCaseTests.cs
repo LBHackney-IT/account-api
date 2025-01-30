@@ -71,7 +71,7 @@ namespace AccountsApi.Tests.V1.UseCase
 
             // Assert
             _gateway.Verify(x => x.AddAsync(It.IsAny<Account>()), Times.Never);
-            func.Should().Throw<ArgumentNullException>();
+            func.Should().ThrowAsync<ArgumentNullException>();
 
         }
 
