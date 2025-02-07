@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using AccountsApi.V1.Infrastructure;
 using Newtonsoft.Json;
+using AllowedValuesAttribute = AccountsApi.V1.Infrastructure.AllowedValuesAttribute;
 
 namespace AccountsApi.V1.Boundary.BaseModel
 {
@@ -40,7 +41,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     Estate
         /// </example>
-        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(TargetType))]
+        [AllowedValues(typeof(TargetType))]
         [Required]
         [JsonProperty(Order = 3)]
         public TargetType TargetType { get; set; }
@@ -48,7 +49,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     Master
         /// </example>
-        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(AccountType))]
+        [AllowedValues(typeof(AccountType))]
         [Required]
         [JsonProperty(Order = 6)]
         public AccountType AccountType { get; set; }
@@ -56,7 +57,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         /// <example>
         ///     MajorWorks
         /// </example>
-        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(RentGroupType))]
+        [AllowedValues(typeof(RentGroupType))]
         [Required]
         [JsonProperty(Order = 7)]
         public RentGroupType RentGroupType { get; set; }
@@ -73,7 +74,7 @@ namespace AccountsApi.V1.Boundary.BaseModel
         ///     Active
         /// </example>
         [Required]
-        [System.ComponentModel.DataAnnotations.AllowedValues(typeof(AccountStatus))]
+        [AllowedValues(typeof(AccountStatus))]
         [JsonProperty(Order = 9)]
         public AccountStatus AccountStatus { get; set; }
 
