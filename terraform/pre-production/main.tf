@@ -40,7 +40,7 @@ resource "aws_sns_topic" "accounts_topic" {
 }
 
 resource "aws_ssm_parameter" "new_account_created_sns_arn" {
-  name  = "/sns-topic/pre-production/account_created/arn"
+  name  = "/sns-topic/pre-production/accounts/arn"
   type  = "String"
   value = aws_sns_topic.accounts_topic.arn
 }
