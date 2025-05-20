@@ -253,6 +253,31 @@ jobs:
     steps:
       - deploy-lambda:
           stage: "production"
+  assume-role-pre-production:
+    executor: docker-python
+    steps:
+      - assume-role-and-persist-workspace:
+          aws-account: $AWS_ACCOUNT_PRE_PRODUCTION
+  terraform-init-and-plan-pre-production:
+    executor: docker-terraform
+    steps:
+      - terraform-init-then-plan:
+          environment: "pre-production"
+  terraform-compliance-pre-production:
+    executor: docker-terraform
+    steps:
+      - terraform-compliance:
+          environment: "pre-production"
+  terraform-apply-pre-production:
+    executor: docker-terraform
+    steps:
+      - terraform-apply:
+          environment: "pre-production"
+  deploy-to-pre-production:
+    executor: docker-dotnet
+    steps:
+      - deploy-lambda:
+          stage: "pre-production"
 
 workflows:
   feature:
@@ -421,6 +446,72 @@ workflows:
             - "Serverless Framework"
           requires:
             - permit-production-release
+          filters:
+            branches:
+              only: master
+
+  deploy-terraform-pre-production:
+    jobs:
+      - permit-pre-production-terraform-workflow:
+          type: approval
+          filters:
+            branches:
+              only: master
+      - assume-role-pre-production:
+          context: api-assume-role-housing-pre-production-context
+          requires:
+            - permit-pre-production-terraform-workflow
+          filters:
+            branches:
+              only: master
+      - terraform-init-and-plan-pre-production:
+          requires:
+            - assume-role-pre-production
+          filters:
+            branches:
+              only: master
+      - terraform-compliance-pre-production:
+          requires:
+            - terraform-init-and-plan-pre-production
+          filters:
+            branches:
+              only: master
+      - permit-pre-production-terraform-deployment:
+          type: approval
+          requires:
+            - terraform-compliance-pre-production
+          filters:
+            branches:
+              only: master
+      - terraform-apply-pre-production:
+          requires:
+            - permit-pre-production-terraform-deployment
+          filters:
+            branches:
+              only: master
+
+  deploy-code-pre-production:
+    jobs:
+      - build-and-test:
+          context: 
+            - api-nuget-token-context
+            - SonarCloud
+          filters:
+            branches:
+              only: master
+      - assume-role-pre-production:
+          context: api-assume-role-housing-pre-production-context
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only: master
+      - deploy-to-pre-production:
+          context:
+          - api-nuget-token-context
+          - "Serverless Framework"
+          requires:
+            - assume-role-pre-production        
           filters:
             branches:
               only: master
