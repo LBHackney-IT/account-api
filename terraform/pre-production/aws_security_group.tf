@@ -1,3 +1,9 @@
+data "aws_vpc" "pre_production_vpc" {
+  tags = {
+    Name = "housing-pre-prod-pre-prod"
+  }
+}
+
 resource "aws_security_group" "lambda" {
   name                   = "accounts-api-lambda-sg"
   description            = "Security group used by the Accounts API lambda function"
