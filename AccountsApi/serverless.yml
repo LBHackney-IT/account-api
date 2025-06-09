@@ -165,9 +165,8 @@ custom:
         - subnet-0beb266003a56ca82
         - subnet-06a697d86a9b6ed01
     pre-production:
-      #using default sg for now, like stg and prod
       securityGroupIds:
-        - sg-0ba6244706c2077c9
+        - sg-0b36ec6c5c92626c7
       subnetIds:
         - subnet-08aa35159a8706faa
         - subnet-0b848c5b14f841dfb
