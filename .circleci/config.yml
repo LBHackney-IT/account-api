@@ -175,9 +175,15 @@ workflows:
           filters:
              branches:
                only: disaster-recovery-test
-      - terraform-apply-disaster-recovery:
+      - terraform-init-and-plan-disaster-recovery:
           requires:
             - assume-role-disaster-recovery
+          filters:
+            branches:
+              only: disaster-recovery-test
+      - terraform-apply-disaster-recovery:
+          requires:
+            - terraform-init-and-plan-disaster-recovery
           filters:
             branches:
               only: disaster-recovery-test
