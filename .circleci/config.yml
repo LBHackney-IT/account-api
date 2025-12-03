@@ -7,7 +7,7 @@ orbs:
 executors:
   docker-python:
     docker:
-      - image: circleci/python:3.7
+      - image: cimg/python:3.12
   docker-terraform:
     docker:
       - image: "hashicorp/terraform:1.1.9"
@@ -51,6 +51,10 @@ commands:
             terraform get -update=true
             terraform init
           name: get and init
+      # - run:
+      #     command: |
+      #       cd ./terraform/<<parameters.environment>>/
+      #       terraform import aws_dynamodb_table.accountsapi_dynamodb_table Accounts
       - run:
           name: plan
           command: |
@@ -142,285 +146,68 @@ commands:
             sls deploy --stage <<parameters.stage>> --conceal
 
 jobs:
-  check-code-formatting:
-    executor: docker-dotnet
-    steps:
-      - checkout
-      - run:
-          name: Install dotnet format
-          command: dotnet tool install dotnet-format --tool-path ./dotnet-format-local/
-      - run:
-          name: Run formatter check
-          command: ./dotnet-format-local/dotnet-format --check
-  build-and-test:
-    executor: docker-python
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: build
-          command: docker-compose build accounts-api-test
-      - run:
-          name: Run tests
-          command: docker-compose run accounts-api-test
-  assume-role-development:
+  assume-role-disaster-recovery:
     executor: docker-python
     steps:
       - assume-role-and-persist-workspace:
-          aws-account: $AWS_ACCOUNT_DEVELOPMENT
-  assume-role-staging:
-    executor: docker-python
-    steps:
-      - assume-role-and-persist-workspace:
-          aws-account: $AWS_ACCOUNT_STAGING
-  assume-role-production:
-    executor: docker-python
-    steps:
-      - assume-role-and-persist-workspace:
-          aws-account: $AWS_ACCOUNT_PRODUCTION
-  terraform-init-and-plan-development:
-    executor: docker-terraform
-    steps:
-      - terraform-init-then-plan:
-          environment: "development"
-  terraform-compliance-development:
-    executor: docker-terraform
-    steps:
-      - terraform-compliance:
-          environment: "development"
-  terraform-apply-development:
-    executor: docker-terraform
-    steps:
-      - terraform-apply:
-          environment: "development"
-  terraform-init-and-plan-staging:
-    executor: docker-terraform
-    steps:
-      - terraform-init-then-plan:
-          environment: "staging"
-  terraform-compliance-staging:
-    executor: docker-terraform
-    steps:
-      - terraform-compliance:
-          environment: "staging"
-  terraform-apply-staging:
-    executor: docker-terraform
-    steps:
-      - terraform-apply:
-          environment: "staging"
-  terraform-init-and-plan-production:
+          aws-account: $AWS_ACCOUNT_DISASTER_RECOVERY
+  terraform-init-and-plan-disaster-recovery:
     executor: docker-terraform
     steps:
       - terraform-init-then-plan:
           environment: "production"
-  terraform-compliance-production:
-    executor: docker-terraform
-    steps:
-      - terraform-compliance:
-          environment: "production"
-  terraform-apply-production:
+  terraform-apply-disaster-recovery:
     executor: docker-terraform
     steps:
       - terraform-apply:
           environment: "production"
-  preview-development-terraform:
-    executor: docker-terraform
-    steps:
-      - terraform-preview:
-          environment: "development"
-  preview-staging-terraform:
-    executor: docker-terraform
-    steps:
-      - terraform-preview:
-          environment: "staging"
-  preview-production-terraform:
-    executor: docker-terraform
-    steps:
-      - terraform-preview:
-          environment: "production"
-  deploy-to-development:
-    executor: docker-dotnet
-    steps:
-      - deploy-lambda:
-          stage: "development"
-  deploy-to-staging:
-    executor: docker-dotnet
-    steps:
-      - deploy-lambda:
-          stage: "staging"
-  deploy-to-production:
+  deploy-to-disaster-recovery:
     executor: docker-dotnet
     steps:
       - deploy-lambda:
           stage: "production"
 
 workflows:
-  feature:
+  staging-and-disaster-recovery:
     jobs:
-      - check-code-formatting:
-          context: api-nuget-token-context
-          filters:
-            branches:
-              ignore:
-                - development
-                - master
-      - build-and-test:
-          context:
-            - api-nuget-token-context
-            - SonarCloud
-          filters:
-            branches:
-              ignore:
-                - development
-                - master
-      - assume-role-development:
-          context: api-assume-role-housing-development-context
-          filters:
-            branches:
-              ignore:
-                - development
-                - master
-      - preview-development-terraform:
+      - permit-disaster-recovery-terraform-release:
+          type: approval
+      - assume-role-disaster-recovery:
+          context: api-assume-role-disaster-recovery-context
           requires:
-            - assume-role-development
-      - assume-role-staging:
-          context: api-assume-role-housing-staging-context
-          filters:
-            branches:
-              ignore:
-                - development
-                - master
-      - preview-staging-terraform:
-          requires:
-            - assume-role-staging
-      - assume-role-production:
-          context: api-assume-role-housing-production-context
-          filters:
-            branches:
-              ignore:
-                - development
-                - master
-      - preview-production-terraform:
-          requires:
-            - assume-role-production
-  development:
-    jobs:
-      - check-code-formatting:
-          context: api-nuget-token-context
-          filters:
-            branches:
-              only: development
-      - build-and-test:
-          context:
-            - api-nuget-token-context
-            - SonarCloud
-          filters:
-            branches:
-              only: development
-      - assume-role-development:
-          context: api-assume-role-housing-development-context
-          requires:
-            - build-and-test
-      - terraform-init-and-plan-development:
-          requires:
-            - assume-role-development
-      - terraform-compliance-development:
-          requires:
-            - terraform-init-and-plan-development
-      - terraform-apply-development:
-          requires:
-            - terraform-compliance-development
-      - deploy-to-development:
-          context:
-            - api-nuget-token-context
-            - "Serverless Framework"
-          requires:
-            - terraform-apply-development
-  staging-and-production:
-    jobs:
-      - build-and-test:
-          context:
-            - api-nuget-token-context
-            - SonarCloud
-          filters:
-            branches:
-              only: master
-      - assume-role-staging:
-          context: api-assume-role-housing-staging-context
-          requires:
-              - build-and-test
+              - permit-disaster-recovery-terraform-release
           filters:
              branches:
-               only: master
-      - terraform-init-and-plan-staging:
+               only: disaster-recovery-test
+      - terraform-init-and-plan-disaster-recovery:
           requires:
-            - assume-role-staging
+            - assume-role-disaster-recovery
           filters:
             branches:
-              only: master
-      - terraform-compliance-staging:
+              only: disaster-recovery-test
+      - confirm-disaster-recovery-terraform-release:
+          type: approval
           requires:
-            - terraform-init-and-plan-staging
+            - terraform-init-and-plan-disaster-recovery
+      - terraform-apply-disaster-recovery:
+          requires:
+            - confirm-disaster-recovery-terraform-release
           filters:
             branches:
-              only: master
-      - terraform-apply-staging:
+              only: disaster-recovery-test
+      - permit-disaster-recovery-release:
+          type: approval
           requires:
-            - terraform-compliance-staging
+            - terraform-apply-disaster-recovery
           filters:
             branches:
-              only: master
-      - deploy-to-staging:
+              only: disaster-recovery-test
+      - deploy-to-disaster-recovery:
           context:
             - api-nuget-token-context
             - "Serverless Framework"
           requires:
-            - terraform-apply-staging
+            - permit-disaster-recovery-release
           filters:
             branches:
-              only: master
-      - permit-production-terraform-release:
-          type: approval
-          requires:
-            - deploy-to-staging
-      - assume-role-production:
-          context: api-assume-role-housing-production-context
-          requires:
-              - permit-production-terraform-release
-          filters:
-             branches:
-               only: master
-      - terraform-init-and-plan-production:
-          requires:
-            - assume-role-production
-          filters:
-            branches:
-              only: master
-      - terraform-compliance-production:
-          requires:
-            - terraform-init-and-plan-production
-          filters:
-            branches:
-              only: master
-      - terraform-apply-production:
-          requires:
-            - terraform-compliance-production
-          filters:
-            branches:
-              only: master
-      - permit-production-release:
-          type: approval
-          requires:
-            - terraform-apply-production
-          filters:
-            branches:
-              only: master
-      - deploy-to-production:
-          context:
-            - api-nuget-token-context
-            - "Serverless Framework"
-          requires:
-            - permit-production-release
-          filters:
-            branches:
-              only: master
+              only: disaster-recovery-test

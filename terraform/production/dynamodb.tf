@@ -22,7 +22,7 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
 
     tags = {
         Name              = "accounts-api-${var.environment_name}"
-        Environment       = var.environment_name
+        Environment       = "prod"
         terraform-managed = true
         project_name      = var.project_name
         BackupPolicy      = "Prod"
