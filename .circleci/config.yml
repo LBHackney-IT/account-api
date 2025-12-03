@@ -52,14 +52,14 @@ commands:
             terraform init
           name: get and init
       - run:
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform import aws_dynamodb_table.accountsapi_dynamodb_table Accounts
+      - run:
           name: plan
           command: |
             cd ./terraform/<<parameters.environment>>/
             terraform plan -out=plan.out
-      - run:
-          command: |
-            cd ./terraform/<<parameters.environment>>/
-            terraform import aws_dynamodb_table.accountsapi_dynamodb_table Accounts
       - persist_to_workspace:
           root: *workspace_root
           paths:
