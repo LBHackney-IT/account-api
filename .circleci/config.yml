@@ -51,10 +51,10 @@ commands:
             terraform get -update=true
             terraform init
           name: get and init
-      - run:
-          command: |
-            cd ./terraform/<<parameters.environment>>/
-            terraform import aws_dynamodb_table.accountsapi_dynamodb_table Accounts
+      # - run:
+      #     command: |
+      #       cd ./terraform/<<parameters.environment>>/
+      #       terraform import aws_dynamodb_table.accountsapi_dynamodb_table Accounts
       - run:
           name: plan
           command: |
