@@ -48,4 +48,5 @@ resource "aws_ssm_parameter" "new_account_created_sns_arn" {
     name  = "/sns-topic/${var.environment_name}/account_created/arn"
     type  = "String"
     value = aws_sns_topic.accounts_topic.arn
+    overwrite = true
 }

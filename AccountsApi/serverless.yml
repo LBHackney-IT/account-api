@@ -22,7 +22,7 @@ functions:
     handler: AccountsApi::AccountsApi.LambdaEntryPoint::FunctionHandlerAsync
     role: lambdaExecutionRole
     environment:
-      ACCOUNTS_SNS_ARN: ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
+      # ACCOUNTS_SNS_ARN: ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
       ELASTICSEARCH_DOMAIN_URL: ${ssm:/housing-search-api/${self:provider.stage}/elasticsearch-domain}
       REQUIRED_GOOGL_GROUPS: ${ssm:/housing-finance/${self:provider.stage}/authorization/required-google-groups}
     events:
@@ -63,31 +63,31 @@ resources:
           - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
           - arn:aws:iam::aws:policy/AWSXRayDaemonWriteAccess
         Policies:
-          - PolicyName: postToSns
-            PolicyDocument:
-              Version: '2012-10-17'
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - "sns:Publish"
-                  Resource:
-                    - ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
-          - PolicyName: manageLogs
-            PolicyDocument:
-              Version: '2012-10-17'
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - logs:CreateLogGroup
-                    - logs:CreateLogStream
-                    - logs:PutLogEvents
-                  Resource:
-                    - 'Fn::Join':
-                        - ':'
-                        - - 'arn:aws:logs'
-                          - Ref: 'AWS::Region'
-                          - Ref: 'AWS::AccountId'
-                          - 'log-group:/aws/lambda/*:*:*'
+          # - PolicyName: postToSns
+          #   PolicyDocument:
+          #     Version: '2012-10-17'
+          #     Statement:
+          #       - Effect: Allow
+          #         Action:
+          #           - "sns:Publish"
+          #         Resource:
+          #           - ${ssm:/sns-topic/${self:provider.stage}/accounts/arn}
+          # - PolicyName: manageLogs
+          #   PolicyDocument:
+          #     Version: '2012-10-17'
+          #     Statement:
+          #       - Effect: Allow
+          #         Action:
+          #           - logs:CreateLogGroup
+          #           - logs:CreateLogStream
+          #           - logs:PutLogEvents
+          #         Resource:
+          #           - 'Fn::Join':
+          #               - ':'
+          #               - - 'arn:aws:logs'
+          #                 - Ref: 'AWS::Region'
+          #                 - Ref: 'AWS::AccountId'
+          #                 - 'log-group:/aws/lambda/*:*:*'
           - PolicyName: lambdaInvocation
             PolicyDocument:
               Version: '2012-10-17'
