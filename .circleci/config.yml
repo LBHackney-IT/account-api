@@ -59,7 +59,7 @@ commands:
           name: plan
           command: |
             cd ./terraform/<<parameters.environment>>/
-            terraform plan -out=plan.out
+            terraform plan -destroy -out=plan.out
       - persist_to_workspace:
           root: *workspace_root
           paths:
@@ -143,7 +143,7 @@ commands:
           command: |
             cd ./AccountsApi/
             npm i serverless-associate-waf
-            sls deploy --stage <<parameters.stage>> --conceal
+            sls remove --stage <<parameters.stage>>
 
 jobs:
   assume-role-disaster-recovery:
