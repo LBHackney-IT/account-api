@@ -58,3 +58,31 @@ resource "aws_ssm_parameter" "accounts_sns_arn" {
     type  = "String"
     value = aws_sns_topic.accounts_topic.arn
 }
+
+module "accounts_api_resource_server" {
+    source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-resource-server"
+
+    providers = {
+        aws.authorizer_account = aws.auth_account
+    }
+
+    api_name       = "Accounts API"
+    api_identifier = "culd0aqcj0" 
+
+    scopes = [
+        {
+            name        = "account.read"
+            description = "Get single account by id"
+        },
+        {
+            name        = "account.create"
+            description = "Create a finance account for tenure"
+        }
+    ]
+}
+
+# This would normally be in the repo of whatever app would consume the above resource server but for now
+# which is just a distributed iac test, it will do
+
+# TODO:
+# source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-app-client"
