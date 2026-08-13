@@ -60,7 +60,7 @@ resource "aws_ssm_parameter" "accounts_sns_arn" {
 }
 
 module "accounts_api_resource_server" {
-    source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-resource-server"
+    source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-resource-server?ref=5c099816cecd6d3f6314817a8e01c0346f6b3006"
 
     providers = {
         aws.authorizer_account = aws.auth_account
