@@ -3,12 +3,8 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
     billing_mode          = "PROVISIONED"
     read_capacity         = 10
     write_capacity        = 10
-
-    # Replaced root hash_key
-    key_schema {
-        attribute_name = "id"
-        key_type       = "HASH"
-    }
+    
+    hash_key              = "id"
 
     attribute {
         name              = "id"
@@ -39,7 +35,6 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
         read_capacity      = 10
         projection_type    = "ALL"
 
-        # Replaced GSI hash_key
         key_schema {
             attribute_name = "account_type"
             key_type       = "HASH"
@@ -52,7 +47,6 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
         read_capacity      = 10
         projection_type    = "ALL"
 
-        # Replaced GSI hash_key
         key_schema {
             attribute_name = "target_id"
             key_type       = "HASH"
