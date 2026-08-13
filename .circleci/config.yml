@@ -192,6 +192,10 @@ workflows:
     jobs:
       - assume-role-development:
           context: api-assume-role-housing-development-context
+          filters:
+            branches:
+              only:
+                - block
       - terraform-init-and-plan-development:
           requires:
             - assume-role-development
