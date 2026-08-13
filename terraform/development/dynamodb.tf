@@ -3,7 +3,12 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
     billing_mode          = "PROVISIONED"
     read_capacity         = 10
     write_capacity        = 10
-    hash_key              = "id"
+
+    # Replaced root hash_key
+    key_schema {
+        attribute_name = "id"
+        key_type       = "HASH"
+    }
 
     attribute {
         name              = "id"
@@ -14,7 +19,7 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
         name              = "account_type"
         type              = "S"
     }
-	
+    
     attribute {
         name              = "target_id"
         type              = "S"
@@ -30,18 +35,28 @@ resource "aws_dynamodb_table" "accountsapi_dynamodb_table" {
 
     global_secondary_index {
         name               = "account_type_dx"
-        hash_key           = "account_type"
         write_capacity     = 10
         read_capacity      = 10
         projection_type    = "ALL"
+
+        # Replaced GSI hash_key
+        key_schema {
+            attribute_name = "account_type"
+            key_type       = "HASH"
+        }
     }
 
     global_secondary_index {
         name               = "target_id_dx"
-        hash_key           = "target_id"
         write_capacity     = 10
         read_capacity      = 10
         projection_type    = "ALL"
+
+        # Replaced GSI hash_key
+        key_schema {
+            attribute_name = "target_id"
+            key_type       = "HASH"
+        }
     }
 
     point_in_time_recovery {
