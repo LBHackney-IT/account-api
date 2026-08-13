@@ -184,7 +184,7 @@ workflows:
               ignore:
                 - development
                 - master
-                - istr-iac-test
+                - distr-iac-test
       - preview-development-terraform:
           requires:
             - assume-role-development
@@ -196,7 +196,7 @@ workflows:
           filters:
             branches:
               only:
-                - istr-iac-test
+                - distr-iac-test
       - terraform-init-and-plan-development:
           requires:
             - assume-role-development
