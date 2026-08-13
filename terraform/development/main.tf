@@ -20,6 +20,15 @@ provider "aws" {
     region = "eu-west-2"
 }
 
+provider "aws" {
+  alias  = "auth_account"
+  region = "eu-west-2"
+  
+  assume_role {
+    role_arn = "arn:aws:iam::859159924354:role/hackney-central-auth-development-apis-m2m-guest-deployer"
+  }
+}
+
 data "aws_caller_identity" "current" {}
 
 data "aws_region" "current" {}
