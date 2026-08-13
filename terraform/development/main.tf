@@ -67,7 +67,7 @@ module "accounts_api_resource_server" {
     }
 
     api_name       = "Accounts API"
-    api_identifier = "culd0aqcj0" 
+    apis_api_gateway_id = "culd0aqcj0" 
 
     scopes = [
         {
