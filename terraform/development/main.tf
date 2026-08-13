@@ -84,5 +84,29 @@ module "accounts_api_resource_server" {
 # This would normally be in the repo of whatever app would consume the above resource server but for now
 # which is just a distributed iac test, it will do
 
-# TODO:
-# source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-app-client"
+# module "caller_app_m2m_client" {
+#   source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-app-client"
+
+#   providers = {
+#     aws.application_account = aws
+#     aws.authorizer_account  = aws.auth_account
+#   }
+
+#   application_name         = "app-running-locally-on-laptop"
+#   # TODO: don't have that? Guess it can't be local then, huh?
+#   application_iam_role_arn = aws_iam_role.caller_app_lambda_role.arn
+  
+#   requested_scopes = [
+#     {
+#         api_gateway_id = "culd0aqcj0"
+#         endpoint_name  = "account"
+#         access_types   = ["read"]
+#     }
+#   ]
+#   # module.accounts_api_resource_server.fully_qualified_scopes
+
+#   # Ensure the resource server exists in Cognito before the client requests its scopes.
+#   depends_on = [
+#     module.accounts_api_resource_server
+#   ]
+# }
