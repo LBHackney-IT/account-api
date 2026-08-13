@@ -192,8 +192,6 @@ workflows:
     jobs:
       - assume-role-development:
           context: api-assume-role-housing-development-context
-          requires:
-            - build-and-test
       - terraform-init-and-plan-development:
           requires:
             - assume-role-development
