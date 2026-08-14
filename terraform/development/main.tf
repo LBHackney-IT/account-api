@@ -109,6 +109,12 @@ module "caller_app_m2m_client" {
     depends_on = [
         module.accounts_api_resource_server
     ]
+
+    tags = {
+        Application = "Caller of Accounts API"
+        TeamEmail = "test@hackney.gov.uk"
+        Environment = "development"
+    }
 }
 
 data "aws_lambda_function" "accounts_api_lambda" {
