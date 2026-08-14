@@ -85,7 +85,7 @@ module "accounts_api_resource_server" {
 # which is just a distributed iac test, it will do
 
 module "caller_app_m2m_client" {
-    source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-app-client"
+    source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-app-client?ref=09af3ef6e68025abc5e8ed6566039f9c7030b32f"
 
     providers = {
         aws.application_account = aws
