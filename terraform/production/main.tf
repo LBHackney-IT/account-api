@@ -11,7 +11,7 @@ terraform {
     required_providers {
         aws = {
             source  = "hashicorp/aws"
-            version = "~> 3.0"
+            version = "~> 6.0"
         }
     }
 }
@@ -25,7 +25,7 @@ data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 locals {
-    parameter_store = "arn:aws:ssm:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:parameter"
+    parameter_store = "arn:aws:ssm:${data.aws_region.current.region}:${data.aws_caller_identity.current.account_id}:parameter"
 }
 
 terraform {
