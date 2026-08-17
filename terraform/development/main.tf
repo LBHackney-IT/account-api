@@ -59,69 +59,69 @@ resource "aws_ssm_parameter" "accounts_sns_arn" {
     value = aws_sns_topic.accounts_topic.arn
 }
 
-module "accounts_api_resource_server" {
-    source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-resource-server?ref=5c099816cecd6d3f6314817a8e01c0346f6b3006"
+# module "accounts_api_resource_server" {
+#     source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-resource-server?ref=5c099816cecd6d3f6314817a8e01c0346f6b3006"
 
-    providers = {
-        aws.authorizer_account = aws.auth_account
-    }
+#     providers = {
+#         aws.authorizer_account = aws.auth_account
+#     }
 
-    api_name       = "Accounts API"
-    apis_api_gateway_id = "culd0aqcj0" 
+#     api_name       = "Accounts API"
+#     apis_api_gateway_id = "culd0aqcj0" 
 
-    scopes = [
-        {
-            name        = "account.read"
-            description = "Get single account by id"
-        },
-        {
-            name        = "account.create"
-            description = "Create a finance account for tenure"
-        }
-    ]
-}
+#     scopes = [
+#         {
+#             name        = "account.read"
+#             description = "Get single account by id"
+#         },
+#         {
+#             name        = "account.create"
+#             description = "Create a finance account for tenure"
+#         }
+#     ]
+# }
 
-# This would normally be in the repo of whatever app would consume the above resource server but for now
-# which is just a distributed iac test, it will do
+# # This would normally be in the repo of whatever app would consume the above resource server but for now
+# # which is just a distributed iac test, it will do
 
-module "caller_app_m2m_client" {
-    source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-app-client?ref=8f67abbc9f2833a7323d56408f0d16750ed47662"
+# module "caller_app_m2m_client" {
+#     source = "github.com/LBHackney-IT/api-gateway-lambda-authorizer.git//terraform/modules/cognito-m2m-app-client?ref=8f67abbc9f2833a7323d56408f0d16750ed47662"
 
-    providers = {
-        aws.application_account = aws
-        aws.authorizer_account  = aws.auth_account
-    }
+#     providers = {
+#         aws.application_account = aws
+#         aws.authorizer_account  = aws.auth_account
+#     }
 
-    application_name         = "app-running-locally-on-laptop"
-    # TODO: don't have that? Guess it can't be local then, huh?
-    application_iam_role_name = local.lambda_role_name
+#     application_name         = "app-running-locally-on-laptop"
+#     # TODO: don't have that? Guess it can't be local then, huh?
+#     application_iam_role_name = local.lambda_role_name
     
-    requested_scopes = [
-        {
-            api_gateway_id = "culd0aqcj0"
-            endpoint_name  = "account"
-            access_types   = ["read"]
-        }
-    ]
-    # module.accounts_api_resource_server.fully_qualified_scopes
-    defer_app_client_creation = false
-    # Ensure the resource server exists in Cognito before the client requests its scopes.
-    depends_on = [
-        module.accounts_api_resource_server
-    ]
+#     requested_scopes = [
+#         {
+#             api_gateway_id = "culd0aqcj0"
+#             endpoint_name  = "account"
+#             access_types   = ["read"]
+#         }
+#     ]
+#     # module.accounts_api_resource_server.fully_qualified_scopes
+#     defer_app_client_creation = false
+#     # Ensure the resource server exists in Cognito before the client requests its scopes.
+#     depends_on = [
+#         module.accounts_api_resource_server
+#     ]
 
-    tags = {
-        Application = "Caller of Accounts API"
-        TeamEmail = "test@hackney.gov.uk"
-        Environment = "development"
-    }
-}
+#     tags = {
+#         Application = "Caller of Accounts API"
+#         TeamEmail = "test@hackney.gov.uk"
+#         Environment = "development"
+#     }
+# }
 
-data "aws_lambda_function" "accounts_api_lambda" {
-  function_name = "accounts-api-development"
-}
+# data "aws_lambda_function" "accounts_api_lambda" {
+#   function_name = "accounts-api-development"
+# }
 
-locals {
-    role_arn_parts = split("/", data.aws_lambda_function.accounts_api_lambda.role)
-    lambda_role_name = element(local.role_arn_parts, length(local.role_arn_parts) - 1)
-}
+# locals {
+#     role_arn_parts = split("/", data.aws_lambda_function.accounts_api_lambda.role)
+#     lambda_role_name = element(local.role_arn_parts, length(local.role_arn_parts) - 1)
+# }
