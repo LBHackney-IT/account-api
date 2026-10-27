@@ -6,7 +6,7 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Gateways.Interfaces;
 using AccountsApi.V1.UseCase;
 using AutoFixture;
-using FluentAssertions;
+using AwesomeAssertions;
 using Moq;
 using Xunit;
 

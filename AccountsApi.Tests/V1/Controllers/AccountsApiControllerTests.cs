@@ -10,7 +10,7 @@ using AccountsApi.V1.Domain;
 using AccountsApi.V1.Infrastructure;
 using AccountsApi.V1.UseCase.Interfaces;
 using AutoFixture;
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;

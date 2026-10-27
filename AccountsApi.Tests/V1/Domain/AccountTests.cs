@@ -1,6 +1,6 @@
 using AccountsApi.V1.Domain;
 using AutoFixture;
-using FluentAssertions;
+using AwesomeAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

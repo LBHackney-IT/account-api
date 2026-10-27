@@ -2,7 +2,7 @@ using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AutoFixture;
-using FluentAssertions;
+using AwesomeAssertions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

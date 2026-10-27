@@ -1,5 +1,5 @@
 using AccountsApi.V1.Infrastructure;
-using FluentAssertions;
+using AwesomeAssertions;
 using System;
 using Xunit;
 

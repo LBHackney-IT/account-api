@@ -132,7 +132,7 @@ Note: The Host name needs to be the name of the stub database docker-compose ser
 If changes to the database schema are made then the docker image for the database will have to be removed and recreated. The restart-db make command will do this for you.
 
 ### Agreed Testing Approach
-- Use nUnit, FluentAssertions and Moq
+- Use nUnit, AwesomeAssertions and Moq
 - Always follow a TDD approach
 - Tests should be independent of each other
 - Gateway tests should interact with a real test instance of the database
