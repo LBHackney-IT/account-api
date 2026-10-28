@@ -141,7 +141,6 @@ custom:
     development: arn:aws:lambda:eu-west-2:859159924354:function:api-gateway-lambda-authorizer
     staging:     arn:aws:lambda:eu-west-2:715003523189:function:api-gateway-lambda-authorizer
     production:  arn:aws:lambda:eu-west-2:153306643385:function:api-gateway-lambda-authorizer
-    pre-production: arn:aws:lambda:eu-west-2:578479666894:function:api-auth-verify-token-new-pre-production-apiauthverifytokennew
   associateWaf:
     name: Platform_APIs_Web_ACL
     version: V2
@@ -164,12 +163,6 @@ custom:
       subnetIds:
         - subnet-0beb266003a56ca82
         - subnet-06a697d86a9b6ed01
-    pre-production:
-      securityGroupIds:
-        - sg-0b36ec6c5c92626c7
-      subnetIds:
-        - subnet-08aa35159a8706faa
-        - subnet-0b848c5b14f841dfb
 
 #plugins:
 #  - serverless-step-functions
