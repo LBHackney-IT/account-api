@@ -4,7 +4,7 @@ using System.Linq;
 using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AutoFixture;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.Boundary.Response

@@ -1,5 +1,5 @@
 using AccountsApi.V1.Controllers;
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using AccountsApi.V1;

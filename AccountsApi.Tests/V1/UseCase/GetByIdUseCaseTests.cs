@@ -1,7 +1,7 @@
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Gateways;
 using AccountsApi.V1.UseCase;
-using FluentAssertions;
+using AwesomeAssertions;
 using Moq;
 using System;
 using System.Threading.Tasks;

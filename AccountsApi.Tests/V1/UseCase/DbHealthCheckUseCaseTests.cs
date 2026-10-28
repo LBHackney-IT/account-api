@@ -1,6 +1,6 @@
 using AccountsApi.V1.UseCase;
 using Bogus;
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.Extensions.HealthChecks;
 using Moq;
 using System.Threading;

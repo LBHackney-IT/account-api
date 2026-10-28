@@ -1,6 +1,6 @@
 using AccountsApi.V1.Controllers;
 using AccountsApi.V1.UseCase;
-using FluentAssertions;
+using AwesomeAssertions;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Xunit;
