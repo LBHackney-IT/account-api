@@ -1,5 +1,5 @@
 using AccountsApi.V1.Domain;
-using FluentAssertions;
+using AwesomeAssertions;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 

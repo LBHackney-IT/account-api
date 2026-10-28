@@ -11,7 +11,7 @@ using Amazon.DynamoDBv2;
 using Amazon.DynamoDBv2.DataModel;
 using Amazon.DynamoDBv2.Model;
 using AutoFixture;
-using FluentAssertions;
+using AwesomeAssertions;
 using Hackney.Core.Testing.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;

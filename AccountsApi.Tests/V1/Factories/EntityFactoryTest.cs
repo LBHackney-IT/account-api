@@ -3,7 +3,7 @@ using AccountsApi.V1.Boundary.Response;
 using AccountsApi.V1.Domain;
 using AccountsApi.V1.Factories;
 using AccountsApi.V1.Infrastructure;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 using AutoFixture;
 

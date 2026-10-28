@@ -1,5 +1,5 @@
 using AccountsApi.V1.UseCase;
-using FluentAssertions;
+using AwesomeAssertions;
 using Xunit;
 
 namespace AccountsApi.Tests.V1.UseCase
