@@ -195,10 +195,29 @@ commands:
           command: npm install --global serverless@4
       - run:
           name: Remove lambda
+          no_output_timeout: 45m
           command: |
             cd ./AccountsApi/
             npm install --no-save serverless-associate-waf
-            sls remove --stage <<parameters.stage>>
+            if ! command -v aws >/dev/null 2>&1; then
+              apt-get update
+              DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends awscli
+            fi
+            stack_name="accounts-api-<<parameters.stage>>"
+            if ! aws cloudformation describe-stacks \
+              --profile default \
+              --region eu-west-2 \
+              --stack-name "$stack_name" \
+              >/tmp/describe-stacks.txt 2>/tmp/describe-stacks.err; then
+              if grep -q "does not exist" /tmp/describe-stacks.err; then
+                echo "CloudFormation stack ${stack_name} is already removed. Continuing to Terraform destroy."
+                exit 0
+              fi
+              cat /tmp/describe-stacks.err
+              exit 1
+            fi
+            echo "Removing CloudFormation stack ${stack_name}."
+            sls remove --stage <<parameters.stage>> --verbose
 
 jobs:
   check-code-formatting:
