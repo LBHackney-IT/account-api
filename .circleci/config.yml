@@ -115,6 +115,47 @@ commands:
           root: *workspace_root
           paths:
             - .aws
+  terraform-plan-destroy:
+    description: "Creates a Terraform destroy plan"
+    parameters:
+      environment:
+        type: string
+    steps:
+      - *attach_workspace
+      - checkout
+      - run:
+          name: get and init
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform get -update=true
+            terraform init
+      - run:
+          name: destroy plan
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform plan -destroy -out=destroy-plan.out
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - .aws
+            - project/*
+  terraform-apply-destroy:
+    description: "Applies a reviewed Terraform destroy plan"
+    parameters:
+      environment:
+        type: string
+    steps:
+      - *attach_workspace
+      - checkout
+      - run:
+          name: destroy
+          command: |
+            cd ./terraform/<<parameters.environment>>/
+            terraform apply -auto-approve destroy-plan.out
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - .aws
   deploy-lambda:
     description: "Deploys API via Serverless"
     parameters:
@@ -140,6 +181,24 @@ commands:
             cd ./AccountsApi/
             npm i serverless-associate-waf
             sls deploy --stage <<parameters.stage>> --conceal
+  remove-lambda:
+    description: "Removes an API deployed by Serverless without building a package"
+    parameters:
+      stage:
+        type: string
+    steps:
+      - *attach_workspace
+      - checkout
+      - node/install
+      - run:
+          name: Install Serverless Framework v4
+          command: npm install --global serverless@4
+      - run:
+          name: Remove lambda
+          command: |
+            cd ./AccountsApi/
+            npm install --no-save serverless-associate-waf
+            sls remove --stage <<parameters.stage>>
 
 jobs:
   check-code-formatting:
@@ -278,6 +337,21 @@ jobs:
     executor: docker-dotnet
     steps:
       - deploy-lambda:
+          stage: "pre-production"
+  terraform-plan-destroy-pre-production:
+    executor: docker-terraform
+    steps:
+      - terraform-plan-destroy:
+          environment: "pre-production"
+  terraform-apply-destroy-pre-production:
+    executor: docker-terraform
+    steps:
+      - terraform-apply-destroy:
+          environment: "pre-production"
+  remove-from-pre-production:
+    executor: docker-dotnet
+    steps:
+      - remove-lambda:
           stage: "pre-production"
 
 workflows:
@@ -494,4 +568,39 @@ workflows:
           - api-nuget-token-context
           - "Serverless Framework"
           requires:
-            - assume-role-pre-production        
+            - assume-role-pre-production
+
+  teardown-pre-production:
+    jobs:
+      - assume-role-pre-production:
+          context: api-assume-role-housing-pre-production-context
+          filters:
+            branches:
+              only: feat/ssi-1369-teardown-pre-production
+      - terraform-plan-destroy-pre-production:
+          requires:
+            - assume-role-pre-production
+          filters:
+            branches:
+              only: feat/ssi-1369-teardown-pre-production
+      - confirm-pre-production-terraform-destroy:
+          type: approval
+          requires:
+            - terraform-plan-destroy-pre-production
+          filters:
+            branches:
+              only: feat/ssi-1369-teardown-pre-production
+      - remove-from-pre-production:
+          context:
+            - "Serverless Framework"
+          requires:
+            - confirm-pre-production-terraform-destroy
+          filters:
+            branches:
+              only: feat/ssi-1369-teardown-pre-production
+      - terraform-apply-destroy-pre-production:
+          requires:
+            - remove-from-pre-production
+          filters:
+            branches:
+              only: feat/ssi-1369-teardown-pre-production
