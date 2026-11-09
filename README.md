@@ -21,6 +21,8 @@ Base API is a boilerplate code for being reused for new APIs for LBH
 4. Rename the initial template.
 5. Open it in your IDE.
 
+The solution targets .NET 10. Install the .NET 10 SDK for local builds; Docker and CI also use .NET 10.
+
 ### Renaming
 
 The renaming of `base-api` into `SomethingElseApi` can be done by running a Renamer powershell script. To do so:
